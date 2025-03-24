@@ -1,3 +1,6 @@
+# About the project
+This is a Killing Fever Online fork of [WinTheGame by Happy Backwards](https://happybackwards.itch.io/win-the-game) [(lemmasoft forum topic)](https://lemmasoft.renai.us/forums/viewtopic.php?t=25603) licensed under [Creative Commons Attribution-NonCommercial](http://creativecommons.org/licenses/by-nc/4.0/). This fork intends to fix bugs, expand character interactions, additional content, add features, and more!
+
 # For Developers:
 You need to use the [Renpy 6.17 SDK]([url](https://www.renpy.org/release/6.17)) to work on this project!
 This is also my first time using Renpy, and this project also uses [dse-event-dispatcher](https://github.com/renpy/dse/blob/master/game/dse-event_dispatcher.rpy) which hasn't been updated in **6 years**. If anyone intends to upgrade this project to newer releases of Renpy, you'd have to figure out how to adapt all the code to work with the latest builds of Renpy.
