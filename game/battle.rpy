@@ -810,7 +810,7 @@ label battle_enemy_turn:
             distance = get_fig_range()
             #Decide if AI will retreat
             retreat = False
-            if wpn.wpn_range == "melee" and distance < 2 and enemy.wpn.wpn_range != "melee" and enemy.type != "hostile":
+            if wpn.wpn_range == "melee" and distance < 2 and enemy.wpn.wpn_range != "melee": # and enemy.type != "hostile":
                 #print "scared of melee weapon"
                 num = renpy.random.randint(0,100)
                 if num <= 66:

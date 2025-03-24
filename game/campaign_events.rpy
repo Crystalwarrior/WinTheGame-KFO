@@ -156,6 +156,7 @@ label kenji_attacks_you:
     play sound "sfx/backstab.ogg"
     "You rip out the knife and flail it away. Your wound is incredibly painful and already bleeding profusely. But you have no choice now."
     ken "I'm not going to lose, man ... I ain't gonna die on this damn island!"
+    $ Kenji.type = "hostile"
     $ Kenji.met = True
     $ Kenji.make_foe(you)
     $ battle_start(Kenji,0,"Kenji lunges for you with his knives aimed to kill!", "kenji_attacked_you", False)
@@ -576,6 +577,7 @@ init python:
 label find_ikoma:
     $ cutscene()
     $ Ikoma.met = True
+    $ Ikoma.type = "hostile"
     "You see a boy walking swiftly but calmly in your direction."
     y none "Who ...?"
     show Ikoma clean with dissolve
@@ -607,6 +609,7 @@ label find_ikoma:
     
 label ikoma_emi:
     $ Ikoma.met = True
+    $ Ikoma.type = "hostile"
     $ Emi.met = True
     $ cutscene()
     show Ikoma at left
@@ -768,6 +771,7 @@ label catch_yoriko:
                             y angry "Yoriko, you bitch!"
                             show Yoriko angry
                             yor "Bite me!"
+                            $ Yoriko.type = "hostile"
                             $ reference_item(Yoriko.wpn)
                             $ who_has_arrows = False
                             $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False)
@@ -792,6 +796,7 @@ label catch_yoriko:
             elif (Jun in party or Jun.loc == loc):
                 "You go back and tell Jun what you saw."
             $ Yoriko.met = True
+            $ Yoriko.type = "hostile"
             $ Yoriko.loc = runaway()
             jump grid_loc
     jump abandon_arrow_chase

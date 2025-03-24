@@ -1517,7 +1517,7 @@ label find_hitomo:
 
 label ai_attacks_hitomo:
     show Hitomo scared
-    $ Ai.type == "hostile"
+    $ Ai.type = "hostile"
     $ Ai.move(a2)
     play sound "sfx/chainsaw_long.ogg"
     play music "music/AngryOpheliasSong.ogg" fadein 3.0
@@ -1694,6 +1694,8 @@ label ai_kill_bridge:
         
     
 label ai_battle_begin:
+    # Make her hostile after you encounter her in battle so your followers aren't being unreasonable
+    $ Ai.type = "hostile"
     ai "Okita."
     "You gulp from hearing your name called from her lips."
     if loc == rm_showers:
@@ -1724,7 +1726,7 @@ label ai_battle_begin:
             $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","ai_kill_bridge", False, flee=False)
         else:
             play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","grid_loc", False)
+            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False)
             
     elif wpn is not None and wpn.wpn_range == "ranged":
         $ show_blood()
@@ -1741,7 +1743,7 @@ label ai_battle_begin:
             $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","ai_kill_bridge", False, flee=False)
         else:
             play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","grid_loc", False)
+            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False)
     else:
         if wpn is not None:
             if wpn != fist:
@@ -1757,7 +1759,7 @@ label ai_battle_begin:
             $ battle_start(Ai,0,"Her chainsaw buzzes to life.","ai_kill_bridge", False, flee=False)
         else:
             play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"Her chainsaw buzzes to life.","grid_loc", False)
+            $ battle_start(Ai,0,"Her chainsaw buzzes to life.","murdered_ai", False)
 
 label found_hitomo_dead:
     $ Ai.move(rm_showers)
