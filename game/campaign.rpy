@@ -1288,6 +1288,8 @@ label chase_down_asai:
             show Asai angry
             asai "But I can still live! So I'm going to!"
             asai "I'm gonna live!!"
+            # Hey, look! He grows up!
+            $ Asai.type = "hostile"
             $ battle_start(Asai,0,"He finally attacks you. You're prepared.", "you_killed_asai", False, flee=False)
 
     
