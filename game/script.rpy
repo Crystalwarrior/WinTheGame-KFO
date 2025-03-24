@@ -544,6 +544,7 @@ init -1:
     $ show_south = False
     $ show_east = False
     $ show_west = False
+    $ self_defense_argument = False
     
     #Check to see if player has ever won the game, for whatever bonus
     #Killed everyone, winner is u
