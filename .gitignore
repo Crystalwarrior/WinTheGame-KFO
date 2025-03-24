@@ -5,6 +5,7 @@
 ########################################
 cache/
 saves/
+tmp/
 
 
 # Compiled source #
