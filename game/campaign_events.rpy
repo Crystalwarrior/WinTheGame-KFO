@@ -959,7 +959,7 @@ label shed_first:
         "You're unsure if you should tell Takeshi about the boat. On one hand, if there's a chance to get off the island, everyone should know so they stop killing each other."
         "On the other hand ... telling people about the boat may lead to more killing. No one is in their rational mind anymore."
     $ uncutscene()
-    return
+    jump grid_loc
     
 label shed_repair:
     $ cutscene()
