@@ -214,8 +214,6 @@ init -2 python:
                         if self == bayonet: #change to a melee weapon
                             self.use_sfx = "sfx/slice.ogg"
                             self.wpn_rating = 4
-                    if wpn == self:
-                        wpn = fist
                     if armor == self:
                         armor = None
                         
