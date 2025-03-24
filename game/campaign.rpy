@@ -1626,7 +1626,10 @@ label ai_kill_bridge:
         jun scared "She's gone crazy!!"
     else:
         "You think she has completely snapped."
-    y none "Let us help you ... Please? Please!?"
+    if (Jun in party or Jun.loc == loc):
+        y none "Let us help you ... Please? Please!?"
+    else:
+        y none "Let me help you ... Please? Please!?"
     play sound "sfx/bridge_cross.ogg"
     "Her foot slips as you expected."
     play sound "sfx/scream_girl4.ogg"
@@ -1728,7 +1731,7 @@ label ai_battle_begin:
         $ wpn.use_sfx()
         $ Ai.health -= 25
         show Ai scared
-        "As fast as you can, you pull out your wpn and get a hit on her. She staggers and looks at what you just impaled her with."
+        "As fast as you can, you pull out your weapon and get a hit on her. She staggers and looks at what you just impaled her with."
         show Ai evil
         "A smile seems to form on her demented face."
         if loc == rm_showers:
