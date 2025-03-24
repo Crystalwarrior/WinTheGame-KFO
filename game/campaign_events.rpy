@@ -828,6 +828,7 @@ init:
 label a1_first:
     $ cutscene()
     "A huge building stands before you. It looks like a communal bathhouse."
+    $ uncutscene()
     return
     
 label a2_first:
@@ -838,22 +839,26 @@ label a2_first:
         "Hitomo, a timid girl you know from class, seems to be standing guard in front of it ..."
     else:
         "You're sure you could cross the bridge safely, however."
+    $ uncutscene()
     return
     
 label a3_first:
     $ cutscene()
     "You find a building after following some train tracks, which must be a train station. There are no trains to be found, however, and the tracks break up and disappear shortly."
+    $ uncutscene()
     return
     
 label b1_first:
     $ cutscene()
     "There is a simple cemetery here."
+    $ uncutscene()
     return
     
 label b3_first:
     $ cutscene()
     "Various fields and shacks litter the landscape. This island must have once relied heavily on farming."
     "There is a promising looking shack in one of the fields. It may be a small storage shed of some sort."
+    $ uncutscene()
     return
     
 label trap_fight:
@@ -948,6 +953,7 @@ label shed_first:
     if Takeshi.met and Takeshi.alive:
         "You're unsure if you should tell Takeshi about the boat. On one hand, if there's a chance to get off the island, everyone should know so they stop killing each other."
         "On the other hand ... telling people about the boat may lead to more killing. No one is in their rational mind anymore."
+    $ uncutscene()
     return
     
 label shed_repair:
@@ -1024,27 +1030,32 @@ label boat_in_water:
 label b4_first:
     $ cutscene()
     "A large building is in this area. Signs indicate that it is a school. It must have once taught children of all ages on the island."
+    $ uncutscene()
     return
     
 label c1_first:
     $ cutscene()
     "You're standing in front of an old shack that seems to have collapsed or been set on fire ... or both."
+    $ uncutscene()
     return
     
 label c3_first:
     $ cutscene()
     "There is a building here with a large clock in a spire. This must have been an iconic building for the islanders that once lived here. Signs indicate that it is indeed the village center."
+    $ uncutscene()
     return
     
 label c4_first:
     $ cutscene()
     "A strikingly modern pier takes up this section of the coast. It must have been built recently, perhaps whoever put you on this island in the first place ..."
     "You don't see any boats in the harbor."
+    $ uncutscene()
     return
     
 label d2_first:
     $ cutscene()
     "The sound of rushing water leads you to a waterfall. It looks beautiful, but you cannot take the time to appreciate it with so much else on your mind."
+    $ uncutscene()
     return
     
 label waterfall_discover:
@@ -1086,51 +1097,61 @@ label waterfall_discover:
 label d3_first:
     $ cutscene()
     "Some very old houses are built alongside rice paddies. The fields look barren, but one of the houses looks intact."
+    $ uncutscene()
     return
     
 label d4_first:
     $ cutscene()
     "You slosh around in the wet ruins of some tall building. It looks like there was never a building here, but instead, the framework of a new building that never got finished."
+    $ uncutscene()
     return
     
 label e3_first:
     $ cutscene()
     "Several rustic cabins are lined up in a row. Most all of them are trashed and useless, but there is one of interest. You can see its contents are pristine from the window."
+    $ uncutscene()
     return
     
 label e4_first:
     $ cutscene()
     "The coast looks newly sunken, so there is no beach. You see a lighthouse on a nearby small island. You could swim to it if you wanted."
+    $ uncutscene()
     return
     
 label f1_first:
     $ cutscene()
     "A rustic, ornate building sits here. From the exterior, you guess that inside may be a shrine to Buddha."
+    $ uncutscene()
     return
     
 label f2_first:
     $ cutscene()
     "An extensive cemetery stretches through most of the area."
+    $ uncutscene()
     return
     
 label f3_first:
     $ cutscene()
     "A quick search of the rocky terrain reveals a large hole as if it were the mouth to a cave."
+    $ uncutscene()
     return
     
 label f4_first:
     $ cutscene()
     "A cluster of old houses make up this coastal neighborhood. One home seems to be in better shape than the rest."
+    $ uncutscene()
     return
     
 label g1_first:
     $ cutscene()
     "A beautiful sakura tree is in bloom and standing bravely against the wind."
+    $ uncutscene()
     return
     
 label g3_first:
     $ cutscene()
     "This modern-looking building appears to be the island hospital."
+    $ uncutscene()
     return
     
 label g4_first:
@@ -1151,6 +1172,7 @@ label g4_first:
         "You walk up to the spiritual tree and inspect the wishes tied to its limbs."
         "\"Please let Namaki and I get off this island alive.\" \"Tell my family I loved them.\" \"I wish for a gun.\""
         "These were all written by students, just like you, playing the same game." 
+    $ uncutscene()
     return
     
 label wish_tree:
