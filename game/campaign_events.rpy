@@ -247,7 +247,7 @@ init:
     $ event("Hitomo_talk", "Hitomo.loc == loc and Hitomo.alive and Hitomo.met and not Hitomo.hidden and not freeplay", event.once(), priority=75)
     $ event("find_asai", "Asai.loc == loc and Asai.alive and not Asai.met and not Asai.hidden and not freeplay", event.once(), priority=75)
     $ event("find_yoriko", "Yoriko.loc == loc and Yoriko.alive and not Yoriko.met and Yoriko.hidden and not freeplay", event.once(), priority=75)
-    $ event("yoriko_arrows", "Yoriko.loc == loc and Yoriko.alive and Yoriko.hidden and Yoriko.met and not freeplay", event.once(), priority=80)     
+    $ event("yoriko_arrows", "Yoriko.loc == loc and Yoriko.alive and Yoriko.hidden and Yoriko.met and not freeplay", event.only(), priority=80)     
     $people_to_show = []
     $ event("deathmatch_handler", "freeplay and len(loc.pop) > 0", event.solo(), priority=15)
 label deathmatch_handler:
