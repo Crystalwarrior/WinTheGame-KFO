@@ -2633,7 +2633,17 @@ label school_maze_correct:
             "You fight against the pain and wrestle the gun from her hands."
         else:
             "You wrestle her gun from her."
-        $ bayonet.broken = True
+        # Melee-only bayonet added
+        $ bayonet.broken = False
+        $ bayonet.uses = 0
+        $ bayonet.use_count = 0
+        $ bayonet.use_sfx = "sfx/slice.ogg"
+        $ bayonet.wpn_rating = 4
+        $ bayonet.battle_range = 2
+        $ bayonet.weapon_range="melee"
+        $ bayonet.type=""
+        $ bayonet.desc = "An empty handgun with a knife-like blade stick out of the front of it. While it's out of ammo, at least it's still useful in melee situations."
+        $ bayonet.desc += " {color=#FFF}Melee{/color}."
         $ bayonet.add()
         $ Emi.wpn = None
         "Emi cries and kicks at you. She has been seriously disturbed by this game."

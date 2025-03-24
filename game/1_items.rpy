@@ -212,8 +212,16 @@ init -2 python:
                     else:
                         renpy.notify("You're out of ammo!")
                         if self == bayonet: #change to a melee weapon
+                            self.broken = False
+                            self.uses = 0
+                            self.use_count = 0
                             self.use_sfx = "sfx/slice.ogg"
                             self.wpn_rating = 4
+                            self.battle_range = 2
+                            self.weapon_range="melee"
+                            self.type=""
+                            self.desc = "An empty handgun with a knife-like blade stick out of the front of it. While it's out of ammo, at least it's still useful in melee situations."
+                            self.desc += " {color=#FFF}Melee{/color}."
                     if armor == self:
                         armor = None
                         

@@ -513,7 +513,7 @@ label Keitaro_talk:
     jump Keitaro_talk
             
 label murdered_kei:
-    $ murdered = "Kei"
+    $ murdered = "Keitaro"
     call murder_follower_reaction
     jump grid_loc
     
