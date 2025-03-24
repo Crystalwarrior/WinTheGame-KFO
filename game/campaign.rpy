@@ -3092,6 +3092,7 @@ label bathhouse_nanako_yuki:
         hide Yuki
         hide Nanako
         with dissolve
+    $ uncutscene()
     return
     
 ## YUKI (if you lied)
