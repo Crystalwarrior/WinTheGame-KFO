@@ -2955,7 +2955,7 @@ label yuki_intro:
             yuki "That's ... great news!"
             "Yuki is overjoyed and takes out his datapad to look at the map."
             if Hitomo.alive:
-                y none "Becareful when you go up there, Hitomo likes to act the bridge troll."
+                y none "Be careful when you go up there, Hitomo likes to act the bridge troll."
                 yuki "Pardon?"
                 y none "Hitomo is blocking the way, but I suppose she'd let someone like you pass ..."
                 yuki "No doubt about that. Hitomo and I are close friends."
@@ -3456,9 +3456,9 @@ label gps_hospital:
         "You help yourself inside."
     $ loc = rm_hospital
     if Kei.alive:
-       $ Kei.move(rm_hospital)
+        $ Kei.move(rm_hospital)
     if Fumie.alive:
-       $ Fumie.move(rm_hospital)
+        $ Fumie.move(rm_hospital)
     $ Takeshi.move(rm_hospital)
     play ambience "sfx/room_tone1.ogg" fadein 3.0
     scene lab with fade
