@@ -107,6 +107,8 @@ init:
     $ jun_is_waiting = False
     $ mari_will_die = False
     $ murdered = None
+    $ mari_here = False
+    $ jun_here = False
     $ mari_hates_you = False
     $ jun_hates_you = False
     $ did_not_intervene_jun = False
