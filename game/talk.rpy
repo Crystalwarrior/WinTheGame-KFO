@@ -633,7 +633,7 @@ label Yuki_talk:
                     yuki "That's ... great news!"
                     "Yuki is overjoyed and takes out his datapad to look at the map."
                     if Hitomo.alive:
-                        y none "Becareful when you go up there, Hitomo likes to act the bridge troll."
+                        y none "Be careful when you go up there, Hitomo likes to act the bridge troll."
                         yuki "Pardon?"
                         y none "Hitomo is blocking the way, but I suppose she'd let someone like you pass ..."
                         yuki "No doubt about that. Hitomo and I are close friends."
@@ -849,21 +849,28 @@ label murder_follower_reaction:
         for i in classmates:
             if i.name == murdered:
                 murdered_i = i
+
+    # they're both not present!!
+    $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc)
+    $ jun_here = Jun.alive and (Jun in party or Jun.loc == loc)
+    if not mari_here and not jun_here:
+        return
+
     if murdered_i.type != "hostile":#only if they didn't try to kill you first
         if wish_no_sin:
-            if (Jun in party or Jun.loc == loc):
+            if jun_here:
                 show Jun scared with dissolve
                 jun "... Shit..."
-            if (Mari in party or Mari.loc == loc):
+            if mari_here:
                 show Mari scared with dissolve
                 mari "W-Why..!?"
             y none "I... I had to."
             y none "Trust me, if I didn't do that, we'd be screwed!"
-            if (Mari in party or Mari.loc == loc):
+            if mari_here:
                 show Mari scared with dissolve
                 mari "Shinobu... I'm not so sure."
                 mari "They weren't even hostile..."
-            if (Jun in party or Jun.loc == loc):
+            if jun_here:
                 show Jun mad
                 jun "You god damn... How can I even--"
                 jun "Whatever, man. You've shown what you're capable of, and I'd rather be on your side."
@@ -871,24 +878,24 @@ label murder_follower_reaction:
             "Don't push your luck."
             $ wish_no_sin = False
         else:
-            if (Mari in party or Mari.loc == loc) and not f_flee_successful or (Jun in party or Jun.loc == loc) and not f_flee_successful:
+            if mari_here and not f_flee_successful or jun_here and not f_flee_successful:
                 "%(murdered)s never stood a chance against you."
-            elif (Mari in party or Mari.loc == loc) and f_flee_successful or (Jun in party or Jun.loc == loc) and f_flee_successful:
+            elif mari_here and f_flee_successful or jun_here and f_flee_successful:
                 "%(murdered)s had escaped, but it was clear what you were trying to do."
-            if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
+            if mari_here and jun_here:
                 show Mari scared at farleft
                 show Jun scared at farright
                 with dissolve
                 "Mari and Jun stare at you in horror."
-            elif (Mari in party or Mari.loc == loc):
+            elif mari_here:
                 show Mari scared with dissolve
                 "Mari stares at you in horror."
-            elif (Jun in party or Jun.loc == loc):
+            elif jun_here:
                 show Jun scared with dissolve
                 "Jun stares at you in horror."
-            if (Jun in party or Jun.loc == loc):
+            if jun_here:
                 jun scared "Sweet Jesus Christ, man!!"
-            if (Mari in party or Mari.loc == loc):
+            if mari_here:
                 mari scared "Don't hurt me!!"
                 hide Mari with dissolve
                 $ party_remove(Mari)
@@ -903,9 +910,9 @@ label murder_follower_reaction:
                     "Mari takes off running across the bridge, fleeing from you."
                 else:
                     "Mari takes off running, fleeing from you. She's too fast for you and you won't be able to catch up."
-            if (Mari in party or Mari.loc == loc) or (Jun in party or Jun.loc == loc):
+            if mari_here or jun_here:
                 y scared "Hold on, now! %(murdered)s was just an obstacle!"
-            if (Jun in party or Jun.loc == loc):
+            if jun_here:
                 show Jun mad
                 jun "That's what you say!? %(murdered)s was a damn person! You're sick! Just plain sick!"
                 jun "I'm outta here. Stay the fuck away from me."
@@ -921,37 +928,37 @@ label murder_follower_reaction:
                 "Jun swiftly backs away until he's far enough to make a run for it. You don't see which way he goes."
     # Argue in self defense to signal your followers don't like you killing people, and to inform about the fleeing mechanic
     elif not self_defense_argument:
-        if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
+        if mari_here and jun_here:
             show Mari scared at farleft
             show Jun scared at farright
             with dissolve
             "Mari and Jun stare at %(murdered)s in horror."
-        elif (Mari in party or Mari.loc == loc):
+        elif mari_here:
             show Mari scared with dissolve
             "Mari stares at %(murdered)s in horror."
-        elif (Jun in party or Jun.loc == loc):
+        elif jun_here:
             show Jun scared with dissolve
             "Jun stares at %(murdered)s in horror."
-        if (Jun in party or Jun.loc == loc):
+        if jun_here:
             jun sad "Screw this game, man."
-        if (Mari in party or Mari.loc == loc):
+        if mari_here:
             mari sad "Are we... bad people?"
         y scared "I-It had to be done... %(murdered)s attacked me, first."
-        if (Jun in party or Jun.loc == loc):
+        if jun_here:
             show Jun mad
             jun "God-- I get it, okay?!"
             jun "But fleeing was an option! I wish we just ran!"
-        if (Mari in party or Mari.loc == loc):
+        if mari_here:
             show Mari scared
             mari scared "We should've ran..."
         y scared "Then we'd just be hunted down! You saw how %(murdered)s was!"
-        if (Jun in party or Jun.loc == loc):
+        if jun_here:
             show Jun mad
             jun "... Fucking psychos."
-        if (Mari in party or Mari.loc == loc):
+        if mari_here:
             show Mari scared
             mari "I want to go home..."
-        if (Jun in party or Jun.loc == loc):
+        if jun_here:
             show Jun mad
             jun "So much for \"not playing the game\"."
         memo "In most battles, you can run to the edge of the screen to unlock the \"Flee\" option. However, some special combat encounters are unavoidable and are kill or be killed."
