@@ -137,7 +137,8 @@ init python:
     def follower_remove(name):
         global party
         global followers
-        followers.remove(name)
+        if name in followers:
+            followers.remove(name)
         renpy.notify(name.name+" is gone.")
         #store_say(None,"{color=#FF0000}"+name.name+" abandoned you.")
         if name in party:
