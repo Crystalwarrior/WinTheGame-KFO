@@ -2434,6 +2434,10 @@ label meeting_nanako_lucy:
     nana "I don't like that."
     nana "Take care of business and get out."
     "Nanako wasn't very welcoming."
+
+    # Add her back into your party if she isn't already
+    if Mari.loc == loc and Mari in followers and Mari not in party:
+        $ party_add(Mari)
     jump room_loc
     
 label lucy_arrows_conflict:
