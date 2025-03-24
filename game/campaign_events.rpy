@@ -389,8 +389,7 @@ label find_jun:
 
 label find_emi:
     $ Emi.met = True
-    "Emi introduction."
-    return
+    jump school_emi_ambush
     
 label find_goro:
     $ Goro.met = True

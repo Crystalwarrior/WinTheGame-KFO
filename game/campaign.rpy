@@ -2506,7 +2506,6 @@ label lucy_accuse:
 # #School house, EMI
 label school_emi_intro:
     $ cutscene()
-    $ Emi.met = True
     # You enter the school house and immediately hear someone run away in a nearby room. Thus starts a mini-maze where you have to follow the sounds to find Emi.
     stop ambience fadeout 3.0
     play sound "sfx/sound_left1.ogg"
@@ -2559,6 +2558,7 @@ label school_emi_intro:
     
     
 label school_maze_correct:
+    $ Emi.met = True
     $ loc = rm_teacher
     if (Mari in party or Mari.loc == loc):
         $ Mari.move(rm_teacher)
@@ -2718,6 +2718,7 @@ label school_maze_correct:
     
 
 label school_maze_fail:
+    $ Emi.met = True
     $ loc = rm_classroom
     if (Mari in party or Mari.loc == loc):
         $ Mari.move(rm_classroom)
@@ -2728,6 +2729,9 @@ label school_maze_fail:
     play sound "sfx/door_squeak.ogg"
     scene classroom with fade
     "You follow your instincts, but you end up in an empty room."
+    jump school_emi_ambush
+
+label school_emi_ambush:
     $ Emi.wpn.get_sfx()
     $ reference_item(Emi.wpn)
     show Emi angry with dissolve
