@@ -757,40 +757,38 @@ label battle_enemy_turn:
     $ renpy.pause(0.5)
     python:
         if len(party)> 0 and enemy.type =="hostile" and enemy not in party: #party only helps with legit threats, not friends (or themselves)
-            #print "party members"
-            party_chance = 10
-            for i in party:
-                party_chance += 5
-            num = renpy.random.randint(0,100)
-            #print "party num",num
-            if num <= party_chance:
-                #print "party member attacks!"
-                p_attacker = renpy.random.choice(party)
-                p_attacker_n = p_attacker.name
-                enemy_name  = enemy.name
-                helper_phrases = ["Shinobu!", "Watch out!", "I have your back!","Let me help!"]
-                helper_phrase = renpy.random.choice(helper_phrases)
-                renpy.say(p_attacker.call_name, helper_phrase)
-                
-                damage = gen_atk(p_attacker.wpn.wpn_rating)
-                damage = shield(damage,their_def)
-                p_attacker.wpn.use_sfx()
-                reference_item(p_attacker.wpn)
-                renpy.pause(0.25)
-                show_blood()
-                if enemy.gender == "Male":
-                    num = renpy.random.randint(1,4)
-                    rand_hitsfx = "sfx/hit_boy%d.ogg"%num
-                else:
-                    num = renpy.random.randint(1,5)
-                    rand_hitsfx = "sfx/hit_girl%d.ogg"%num
-                enemy.health -= damage
-                renpy.sound.play(rand_hitsfx, channel="system")
-                renpy.say(memo2,"%(p_attacker_n)s attacks %(enemy_name)s for {color=#FF0000}%(damage)d{/color} points of damage!")
-                renpy.pause(0.5)
-                if enemy.health <= 0:
-                    enemy.health = 0
-                    battle_end()
+            for p_attacker in party:
+                num = renpy.random.randint(0,100)
+                # 25% chance for each party member to help out
+                if num <= 25:
+                    #print "party member attacks!"
+                    p_attacker_n = p_attacker.name
+                    enemy_name  = enemy.name
+                    helper_phrases = ["Shinobu!", "Watch out!", "I have your back!","Let me help!"]
+                    helper_phrase = renpy.random.choice(helper_phrases)
+                    renpy.say(p_attacker.call_name, helper_phrase)
+                    
+                    damage = gen_atk(p_attacker.wpn.wpn_rating)
+                    damage = shield(damage,their_def)
+                    p_attacker.wpn.use_sfx()
+                    reference_item(p_attacker.wpn)
+                    renpy.pause(0.25)
+                    show_blood()
+                    if enemy.gender == "Male":
+                        num = renpy.random.randint(1,4)
+                        rand_hitsfx = "sfx/hit_boy%d.ogg"%num
+                    else:
+                        num = renpy.random.randint(1,5)
+                        rand_hitsfx = "sfx/hit_girl%d.ogg"%num
+                    enemy.health -= damage
+                    renpy.sound.play(rand_hitsfx, channel="system")
+                    renpy.say(memo2,"%(p_attacker_n)s attacks %(enemy_name)s for {color=#FF0000}%(damage)d{/color} points of damage!")
+                    renpy.pause(0.5)
+                    if enemy.health <= 0:
+                        enemy.health = 0
+                        battle_end()
+                        # Break out of the loop so party members don't overkill
+                        break
     $ enemy_time = True
     $ f_move_count = 0
     $ f_attacking = False
