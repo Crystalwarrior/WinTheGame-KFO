@@ -1618,7 +1618,7 @@ label ai_kill_bridge:
         play sound "sfx/bridge_cross.ogg"
         "She keeps her shaky aim on you as she walks backwards onto the rope bridge."
     "She trips over the planks and struggles to even stay up as it sways violently from her panicking."
-    y none "Becareful! You'll fall if you don't cross it right, Hitomo, {u}please{/u}!"
+    y none "Be careful! You'll fall if you don't cross it right, Hitomo, {u}please{/u}!"
     play sound "sfx/bridge_cross.ogg"
     y none "I'm not going to hurt you! Why don't you believe me!?"
     hit "M-m-m-murder ... murderers ... death ... blood ..!"
@@ -2045,6 +2045,7 @@ label ai_kill_bath:
         $ Ai.kill("murder",you)
         "Eventually, one or the other happens, and Ai is rendered lifeless. Her body begins to float in the water."
         "You back away, the front of your shirt soaked."
+        $ just_murdered_someone = False
     else:
         "You grab a heavy wooden stool near you and wait for Ai to lift her head from the water."
         "You wallop the back of her skull and she stops moving. You hope you haven't killed her as you pull her from the water so she doesn't drown."
