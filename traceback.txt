@@ -1,0 +1,62 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/2_locs.rpy", line 790, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 586, in script call
+  File "game/2_locs.rpy", line 735, in script call
+  File "game/engine/event_dispatcher.rpy", line 306, in script call
+  File "game/2_locs.rpy", line 790, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 544, in script call
+  File "game/engine/event_dispatcher.rpy", line 306, in script call
+  File "Game/battle.rpy", line 285, in script call
+  File "game/2_locs.rpy", line 616, in script call
+  File "game/2_locs.rpy", line 616, in script call
+  File "game/2_locs.rpy", line 620, in script call
+  File "game/2_locs.rpy", line 544, in script call
+  File "game/engine/event_dispatcher.rpy", line 306, in script call
+  File "game/2_locs.rpy", line 616, in script call
+  File "game/2_locs.rpy", line 620, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 608, in script call
+  File "game/2_locs.rpy", line 544, in script call
+  File "game/engine/event_dispatcher.rpy", line 306, in script call
+  File "Game/battle.rpy", line 285, in script call
+  File "game/2_locs.rpy", line 616, in script call
+  File "game/2_locs.rpy", line 544, in script call
+  File "game/engine/event_dispatcher.rpy", line 306, in script call
+  File "game/2_locs.rpy", line 620, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 586, in script call
+  File "game/2_locs.rpy", line 586, in script call
+  File "game/2_locs.rpy", line 612, in script call
+  File "game/2_locs.rpy", line 620, in script call
+  File "game/2_locs.rpy", line 544, in script call
+  File "game/engine/event_dispatcher.rpy", line 306, in script call
+  File "Game/battle.rpy", line 285, in script call
+  File "game/talk.rpy", line 517, in script call
+  File "game/talk.rpy", line 852, in script
+  File "game/talk.rpy", line 854, in python
+NameError: name 'murdered_i' is not defined
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "D:\Games\WinTheGame-all\renpy\execution.py", line 294, in run
+    node.execute()
+  File "D:\Games\WinTheGame-all\renpy\ast.py", line 1547, in execute
+    if renpy.python.py_eval(condition):
+  File "D:\Games\WinTheGame-all\renpy\python.py", line 1392, in py_eval
+    return eval(py_compile(source, 'eval'), globals, locals)
+  File "game/talk.rpy", line 854, in <module>
+    elif murdered_i.type != "hostile":#only if they didn't try to kill you first
+NameError: name 'murdered_i' is not defined
+
+Windows-post2008Server-6.2.9200
+Ren'Py 6.17.3.327
+Win the Game 0.7.5

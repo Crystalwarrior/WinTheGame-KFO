@@ -1,0 +1,97 @@
+﻿# You can place the script of your game in this file.
+
+# Declare images below this line, using the image statement.
+# eg. image eileen happy = "eileen_happy.png"
+
+# Declare characters used by this game.
+define e = Character('Eileen', color="#c8ffc8")
+image tisteed = "logo.png"
+
+
+# The game starts here.
+label start:
+    $ coins = 50
+    $ inventory = []
+    jump shopping
+    
+init python:
+
+    class Item:
+        def __init__(self, name, cost):
+            self.name = name
+            self.cost = cost
+        
+    def buy(item):
+         global coins
+         if coins >= item.cost:
+              coins -= item.cost
+              inventory.append(item) #put item into inventory
+              return True
+         else:
+             return False
+
+    def has_item(item):
+         #global inventory
+         if item in inventory:
+              return True
+         else:
+              return False
+
+label shopping:
+
+    python:
+        woodsword = Item("Wood Sword", 3)
+        hairbrush = Item("Hair Brush", 4)
+        bracelet = Item("Bracelet", 11)
+
+    "Now I have %(coins)d coins."
+
+    "I want to buy something..."
+    
+    
+
+    jump preshop
+    jump shop2
+
+    
+
+label preshop:
+    $ woodswordcost = woodsword.cost
+    $ hairbrushcost = hairbrush.cost
+    $ braceletcost = bracelet.cost
+    
+label shop2:
+    python:
+        print inventory
+    if has_item(bracelet):
+        "Good thing I bought that bracelet earlier."
+    else:
+        "If only I had a bracelet..."
+    menu shop:
+        "I go into the store."
+        "Buy wood sword for %(woodswordcost)d coins.":
+            if buy(woodsword):
+                "Funny Stuff~"
+                jump game_continues
+
+        "Buy hair brush for %(hairbrushcost)d coins.":
+            if buy(hairbrush):
+                "I think i'll use it alot..."
+                jump game_continues
+
+        "Buy bracelet for %(braceletcost)d coins.":
+            if buy(bracelet):
+                "OH! Bracelet! My favorite!"
+                jump game_continues
+
+        "Buy nothing.":
+            return #return to the 
+
+label fallthrough:
+    "Not enough money..."
+    jump shop2
+
+label game_continues:
+    "And so I left the store."
+    "I have %(coins)d left"
+    jump shop2

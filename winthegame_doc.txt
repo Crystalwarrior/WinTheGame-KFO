@@ -1,0 +1,59 @@
+This a Battle Royale knockoff. This framework sets up a fully functional murder game that you are personally a player in. Since this game is more inspired by BR than, say, the Hunger Games, you'll see more specific throwbacks to BR.
+
+This framework and its included campaign do the following:
+- Give you a random weapon and food at the start
+- you play the game along with bot AIs, which you can designate to be story characters
+- The game monitors each player's health and sanity
+- Sanity determines whether your character will have the option to do insane things, like kill themselves, kill friends, or battle poorly
+- There is a simplistic battle when battling other players
+- The island where the game takes place is divided into grids and zones can be marked "forbidden", resulting in an instant death if you enter them
+- when you enter a grid zone, you may discover a landmark that has a "room" inside of it (by default, you cannot see landmarks until you discover them)
+- You have an inventory, but can only carry 4 items (to encourage criticial thinking - you really don't NEED every item you come across)
+- There is a stats screen where you can view a list of all the players, a quick bio, and whether or not they're alive (once they die, you get death stats)
+- You can find items or drop them in locations (to recover them later). Text in the top of the screen will alert you if any items are around, or any dead bodies for that matter
+- Your lethality is determined by your weapon's rating (0-9)
+- your armor rating (0-9) will buffer damage in battle
+- you can hide out in "rooms" inside of grid locations. You can wait inside each for up to 8 hours at a time, but you will lose 5 sanity for every hour that you do
+- some "rooms" have the ability to sleep, which will recover health and sanity, but you're prone to attack
+- there is a GPS functionality where you can see who is in each grid, but you either have to find the GPS item or toggle it on in the code
+- when you kill someone, you can loot their weapon and any other item they might have (if you did not kill a person, they will already be looted)
+- there are healing items, such as food or a first aid kit
+- some items are plot items, meaning you will get a chance to use them in locations or events, but not from your inventory
+- quick buttons at the bottom of the screen give you quick save/load (no need to open the game menu), the map, stats, and inventory screen, and skip/auto-forward
+- time is kept track of in a 24-hour clock, and the BGs will change depending on sunrise, daylight, sunset and night. Trekking 1 grid consumes 1 hour.
+- designated characters can become your "followers", meaning you've made a pact to survive the game together (all battles are still 1 on 1). These are likely story characters that you will protect or will protect you until the end of the game
+- you move freely about the island encountering events and people, even solving puzzles
+- there can be multiple endings (various bad endings, an ending where you've killed everyone, or an ending where you've escaped, for instance)
+
+This game uses the event_dispatcher.rpy from the DSE framework.
+
+Disclaimer: I'm not into heavy gore or torture. You will find neither in this game, though you are welcome to do so in yours. There will, however, be uses of blood, extreme violence, and other adult themes. Not for children.
+
+Win The Game
+"Win The Game" is an example campaign for this framework. You're allowed to use the premise, map, graphics, whatever from the campaign, so long as you give credit where it's due. That includes everyone that I've credited. If you use the SFX, you need to credit all those foley artists! And the same for all the other artists. The weapon images, however, were shamelessly ganked from Google Images, so I highly recommend redoing the item icons. Also: this cannot be redistributed as commercial. I didn't make this so that you could keep me from playing. The exact opposite, actually!
+
+Intro, Ending, Misc
+Feel free to edit the label "intro" to alter how the game starts. The label "game_over" is for when you die (a bad ending). You can get that by dying in battle, by entering a forbidden zone (label "forbidden_zone_fail"), or by having the time limit reached (label "time_limit_fail"). The label "won_the_game" however will trigger if there is only 1 player left in the game (presumably you). Write what you want to happen, and it will jump to the label "credits". This is my currently stylized ending credits sequence that I'm sure you could alter. In case you don't, I've put comment tags where the respective credit lines are so you can edit them (remember, if you use the music, sfx, or art, you need to credit the same people I did!!). If you want anything to happen as a bonus for winning the game, then there's an "if won_the_game:" conditional for you, including a persistent variable. In the example campaign, you get 2 new weapons added to the starter pool.
+
+
+The Player's AI
+The classmates that are not you or your followers will act like robots based on several archetypes. Every hour, the game rolls to see if a character will move.
+
+- Hostile: will move most often, and has an advantage in battles (good for those "playing the game")
+- Coward: will move the least, and has a disadvantage in battles
+- Normal: move at a normal pace with no advantage in battles
+- Fixed: will not move at all, and no advantages in battles (good for story characters)
+
+Sane characters (25+ sanity) will naturally avoid forbidden zones. But like yourself, they will lose sanity the longer they wait somewhere (1/3 chance to lose 5 sanity every hour), and could wander into a FZ and kill themselves if insane.
+
+The fun begins when two characters are in the same grid. Each character can have a list of friends and enemies, which will help decide if they are aggressive or not towards who they find. If they're insane, none of that will matter and they'll kill their own best friend. Friends means they will not attack each other, but BOTH characters must recognize each other as friends. Otherwise, there will be a battle. Enemies means that there is no chance whatsoever that there will not be a battle.
+
+Characters that are with a friend will not move as often, but they will both slowly start to distrust each other over time, thanks to the sanity demerits from waiting.
+
+Deciding who wins a battle is done by comparing weapon ratings and bonuses (the archetype advantages, armor, range vs melee, etc). Whoever has the highest rating kills the other person. If they are equal, it's a 50/50 chance.
+
+Characters have the option of being set to Invincible, which means they'll never lose a bot battle (good for story characters, but can turn them into killing machines which may be counter productive).
+
+There's definitely room for improvement with the AI. For instance, I wanted to give hostile bots the ability to move towards players so that it isn't all just by pure chance that collisions happen. I also wanted to implement a sound system, where using something like the chainsaw would be a bad idea with a hostile player in a nearby square. If you want to tweak the AI, you can find the functions under move_ai() and attack_ai().
+
+Hopefully things like adding items, characters, and locations are well-commented so that you can add your own. I'm available for support on the official HappyBackwards forum: http://happybackwards.com/board/
