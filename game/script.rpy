@@ -712,7 +712,8 @@ label won_game:
     stop sound fadeout 2.0 channel 1
     "The masked men immediately force a bag over your head and knock you unconscious with a strong blow to your skull."
     $ won_the_game = True
-    jump credits
+    # This unused ending actually explains the "Deathmatch" unlock pretty well so it has been restored
+    jump ending_alone
     
 #GAME CREDITS
 label credits:
