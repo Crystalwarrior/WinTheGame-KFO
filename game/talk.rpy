@@ -373,7 +373,7 @@ label Nanako_talk:
             y none "Maybe he's lying, so he can kill you ..."
             show Nanako angry
             nana "This is why I hate you."
-        else:
+        elif Nanako.loc == rm_lockers:
             show Nanako angry
             nana "Why are you here? Get out!"
     $ enemy = Nanako
