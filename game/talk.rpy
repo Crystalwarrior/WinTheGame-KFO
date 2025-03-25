@@ -935,6 +935,7 @@ label murder_follower_reaction:
                 hide Jun with dissolve
                 "Jun swiftly backs away until he's far enough to make a run for it. You don't see which way he goes."
     # Argue in self defense to signal your followers don't like you killing people, and to inform about the fleeing mechanic
+    # You can also get this dialog when you're alone and attack someone/get attacked outside story campaign events or on anything that calls this label.
     elif not self_defense_argument and not murdered_i.alive:
         # Enemy status doesn't matter in this branch
         $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc)
@@ -950,11 +951,14 @@ label murder_follower_reaction:
         elif jun_here:
             show Jun scared with dissolve
             "Jun stares at %(murdered)s in horror."
+        # someone's going crazy
+        else:
+            "You stare at %(murdered)s in horror."
         if jun_here:
             jun sad "Screw this game, man."
         if mari_here:
             mari sad "Are we... bad people?"
-        y scared "I-It had to be done... %(murdered)s attacked me, first."
+        y scared "I-It had to be done... %(murdered)s attacked me!"
         if jun_here:
             show Jun mad
             jun "God-- I get it, okay?!"
@@ -962,7 +966,7 @@ label murder_follower_reaction:
         if mari_here:
             show Mari scared
             mari scared "We should've ran..."
-        y scared "Then we'd just be hunted down! You saw how %(murdered)s was!"
+        y scared "We'd just be hunted down! You saw how %(murdered)s was!"
         if jun_here:
             show Jun mad
             jun "... Fucking psychos."
@@ -972,7 +976,11 @@ label murder_follower_reaction:
         if jun_here:
             show Jun mad
             jun "So much for \"not playing the game\"."
+        if not mari_here and not jun_here:
+            y scared "I'm not playing the game... I'm not playing the game..."
         memo "In most battles, you can run to the edge of the screen to unlock the \"Flee\" option. However, some special combat encounters are unavoidable and are kill or be killed."
+        if not mari_here and not jun_here:
+            memo "By the way... Who are you talking to?"
         $ self_defense_argument = True
     $ murdered = None
     $ just_murdered_someone = False
