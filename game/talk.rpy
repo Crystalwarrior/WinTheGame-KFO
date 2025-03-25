@@ -560,6 +560,9 @@ label Kenji_talk:
         show Kenji scared
         y none "Kenji?"
         ken "I'm not losing! Definitely not to you!"
+        # He attacked you first so Jun and Mari are not gonna like this guy
+        $ Jun.make_foe(Kenji)
+        $ Mari.make_foe(Kenji)
         $ battle_start(Kenji,0,"You never trusted this guy.", "murdered_kenji", True)
     $ enemy = Kenji
     show screen health_enemy
@@ -850,13 +853,11 @@ label murder_follower_reaction:
             if i.name == murdered:
                 murdered_i = i
 
-    # they're both not present!!
-    $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc)
-    $ jun_here = Jun.alive and (Jun in party or Jun.loc == loc)
-    if not mari_here and not jun_here:
-        return
-
-    if murdered_i.type != "hostile":#only if they didn't try to kill you first
+    # Check if mari/jun are here, and if they considered your attacker an enemy or not.
+    $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc) and murdered_i not in Mari.enemies
+    $ jun_here = Jun.alive and (Jun in party or Jun.loc == loc) and murdered_i not in Jun.enemies
+    # your party only has a negative reaction if they're not hostile, or they're not an enemy to them
+    if murdered_i.type != "hostile" and (mari_here or jun_here):
         if wish_no_sin:
             if jun_here:
                 show Jun scared with dissolve
@@ -877,10 +878,13 @@ label murder_follower_reaction:
             "It's a blessing they decided not to question you."
             "Don't push your luck."
             $ wish_no_sin = False
+            $ murdered = None
+            $ just_murdered_someone = False
+            return
         else:
-            if mari_here and not f_flee_successful or jun_here and not f_flee_successful:
+            if (mari_here and not f_flee_successful) or (jun_here and not f_flee_successful):
                 "%(murdered)s never stood a chance against you."
-            elif mari_here and f_flee_successful or jun_here and f_flee_successful:
+            elif (mari_here and f_flee_successful) or (jun_here and f_flee_successful):
                 "%(murdered)s had escaped, but it was clear what you were trying to do."
             if mari_here and jun_here:
                 show Mari scared at farleft
@@ -904,6 +908,10 @@ label murder_follower_reaction:
                 $ Mari.invisible = False
                 $ Mari.type = "fixed"
                 $ Mari.make_foe(you)
+                # Since the girls can be in the locker room, too, they're going to jump in Mari's defense
+                $ Lucy.make_foe(you)
+                $ Nanako.make_foe(you)
+                $ Hitomo.make_foe(you)
                 $ mari_hates_you = True
                 if loc == a2:
                     play sound "sfx/bridge_cross.ogg"
@@ -927,7 +935,10 @@ label murder_follower_reaction:
                 hide Jun with dissolve
                 "Jun swiftly backs away until he's far enough to make a run for it. You don't see which way he goes."
     # Argue in self defense to signal your followers don't like you killing people, and to inform about the fleeing mechanic
-    elif not self_defense_argument:
+    elif not self_defense_argument and not murdered_i.alive:
+        # Enemy status doesn't matter in this branch
+        $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc)
+        $ jun_here = Jun.alive and (Jun in party or Jun.loc == loc)
         if mari_here and jun_here:
             show Mari scared at farleft
             show Jun scared at farright
@@ -964,4 +975,5 @@ label murder_follower_reaction:
         memo "In most battles, you can run to the edge of the screen to unlock the \"Flee\" option. However, some special combat encounters are unavoidable and are kill or be killed."
         $ self_defense_argument = True
     $ murdered = None
+    $ just_murdered_someone = False
     return
