@@ -221,7 +221,7 @@ init python:
             trapped = False
             moved = False
             
-            if i.loc == trap_loc and trap_set and i != you and i.alive:
+            if i.loc == trap_loc and trap_set and i != you and i.alive and i not in party:
                 trapped = True
                 trap_caught_person = i
                 trap_set = False
