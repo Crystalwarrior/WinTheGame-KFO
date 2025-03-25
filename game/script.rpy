@@ -196,12 +196,12 @@ label start:
                     "New Game + Intro":
                         python:
                             for i in classmates:
-                                i.type = "Fixed"
+                                i.type = "fixed"
                         jump intro
                     "New Game (no intro)":
                         python:
                             for i in classmates:
-                                i.type = "Fixed"
+                                i.type = "fixed"
                         show shack
                         $ show_buttons = True
                         show screen health
@@ -327,7 +327,7 @@ label real_start:
         if not story_freemove:
             python: #fix characters until you find them, to help with cutscenes
                 for i in classmates:
-                    i.type = "Fixed"
+                    i.type = "fixed"
         if intro_mode:
             jump intro
         else:
