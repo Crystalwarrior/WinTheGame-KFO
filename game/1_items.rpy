@@ -224,6 +224,8 @@ init -2 python:
                             self.desc += " {color=#FFF}Melee{/color}."
                     if armor == self:
                         armor = None
+                    if wpn == self:
+                        wpn = fist
                         
         def is_in_inventory(self):
             global inventory

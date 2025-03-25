@@ -1084,13 +1084,9 @@ label battle_your_turn:
         $ battle_wpn_broken = False
         $ num = 0
         $ chance = 100
-        if wpn.uses > 0:
-            $ wpn.use()
     else:
         $ battle_wpn_broken = False
         $ wpn.use_sfx()
-        if wpn.uses > 0:
-            $ wpn.use()
         $ num = renpy.random.randint(0,100)
         $ chance = get_accuracy(wpn) 
         if sanity >= 75: #the more insane you are, the less your accuracy
@@ -1132,6 +1128,8 @@ label battle_your_turn:
         play sound "sfx/beep_double2.ogg"
         $ battle_missed = True
         memo2 "You miss!"
+    if wpn.uses > 0:
+        $ wpn.use()
     if battle_wpn_broken:
         play sound "sfx/beep_double2.ogg"
         if wpn.type == "gun":

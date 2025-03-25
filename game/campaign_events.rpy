@@ -786,16 +786,15 @@ label catch_yoriko:
                             $ who_has_arrows = False
                             $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False)
         "Shoot Back" if (wpn.type == "gun" or wpn.wpn_range == "ranged"):
+            $ Yoriko.health -= renpy.random.randint(10, wpn.wpn_rating*4)
             if ammo_mode:
                 $wpn.use()
             else:
-                $ wpn.use_sfx()     
-                
+                $ wpn.use_sfx()
             if wpn.type == "gun":
                 "You take out your gun and spray bullets into the trees where the arrows came from."
             else:
                 "You use your weapon to shoot into the trees where the arrows came from."
-            $ Yoriko.health -= renpy.random.randint(10, wpn.wpn_rating*4)
             if Yoriko.health <= 0:
                 $ Yoriko.death_sfx()
                 $ renpy.music.stop(fadeout=2.0)
