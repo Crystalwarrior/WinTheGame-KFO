@@ -891,7 +891,21 @@ label trap_fight:
     $ renpy.show(trap_caught_person.death_sprite)
     "%(trapped_n)s writhes in the trap and cannot escape. You approach."
     $ trap_caught_person.health -= 30 #Wounded
-    if trap_caught_person.type == "coward":
+
+    # Special trap interactions
+    if trap_caught_person == Ikoma:
+        "The monster notices you."
+        show Ikoma
+        "He pries the trap off and gives you a wry smile."
+        $ battle_start(trap_caught_person,0,"%(trapped_n)s cackles like a maniac and charges at you!", "killed_ikoma", True)
+    elif trap_caught_person == Ai:
+        ai "Okita."
+        show Ai angry
+        ai "You're not playing fair."
+        show Ai evil
+        "She pries the trap from her bloodied leg and cackles deliriously!"
+        $ battle_start(trap_caught_person,0,"%(trapped_n)s charges at you!", "murdered_ai", True)
+    elif trap_caught_person.type == "coward":
         $ renpy.say(trap_caught_person.call_name,"Shinobu! Help me! I'm stuck!")
     elif trap_caught_person.type == "hostile":
         $ renpy.say(trap_caught_person.call_name,"You did this? Clever.")
@@ -912,7 +926,7 @@ label trap_fight:
             else:
                 
                 $ trap_caught_person.health -= 20
-                $ battle_start(trap_caught_person,0,"You get close and get a good hit in before %(trapped_n)s starts to fight back.", "trap_murder", True)
+                $ battle_start(trap_caught_person,1,"You get close and get a good hit in before %(trapped_n)s starts to fight back.", "trap_murder", True)
         "Let %(trapped_n)s go":
             "Your conscience gets a hold of you and you can't go through with anything."
             $ trap.use_sfx()
