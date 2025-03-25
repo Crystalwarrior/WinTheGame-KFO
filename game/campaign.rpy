@@ -2689,7 +2689,7 @@ label school_maze_correct:
         $ bayonet.broken = False
         $ bayonet.uses = 0
         $ bayonet.use_count = 0
-        $ bayonet.use_sfx = "sfx/slice.ogg"
+        $ bayonet.sfx2 = "sfx/slice.ogg"
         $ bayonet.wpn_rating = 4
         $ bayonet.battle_range = 2
         $ bayonet.weapon_range="melee"
