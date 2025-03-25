@@ -91,6 +91,7 @@ init:
     $ event("boat_missing", "loc == rm_shed and takeshi_boat_truth and seen_boat and not freeplay", event.only(), event.once(), priority=50)
     $ event("takkeifum_boat_death", "loc == boat_coast_loc and boat_missing and not freeplay", event.only(), event.once(), priority=50)
     $ event("takeshi_boat_lie", "loc == rm_shed and takeshi_boat_lied and seen_boat and not freeplay", event.only(), event.once(), priority=100)
+    $ event("ai_revenge_kill", "Ai.alive and dealt_ai == \"tied\"", event.once(), priority=100)
     
     
     # $ event("", "loc == ", event.only(), event.once(), priority=50)
@@ -106,6 +107,7 @@ init:
     $ mari_is_waiting = False
     $ jun_is_waiting = False
     $ mari_will_die = False
+    $ dealt_ai = ""
     $ murdered = None
     $ mari_here = False
     $ jun_here = False
