@@ -273,6 +273,9 @@ label letsgo:
             "A boy from your class. His back is to you."
             menu:
                 "[[Attack]":
+                    # If you run away from him (or he runs), he'll become a wanderer
+                    $ Kenji.type = "normal"
+                    $ Kenji.met = True
                     $ battle_start(Kenji,1,"You leap from the shadows and take Kenji by surprise.", "you_attacked_kenji", True)
                 "Stay silent":
                     $ add_sanity(-10)
@@ -292,7 +295,7 @@ label letsgo:
                 "Greet him":
                     y none "Kenji?"
                     show Kenji scared
-                    "He spins around suddenly, fear painted on his face. And then she stands erect and smiles."
+                    "He spins around suddenly, fear painted on his face. And then he stands erect and smiles."
 label Kenji_encounter:
     show Kenji happy
     ken "Shinobu? Is that you?"
@@ -312,6 +315,9 @@ label Kenji_encounter:
     ken "What's wrong? Why are you looking at me like that?"
     $ kenji_apologized = False
     $ kenji_questions = False
+    # If you run away from him, he'll become a wanderer
+    $ Kenji.type = "normal"
+    $ Kenji.met = True
     
 label Kenji_questions:
     if kenji_apologized and kenji_questions:
@@ -374,6 +380,7 @@ label kenji_leave:
         ken "Fine!"
         $ Kenji.wpn.get_sfx()
         $ reference_item(Kenji.wpn)
+        $ Jun.make_foe(Kenji)
         $ battle_start(Kenji,0,"Kenji pulls out a set of knives!", "kenji_attacked_you", True)
     elif Mari not in party:
         $ reference_item(walkietalkie)
@@ -666,7 +673,6 @@ label meet_jun:
                 $ did_not_intervene_jun = True
                 $ Asai.move(e2)
                 $ Jun.move(rm_cave)
-                $ Asai.type = "coward"
                 $ Asai.invincible = False
                 $ move_to_grid(runaway())
             
@@ -711,7 +717,8 @@ label meet_jun:
         "[[Attack]":
             hide Asai with dissolve
             show Jun at center with move
-            $ battle_start(Jun,0,"No more negotiating!", "killed_jun2", True)
+            # You chose to kill him in this scenario, non-lethal battles are not yet fully implemented (i.e. taser)
+            $ battle_start(Jun,0,"No more negotiating!", "killed_jun2", True, flee=False)
         "Ask him one more time":
             y angry "I'm not going to ask you again!"
             show Asai angry
@@ -809,7 +816,9 @@ label meet_jun:
         "Let him go":
             pass
         "[[Attack]":
-            $ battle_start(Jun,0,"Now's your chance!", "killed_jun2", True)
+            hide Mari
+            show Jun
+            $ battle_start(Jun,0,"Now's your chance!", "killed_jun2", True, flee=False)
         "Ask Jun to join you":
             if (Mari in party or Mari.loc == loc):
                 show Mari sad
@@ -856,7 +865,7 @@ label killed_jun2:
     play sound "sfx/scream_man_pain_distant.ogg"
     hide Asai with dissolve
     "Asai looks at you like you're a demon and lets out another screech before jolting up and darting for the forest."
-    $Asai.move(e2)
+    $ Asai.move(e2)
     y none "Wait!"
     "But he is too fast and is already gone."
     if (Mari in party or Mari.loc == loc):
@@ -1130,6 +1139,8 @@ label tetsuo_asai:
             $ Asai.move(d2)
             $ Asai.invincible = False
             $ Asai.invisible = False
+            # He evolves from a "coward" to "normal"
+            $ Asai.type = "normal"
             jump grid_loc
         "Stop Asai":
             $ kill_asai_later = True
@@ -1180,6 +1191,7 @@ label tetsuo_asai:
             
 label you_killed_asai:
     "Asai crumples into a fetal position and goes lifeless."
+    call murder_follower_reaction
     if Tetsuo.met and Tetsuo.alive:
         if kill_asai_later:
             "Time to return back to Tetsuo and let him know you dealt with this clown."
@@ -1254,9 +1266,9 @@ label tetsuo_killed_asai:
     
 label you_killed_tetsuo:
     "Tetsuo was surprisingly easy to kill. But it didn't feel as good as you imagined it."
+    call murder_follower_reaction
     if Asai.alive and Asai.loc == loc:
         show Asai scared with dissolve
-        
         asai "Oh, fuck!"
         y evil "Your turn."
         asai "No! Noooo!"
@@ -1264,6 +1276,7 @@ label you_killed_tetsuo:
         "Asai breaks into a run, weaving into the trees. You curse and chase after him."
         $ Asai.move(d2)
         $ loc = d2
+        $ Asai.type = "coward"
         jump chase_down_asai
     jump grid_loc
     
@@ -1279,18 +1292,27 @@ label chase_down_asai:
     asai "Fuck off! No! Go away! No!"
     menu:
         "[[Attack]":
-            $ battle_start(Asai,0,"If he's not going to make the first move, then all the better for you.", "you_killed_asai", False, flee=False)
+            $ battle_start(Asai,0,"If he's not going to make the first move, then all the better for you.", "you_killed_asai", False, flee=True)
         "Reason with him":
             y angry "Knock it off, and grow up!"
             show Asai scared
-            y angry "We can survive this game if idiots like you didn't actually play it!"
-            asai "We're all going to die! That's what it said! A few days and then everyone dies!"
+            if Tetsuo.murderer == you:
+                y angry "Quit running! If you want to survive this game, you need to have resolve."
+                asai "So you'd do me in like you did Tetsuo!? I'm your next mark, you can't fool me!!"
+            else:
+                # Sane Shinobu still preaches "don't play the game" schtick
+                if sanity >= 40:
+                    y angry "We can survive this game if idiots like you didn't actually play it!"
+                # Depressed Shinobu! Yaay!
+                else:
+                    y angry "At least face death with dignity, man! Quit being such a coward!"
+                asai "We're all going to die! That's what it said! A few days and then everyone dies!"
             show Asai angry
             asai "But I can still live! So I'm going to!"
             asai "I'm gonna live!!"
-            # Hey, look! He grows up!
-            $ Asai.type = "hostile"
-            $ battle_start(Asai,0,"He finally attacks you. You're prepared.", "you_killed_asai", False, flee=False)
+            # Hey, look! He grows up! That pep talk made him less of a coward!
+            $ Asai.type = "normal"
+            $ battle_start(Asai,0,"He finally attacks you. You're prepared.", "you_killed_asai", False, flee=True)
 
     
 label yoriko_arrow_attack:
@@ -1711,7 +1733,7 @@ label ai_battle_begin:
         ai "And what did you get?"
     if wpn is not None and wpn.type == "gun":
         if ammo_mode:
-            $wpn.use()
+            $ wpn.use()
         else:
             $ wpn.use_sfx()
         $ Ai.health -= 40
@@ -2056,7 +2078,9 @@ label ai_kill_bath:
     else:
         "You grab a heavy wooden stool near you and wait for Ai to lift her head from the water."
         "You wallop the back of her skull and she stops moving. You hope you haven't killed her as you pull her from the water so she doesn't drown."
-        "You'll need to find a way to bind her so she doesn't go on another rampage."
+        $ rope.use_sfx()
+        $ rope.destroy(1)
+        "You take out your rope and tie her up."
     $ bow.get_sfx()
     "???" "Put your hands where I can see them!!"
     $ reference_item(bow)
@@ -2168,7 +2192,23 @@ label ai_kill_bath:
     $ move_to_grid(a1)
     jump grid_loc
         
-    
+label ai_revenge_kill:
+    $ cutscene()
+    # If you tied Ai up, they just execute her offscreen.
+    $ Nanako.sanity -= 25
+    $ Lucy.sanity -= 25
+    $ Ai.kill("murder",Lucy)
+    "You have a sinking feeling."
+    "You check your stats page, and realize Ai is dead."
+    y "D-did they take revenge?"
+    if (Jun in party or Jun.loc == loc):
+        jun "Ugh. Can't say she didn't have it coming."
+    if (Mari in party or Mari.loc == loc):
+        mari "Oh, no... No no no."
+    y "At least Ai's rampage is now over."
+    $ uncutscene()
+    return
+
                 
 label nana_bath_mari_betray:
     if Mari.loc == loc:
@@ -2224,7 +2264,7 @@ label bath_kill_lucy:
                 y evil "I thought so, too."
                 $ battle_start(Mari,0,"Her eyes lose their strength.","bath_kill_mari", False, flee=False)
             "Leave":
-                "She gave you you're pass to leave, and you know to take it. If people were going to die in the game, you wanted to at least be confident in the fact that it wasn't your fault."
+                "She gave you your pass to leave, and you know to take it. If people were going to die in the game, you wanted to at least be confident in the fact that it wasn't your fault."
                 "For some of them, anyway."
                 "You silently turn to leave."
                 "You will not be welcome in the bath house from here on."
@@ -2983,7 +3023,7 @@ label yuki_intro:
                 mari "No, you didn't."
                 y none "Fine, I never liked him, okay?"
                 "Mari frowns at you, but you don't care."
-                $ mari_knows_yuki_lie = False
+                $ mari_knows_yuki_lie = True
         "No":
             y none "'fraid not."
             show Yuki sad
@@ -2996,7 +3036,7 @@ label yuki_intro:
                     mari "No, you didn't."
                     y none "Fine, I never liked him, okay?"
                     "Mari frowns at you, but you don't care."
-                    $ mari_knows_yuki_lie = False
+                    $ mari_knows_yuki_lie = True
     jump grid_loc
 
  
@@ -3112,7 +3152,8 @@ label yuki_waiting:
         y angry "What?"
         "She looks away."
         mari "Nevermind."
-    
+    # Make him wander around after this
+    $ Yuki.type = "normal"
     jump grid_loc
 
     

@@ -77,7 +77,7 @@ label game_init_locs:
         c1 = location("c",1,295,96, "cabin","forest",landmark="shack",landmark_x=310,landmark_y=115,item_list=[])
         rm_shack = room("Shack",c1, "shack",item_list=[], visibility = 6, can_sleep=True) #room
         c2 = location("c",2,295,197,"forest","forest",item_list=[[wood,1]])
-        c3 = location("c",3,295,298, "old_clock","grassland",landmark="cityhall",landmark_x=310,landmark_y=350,item_list=[])
+        c3 = location("c",3,295,298, "old_clock","grassland",landmark="cityhall",landmark_x=310,landmark_y=350,item_list=[[rope,1]])
         rm_city_hall = room("City Hall",c3, "city_hall",item_list=[[paper,1],[matches,1]], visibility = 8, can_sleep=True) #room
         c4 = location("c",4,295,400,"pier","ocean", landmark="pier",landmark_x=340,landmark_y=430,item_list=[])
         
