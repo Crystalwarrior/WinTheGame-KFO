@@ -1121,6 +1121,13 @@ label battle_your_turn:
         play sound (rand_hitsfx) channel "system"
         $ enemy.health -= damage
         memo2 "You do {color=#FF0000}%(damage)d{/color} points of damage."
+
+        # SPECIAL non-lethal taser check
+        if enemy.health > 0 and wpn.name == "taser":
+            $ chance = renpy.random.randint(0,100)
+            # The lower your enemy health is, the higher chance of incapacitation
+            if chance > enemy.health:
+                jump enemy_incapacitated
     else:
         play sound "sfx/beep_double2.ogg"
         $ battle_missed = True
@@ -1141,3 +1148,31 @@ label battle_your_turn:
         jump game_over
     return######################################
 
+
+label enemy_incapacitated:
+    $ renpy.music.stop(fadeout=3.0)
+    play sound "sfx/beep_good.ogg"
+    memo2 "You have incapacitated your opponent!"
+    if can_flee:
+        memo2 "With them down on the ground, you may now {color=#00FF00}flee{/color} or {color=#FF0000}execute{/color} them."
+        menu:
+            "{image=gui/bullseye.png} {color=#FF0000}Execute{/color}":
+                $ enemy.health = 0
+                $ show_blood()
+                memo2 "You finish off your opponent."
+            "Flee":
+                hide screen new_battle
+                hide screen health_enemy2
+                with dissolve
+                
+                $ show_buttons = True
+                $ loc = runaway()
+                $ move_to_grid(loc)
+    else:
+        memo2 "You have no choice but to {color=#FF0000}execute{/color} them."
+        $ enemy.health = 0
+        $ show_blood()
+        memo2 "You finish off your opponent."
+    if enemy.health <= 0:
+        $ enemy.health = 0
+        $ battle_end()
