@@ -225,7 +225,6 @@ init python:
                 trapped = True
                 trap_caught_person = i
                 trap_set = False
-                i.type = "fixed"
             
             if i.route is not None and not trapped:
                 for x in i.route:
