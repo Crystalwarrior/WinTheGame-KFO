@@ -411,7 +411,7 @@ label Lucy_talk:
         lucy "Yuki showed up! Did you see him?"
         y none "Yep."
         lucy "Such a dreamboat ..."
-    else:
+    elif Nanako.loc == Lucy.loc:
         show Lucy sad
         lucy "Nana probably doesn't want you here. You should leave."
     $ enemy = Lucy
