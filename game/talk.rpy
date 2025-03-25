@@ -647,10 +647,10 @@ label Yuki_talk:
                     $ answered_yuki = True
                     $ yuki_lied = True
                     y happy "Yeah, totally."
-                    y none "I saw her walking around G4."
+                    y none "I saw her walking around A4."
                     yuki "Thank you! Thank -"
                     show Yuki sad
-                    yuki "G4? Are you sure?"
+                    yuki "A4? Are you sure?"
                     y none "Pretty sure. Why?"
                     yuki "Maybe ... No, it's nothing."
                     yuki "All right, bye."
