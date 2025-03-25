@@ -176,7 +176,6 @@ init:
     image side Mari yell = im.FactorScale("char/side/side_mari_yell.jpg", .9, .9)
     image side Mari sad = im.FactorScale("char/side/side_mari_sad.jpg", .9, .9)
     image side Mari scared = im.FactorScale("char/side/side_mari_scared.jpg", .9, .9)
-    image side Mari happy = im.FactorScale("char/side/side_mari_happy.jpg", .9, .9)
     
     image side Jun = im.FactorScale("char/side/side_jun.jpg", .9, .9)
     image side Jun happy = im.FactorScale("char/side/side_jun_happy.jpg", .9, .9)     
