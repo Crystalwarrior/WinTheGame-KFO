@@ -822,7 +822,10 @@ label battle_enemy_turn:
                     #print "retreating!"
                     retreat = True
             if enemy.type == "normal" or enemy.type == "fixed":
-                if enemy.health <= 25:
+                if enemy.health <= 10:
+                    # Always retreat when on death's door
+                    retreat = True
+                elif enemy.health <= 25:
                     num = renpy.random.randint(0,100)
                     if num < 75:
                         #print "retreating!"
@@ -859,8 +862,9 @@ label battle_enemy_turn:
                 f_moving = True
  
             if f_moving or retreat:
-                #Low Sanity makes them stay
-                if enemy.sanity < 50:
+                # Lower sanity makes them more likely to stop retreating
+                num = renpy.random.randint(0,100)
+                if enemy.sanity < 50 and num > enemy.sanity:
                     retreat = False
                     if y_place in enemy_wpn_range:
                         f_attacking = True
