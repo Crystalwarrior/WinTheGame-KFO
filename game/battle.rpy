@@ -756,15 +756,23 @@ label battle_enemy_turn:
     show screen new_battle
     $ renpy.pause(0.5)
     python:
-        if len(party)> 0 and enemy.type =="hostile" and enemy not in party: #party only helps with legit threats, not friends (or themselves)
+        if True:
             for p_attacker in party:
+                if enemy.type != "hostile" and (enemy in party or enemy not in p_attacker.enemies):
+                    num = renpy.random.randint(0,100)
+                    # 40% chance for the party member to scold you
+                    if num <= 40:
+                        helper_phrases = ["Shinobu!?", "What are you doing!?", "Stop!", "Don't hurt them!"]
+                        helper_phrase = renpy.random.choice(helper_phrases)
+                        renpy.say(p_attacker.call_name, helper_phrase)
+                    continue
                 num = renpy.random.randint(0,100)
-                # 25% chance for each party member to help out
-                if num <= 25:
+                # 25% chance for each party member to help out, but only if your enemy isn't on death's door
+                if num <= 25 and enemy.health > 5:
                     #print "party member attacks!"
                     p_attacker_n = p_attacker.name
                     enemy_name  = enemy.name
-                    helper_phrases = ["Shinobu!", "Watch out!", "I have your back!","Let me help!"]
+                    helper_phrases = ["Shinobu!", "Watch out!", "I have your back!","Let me help!","Get away from him!"]
                     helper_phrase = renpy.random.choice(helper_phrases)
                     renpy.say(p_attacker.call_name, helper_phrase)
                     
@@ -785,9 +793,8 @@ label battle_enemy_turn:
                     renpy.say(memo2,"%(p_attacker_n)s attacks %(enemy_name)s for {color=#FF0000}%(damage)d{/color} points of damage!")
                     renpy.pause(0.5)
                     if enemy.health <= 0:
-                        enemy.health = 0
-                        battle_end()
-                        # Break out of the loop so party members don't overkill
+                        enemy.health = 1
+                        # Party members don't fight to kill
                         break
     $ enemy_time = True
     $ f_move_count = 0
