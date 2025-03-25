@@ -433,12 +433,17 @@ init python:
         global f_advantage
         global ever_battled
         global battling
+        global trap_caught_person
         battling = True
         can_flee = flee
         f_advantage = foe_advantage
         battle_message = opener
         battle_end_jump = ending
         enemy = foe
+
+        # Battling the trapped person will release them
+        if trap_caught_person == enemy:
+            trap_caught_person = None
         advantage = adv
         battle_won = False
         if enemy.wpn is None:
