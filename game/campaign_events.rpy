@@ -716,7 +716,13 @@ label yoriko_arrows:
     $renpy.scene()
     $renpy.show(loc_bg)
     $ renpy.transition(dissolve)
-    "An arrow nearly hits you! The arrow attacker is back!"
+    $ num = renpy.random.randint(0,100)
+    if num < 60 and not wish_safety_you:
+        $ show_blood()
+        $ damage_you(-20)
+        "An arrow grazes you! The arrow attacker is back!"
+    else:
+        "An arrow nearly hits you! The arrow attacker is back!"
     jump catch_yoriko
     
 label catch_yoriko:
@@ -730,7 +736,7 @@ label catch_yoriko:
             $ rand_grid = runaway()
             $ move_to_grid(rand_grid)
         "Catch Person":
-            "You charge towards where the arrows came from. You have to catch this guy!"
+            "You charge towards where the arrows came from. You have to catch them!"
             if (Mari in party or Mari.loc == loc):
                 mari scared "Shinobu! No!!"
             play sound "sfx/bow_shot.ogg"
@@ -777,7 +783,7 @@ label catch_yoriko:
                             $ reference_item(Yoriko.wpn)
                             $ who_has_arrows = False
                             $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False)
-        "Shoot Back" if (wpn.type == "gun" or wpn.wpn_range == "ranged") and not Yoriko.met:
+        "Shoot Back" if (wpn.type == "gun" or wpn.wpn_range == "ranged"):
             if ammo_mode:
                 $wpn.use()
             else:
@@ -787,20 +793,27 @@ label catch_yoriko:
                 "You take out your gun and spray bullets into the trees where the arrows came from."
             else:
                 "You use your weapon to shoot into the trees where the arrows came from."
-            $ Yoriko.health -= 10
-            "You hear running. You must have scared them!"
-            "You sprint towards the area in hopes of catching them. Instead, you only see the glimpse of a girl's skirt before she disappears entirely. You failed to catch her."
-            stop music fadeout 3.0
-            if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
-                "You go back and tell your friends that you've scared off the person."
-            elif (Mari in party or Mari.loc == loc):
-                "You go back and find Mari. She's relieved to see you and gives you a hug. And then scolds you for running off in the first place."
-            elif (Jun in party or Jun.loc == loc):
-                "You go back and tell Jun what you saw."
-            $ Yoriko.met = True
-            $ Yoriko.type = "hostile"
-            $ Yoriko.loc = runaway()
-            jump grid_loc
+            $ Yoriko.health -= renpy.random.randint(10, wpn.wpn_rating*4)
+            if Yoriko.health <= 0:
+                $ Yoriko.death_sfx()
+                $ renpy.music.stop(fadeout=2.0)
+                $ renpy.sound.play("sfx/bodyfall.ogg",channel=1)
+                $ Yoriko.kill("murder",you)
+                jump you_caught_yoriko
+            else:
+                "You hear running. You must have scared them!"
+                "You sprint towards the area in hopes of catching them. Instead, you only see the glimpse of a girl's skirt before she disappears entirely. You failed to catch her."
+                stop music fadeout 3.0
+                if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
+                    "You go back and tell your friends that you've scared off the person."
+                elif (Mari in party or Mari.loc == loc):
+                    "You go back and find Mari. She's relieved to see you and gives you a hug. And then scolds you for running off in the first place."
+                elif (Jun in party or Jun.loc == loc):
+                    "You go back and tell Jun what you saw."
+                $ Yoriko.met = True
+                $ Yoriko.type = "hostile"
+                $ Yoriko.loc = runaway()
+                jump grid_loc
     jump abandon_arrow_chase
         
 ########################
