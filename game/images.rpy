@@ -332,7 +332,7 @@ init:
     image Takeshi angry = "char/Takeshi_angry.png"
     image Ikoma clean = "char/Ikoma.png"
     image Ikoma = "char/Ikoma_blood.png"
-    image Ikoma clean = "char/Ikoma_coy.png"
+    image Ikoma coy = "char/Ikoma_coy.png"
     image Ikoma angry = "char/Ikoma_angry.png"
     image Yuki = "char/Yuki.png"
     image Yuki scared = "char/Yuki_scared.png"
