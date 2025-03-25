@@ -160,7 +160,7 @@ label kenji_attacks_you:
     play sound "sfx/backstab.ogg"
     "You rip out the knife and flail it away. Your wound is incredibly painful and already bleeding profusely. But you have no choice now."
     ken "I'm not going to lose, man ... I ain't gonna die on this damn island!"
-    $ Kenji.type = "hostile"
+    $ Kenji.type = "normal"
     $ Kenji.met = True
     $ Kenji.make_foe(you)
     $ battle_start(Kenji,0,"Kenji lunges for you with his knives aimed to kill!", "kenji_attacked_you", False)
