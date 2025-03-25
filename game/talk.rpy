@@ -446,8 +446,14 @@ label Fumie_talk:
     if not freeplay:
         if you in Fumie.enemies:
             show Fumie angry
-            fum "Kei is going to kick your ass! Kei! Kei!!"
-            $ battle_start(Fumie,0,"Fumie can't be saved now.", "murdered_fumie", True)
+            if Kei.loc == loc and Kei.alive:
+                fum "Kei is going to kick your ass! Kei! Kei!!"
+                kei "You bastard!!"
+                $ Fumie.make_foe(you)
+                $ battle_start(Kei,0,"Keitaro lunges at you!", "murdered_kei", True, foe_advantage=True)
+            else:
+                fum "You'll pay for this!"
+                $ battle_start(Fumie,0,"Fumie can't be saved now.", "murdered_fumie", True)
         elif Kei.met and Kei.alive:
             fum "Welcome to the secret pact!"
             y none "Uh, thanks."
@@ -458,6 +464,8 @@ label Fumie_talk:
     show screen health_enemy
     menu:
         "[[Attack]":
+            if Kei.loc == loc:
+                $ Kei.make_foe(you)
             $ battle_start(Fumie,3,"Fumie barely has time to react.", "murdered_fumie", True)
         "[[Done]":
             $ talking = False
@@ -467,6 +475,9 @@ label Fumie_talk:
 label murdered_fumie:
     $ murdered = "Fumie"
     call murder_follower_reaction
+    if Kei.loc == loc and Kei.alive:
+        kei "W-w... What have you done!? You bastard!!"
+        $ battle_start(Kei,0,"Keitaro lunges at you!", "murdered_kei", True, foe_advantage=True)
     jump grid_loc
     
     
@@ -499,12 +510,16 @@ label Keitaro_talk:
     show Keitaro
     if you in Kei.enemies:
         show Keitaro scared
-        kei "You again!?"
+        kei "You!?"
+        if Fumie.loc == loc:
+            $ Fumie.make_foe(you)
         $ battle_start(Kei,0,"You never liked him anyway.", "murdered_kei", True)
     $ enemy = Kei
     show screen health_enemy
     menu:
         "[[Attack]":
+            if Kei.loc == loc:
+                $ Kei.make_foe(you)
             $ battle_start(Kei,3,"You never liked him anyway.", "murdered_kei", True)
         "[[Done]":
             $ talking = False
@@ -515,6 +530,10 @@ label Keitaro_talk:
 label murdered_kei:
     $ murdered = "Keitaro"
     call murder_follower_reaction
+    if Fumie.loc == loc and Fumie.alive:
+        show Fumie sad
+        fum "Nooo!! Kei... Kei!!"
+        $ battle_start(Fumie,0,"Fumie can't be saved now.", "murdered_fumie", True, foe_advantage=True)
     jump grid_loc
     
     
