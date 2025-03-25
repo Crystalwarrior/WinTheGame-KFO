@@ -263,6 +263,13 @@ init python:
                     if i.loc.zone.forbidden: #move if in forbidden zone
                         move_chance = 1
     
+                    # Test if we are trapped. If all the exits are forbidden zones, we're screwed!
+                    surrounded = len(i.loc.zone.exits)
+                    for x in i.loc.zone.exits:
+                        if x.forbidden:
+                            surrounded -= 1
+                    trapped = surrounded <= 0
+
                     if move_chance == 1:
                         #print "***MOVING ..."
                         if i.loc.room is not None and not i.loc.zone.forbidden and i.sanity >= 15 and i.health >= 15: # Chance to move to a loc's room
@@ -290,7 +297,7 @@ init python:
                             else:
                                 stay_effects(i,True) #don't move, trapped
                     else:
-                        stay_effects(i,False) #don't move
+                        stay_effects(i,trapped) #don't move
 
                     # Their final loc is a forbidden zone. RIP in peace
                     if i.loc.zone.forbidden:
@@ -301,14 +308,30 @@ init python:
             #being trapped makes you go crazy
             i.sanity -= 15
             #print "- trapped and lost sanity (", i.sanity,")"
-        else:
+
+            # Make them wander around
+            if i.type != "normal" and i.type != "coward" and i.type != "hostile":
+                i.type = "normal"
+            return
+        friend_here = False
+        if len(i.loc.pop) > 1: #if they're not alone
+            for x in i.loc.pop:
+                if x in i.friends:
+                    friend_here = True
+        if not friend_here:
             #chance to lose sanity
             num = renpy.random.randint(0,100)
             if num < 25:
                 i.sanity -= 5
+            else:
+                # recover sanity instead, people die in forbidden zones too frequently
+                i.sanity += 1
                 #print "- stayed and lost sanity (", i.sanity,")"
             #else:
                 #print "- stayed"
+        else:
+            # we're with a friend! Keep recovering sanity.
+            i.sanity += 1
    
     def attack_ai():
         for i in locations:
