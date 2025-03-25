@@ -366,7 +366,8 @@ init -2 python:
             self.alive = True
             players_alive += 1
             loc_to_add = self.loc
-            loc_to_add.bodies.remove(self)
+            if self in loc_to_add.bodies:
+                loc_to_add.bodies.remove(self)
             loc_to_add.bodies = list(set(loc_to_add.bodies)) #remove duplicate bodies
             self.death_type = type
             if type == "murder":
