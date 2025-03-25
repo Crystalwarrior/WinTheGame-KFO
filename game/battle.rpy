@@ -478,13 +478,35 @@ init python:
             if enemy.item[0].defense > their_def:
                 their_def = enemy.item[0].defense
         if play_music:
-          renpy.music.stop(fadeout=2.0)  
+            renpy.music.stop(fadeout=2.0)  
         if not freeplay:
             renpy.show(enemy.death_sprite)
         renpy.say(None,battle_message)
         renpy.hide_screen("health_enemy")
         if play_music:
-            renpy.music.play("music/ResonantBlip.ogg",fadein=2.0, fadeout=1.0)
+            tracks = [
+                "music/ResonantBlip.ogg",
+                "music/ResonantBlipBSide.ogg",
+                "music/ResonantBlipCSide.ogg",
+                "music/ResonantBlipDSide.ogg"
+            ]
+            # Default combat track
+            track = tracks[0]
+            # Play B-side on lower sanity or when you're a mass murderer
+            if sanity <= 60 or you.kills > 2:
+                track = tracks[1]
+            # Play C-side after your 6th kill
+            if you.kills > 6:
+                track = tracks[2]
+            # Play D-side after your 8th kill!!
+            if you.kills > 8:
+                track = tracks[3]
+            # Mix things up when it becomes routine after your 10th kill.
+            if you.kills > 10:
+                # Randomize!
+                track = tracks[renpy.random.randint(0, 3)]
+            renpy.music.play(track,fadein=2.0, fadeout=1.0)
+
         renpy.sound.play("sfx/accent_battle.ogg",channel="system2")
         renpy.show_screen("battle_start")
         renpy.pause(2.5, hard=True)
