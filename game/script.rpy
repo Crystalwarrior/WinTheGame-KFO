@@ -1,4 +1,4 @@
-############################
+﻿############################
 ######### CONFIG ###########
 ############################
 
@@ -43,7 +43,7 @@ label start:
         $ cannot_die = False
         
     #Hear heartbeat sounds when low on health or sanity? (can be annoying to some)
-    $ sanity_sounds = True
+    $ sanity_sounds = False
     
     #GPS Toggle - Show little portraits of where the players are on the map
     ## Two items can be acquired to turn on map portraits: 
