@@ -3731,35 +3731,32 @@ label boat_missing:
         
     # place boat at random coast area, tak, kei, fum go with it
     python:
-        coast_loc = []
-        for i in locations:
-            if i.type == "grid" and i.shore and not i.forbidden:
-                coast_loc.append(i)
-        if len(coast_loc) > 0:
-            boat_coast_loc = renpy.random.choice(coast_loc)
         boat_missing = True
         boat_missing_dead = []
         if Takeshi.alive:
             boat_missing_dead.append(Takeshi)
-            Takeshi.move(boat_coast_loc)
+            Takeshi.move(d5)
             Takeshi.type = "fixed"
         if Kei.alive:
             boat_missing_dead.append(Kei)
-            Kei.move(boat_coast_loc)
+            Kei.move(d5)
             Kei.type = "fixed"
         if Fumie.alive:
             boat_missing_dead.append(Fumie)
-            Fumie.move(boat_coast_loc)
+            Fumie.move(d5)
             Fumie.type = "fixed"
     jump grid_loc
     
 label takkeifum_boat_death:
-    #Takeshi, Kei, and Fumie's body will wash up on the shore the next day.
+    # Takeshi, Kei, and Fumie's body will wash up on the shore, when you go there.
     if Takeshi.alive:
+        $ Takeshi.move(loc)
         $ Takeshi.kill("fz")
     if Kei.alive:
+        $ Kei.move(loc)
         $ Kei.kill("fz")
     if Fumie.alive:
+        $ Fumie.move(loc)
         $ Fumie.kill("fz")
     "You almost gag at what you see here."
     if len(boat_missing_dead) == 1:
