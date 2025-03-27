@@ -1,4 +1,4 @@
-﻿## This file contains some of the options that can be changed to customize
+## This file contains some of the options that can be changed to customize
 ## your Ren'Py game. It only contains the most common options... there
 ## is quite a bit more customization you can do.
 ##
@@ -28,7 +28,7 @@ init -1 python hide:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Win the Game - KFO"
-    config.version = "0.8.1"
+    config.version = "0.8.2"
     
     config.window_icon = "winky.png"
 
