@@ -1092,12 +1092,16 @@ label tetsuo_asai:
         "So this is how it went down with the last guy. Befriend him ... take his stuff."
     else:
         $ Asai.met = True
+    if (Mari in party or Mari.loc == loc) and Mari.alive:
+        mari scared "What is he doing..?"
     show Tetsuo happy
     tet "Don't worry about that, because I'm not playing the game!"
     tet "I just need to rally all the students together, and we'll start a formal protest by the edge of island. Surely they can't ignore our rights."
     show Tetsuo
     asai "Ooooh."
     show Tetsuo scared
+    if (Jun in party or Jun.loc == loc) and Jun.alive:
+        jump stop_asai_jun
     $ axe.get_sfx()
     $ loc.items.append([drill,1])
     $ Asai.wpn = axe
@@ -1117,7 +1121,7 @@ label tetsuo_asai:
             tet "Someone could get h-h-hurt!"
             play sound "sfx/swoosh3.ogg"
             "Asai swings it again and laughs. Tetsuo jumps back."
-            tet "I being very serious right now, sir! That's mine and you should put it -!"
+            tet "I'm being very serious right now, sir! That's mine and you should put it -!"
             asai "It's mine now, stupid! Don't want to get hurt!?"
             play sound "sfx/swoosh3.ogg"
             "Another swing, another laugh."
@@ -1131,7 +1135,11 @@ label tetsuo_asai:
             play sound "sfx/bodyfall.ogg"
             hide Tetsuo with dissolve
             "The axe clipped Tetsuo right in the stomach. He looks at the blood pouring from him in a gurgled silence. He falls to the ground."
-            "Asai looks surprised to have actually hit him ..."
+            if (Mari in party or Mari.loc == loc) and Mari.alive:
+                "Mari squeals and stifles a scream, holding her mouth shut."
+                "Asai looks surprised to have actually hit him, then looks around frantically."
+            else:
+                "Asai looks surprised to have actually hit him ..."
             show Asai angry
             "But when Tetsuo's on the ground, he hardens his expression."
             play sound "sfx/hit_bloody.ogg"
@@ -1140,6 +1148,11 @@ label tetsuo_asai:
             "You cannot bear to watch as the guy who used to be the class clown brutally hacks at Tetsuo's body. No one would have survived that."
             "When you can finally find the strength to look back, Asai is scurrying off."
             "You're left alone with Tetsuo's corpse."
+            if (Mari in party or Mari.loc == loc) and Mari.alive:
+                "Mari covers her eyes, unable to look at Tetsuo's corpse."
+                mari scared "We... We should've done something ..."
+                mari sad "Tetsuo... I'm so sorry."
+                $ Mari.make_foe(Asai)
             $ Asai.move(d2)
             $ Asai.invincible = False
             $ Asai.invisible = False
@@ -1192,7 +1205,74 @@ label tetsuo_asai:
             hide Asai with quickdissolve
             show Tetsuo scared at center with move
             $ battle_start(Tetsuo,3,"Might as well beat Asai to the punch. You've secretly always wanted to do this anyway, because this guy is annoying as hell.", "you_killed_tetsuo", True)
-            
+
+label stop_asai_jun:
+    show Jun angry at center
+    show Asai scared
+    "Before Asai gets a chance to pilfer Tetsuo's belongings, Jun jumps out of the bushes!"
+    jun angry "Oi, jackass! Found another mark?"
+    tet "Mark!?"
+    y angry "Jun told me what happened. You won't get away this time!"
+    jun angry "You want another beatdown, clown!?"
+    show Asai angry
+    "Asai gets squirrelly all of a sudden."
+    asai "Fuck you, dude! You're taking a bully's side over mine, that really shows your morality -"
+    show Asai scared
+    asai "AHH!"
+    hide Asai
+    hide Tetsuo
+    hide Jun
+    with quickdissolve
+    "He points behind you. You and Jun instinctively look, not sure what to expect anymore."
+    show Tetsuo scared at right
+    show Jun skeptical at left
+    with quickdissolve
+    "Obviously, nothing was there, and when you look back, Asai is running away at the speed of light."
+    $ Asai.move(d2)
+    stop music fadeout 3.0
+    y angry "Shit!"
+    jun skeptical "Did he take anything?"
+    tet "No, you scared him off before he could."
+    show Tetsuo happy
+    tet "Thanks, Shinobu! I really didn't expect you two to stand up for me like that."
+    "Tetsuo looks Jun up and down with mixed emotions."
+    jun mad "Well screw you, too."
+    show Tetsuo scared
+    tet "Pardon? I ... I didn't mean to offend you."
+    jun skeptical "Not even a thanks? Whatever, man."
+    hide Jun lookaway with dissolve
+    show Tetsuo at center with move
+    tet "Let's not get all worked up. Our conditions may be bad, but we have to stick it out."
+    if (Mari in party or Mari.loc == loc):
+        "Mari works up the courage to leave from her hiding spot and meet up with the rest of you."
+        show Tetsuo happy
+        tet "Mari! Lovely to see you."
+        mari content "Hi."
+    y none "How are you doing out here? Besides Asai trying to steal from you, I mean."
+    show Tetsuo angry
+    tet "Terrible! How could they stick us out here without proper first aid kits or, worse yet, indoor plumbing?"
+    show Tetsuo
+    tet "Don't worry, though. Yoriko and I are on the case."
+    tet "We should gather all the students and start a formal protest. What do you think?"
+    if Yoriko.alive:
+        $ Yoriko.move(loc)
+        y none "I don't think -"
+        play sound "sfx/bow_shot.ogg"
+        show Tetsuo scared
+        "A thwack sound interrupts you. Tetsuo's eyes go wide."
+        if (Mari in party or Mari.loc == loc):
+            mari scared "What's wrong!?"
+        play sound "sfx/bodyfall.ogg"
+        hide Tetsuo with dissolve
+        $ Tetsuo.kill("murder",killer=Yoriko)
+        "Tetsuo falls face-first onto the ground and reveals an arrow in his back!"
+        jump yoriko_arrow_attack
+    else:
+        y none "That ... doesn't sound like it will work, honestly."
+        tet "We have to try!"
+        "You start to walk away. You're not sure you can help someone so delusional."
+    jump grid_loc
+
 label you_killed_asai:
     "Asai crumples into a fetal position and goes lifeless."
     call murder_follower_reaction
@@ -1210,7 +1290,7 @@ label found_tetsuo_murdered:
     $ loc = e2
     $ cutscene()
     if Yoriko.alive:
-         play music "music/bgs_creepy.ogg"
+        play music "music/bgs_creepy.ogg"
     play ambience "sfx/grassland2.ogg" fadeout 1.0 fadein 2.0
     scene forest3 with fade
     if Yoriko.alive:
