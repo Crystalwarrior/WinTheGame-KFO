@@ -183,7 +183,11 @@ label letsgo:
     "You find the {color=#00FF00}water and rations{/color}, but there is not as much as you would have hoped. Eating these will likely help you recover from injuries and keep you mentally healthy."
     "The flap opens wider and you immediately see what must be your weapon ..."
     
-    $ your_wpn= renpy.random.choice(starter_wpns)
+    # SHOE START LET'S GO
+    if shoe_start:
+        $ your_wpn = shoe
+    else:
+        $ your_wpn= renpy.random.choice(starter_wpns)
     if not config.developer:
         $ renpy.block_rollback()
 
