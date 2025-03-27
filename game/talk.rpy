@@ -13,12 +13,14 @@ label Mari_talk:
         mari "No! Please! Don't hurt me!"
         y none "Mari!?"
         mari "Don't come near me!"
+        $ enemy = Mari
         show screen health_enemy
         menu:
             "[[Attack]":
                 $ battle_start(Mari,0,"You say nothing as you lunge for her.", "killed_mari", True)
             "[[Done]":
                 $ Mari.move(runaway())
+                $ Mari.type = "normal"
                 hide Mari with dissolve
                 "She runs away."
                 jump grid_loc
@@ -868,9 +870,13 @@ label murdered_goro:
     
 label murder_follower_reaction:
     python:
+        murdered_i = None
         for i in classmates:
             if i.name == murdered:
                 murdered_i = i
+
+    if murdered_i == None:
+        return
 
     # Check if mari/jun are here, and if they considered your attacker an enemy or not.
     $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc) and murdered_i not in Mari.enemies
