@@ -3473,14 +3473,14 @@ label gps_hospital:
     ## Takeshi is working on the GPS gadget and Kei and Fumie are there. Something goes wrong and Tak's collar counts down to explode. The group can only watch Tak die. Afterwards, Fumie gets clingly on Kei and Kei finally tells her to piss off and she's distraught to the point of anger. She kills Kei. Shinobu+party try to get out of there alive and Fumie lets them.
     $ cutscene()
     if Fumie.alive:
-        # Kei gave her his weapon to stand guard
-        $ Fumie.item = [Fumie.wpn,1]
-        $ Fumie.wpn = Kei.wpn
-        $ Kei.wpn = None
-        $ Fumie.wpn.get_sfx()
-        $ reference_item(Fumie.wpn)
         show Fumie angry with dissolve
         if Kei.alive:
+            # Kei gave her his weapon to stand guard
+            $ Fumie.item = [Fumie.wpn,1]
+            $ Fumie.wpn = Kei.wpn
+            $ Kei.wpn = None
+            $ Fumie.wpn.get_sfx()
+            $ reference_item(Fumie.wpn)
             show Fumie happy
             fum "Oh, hi!"
             "Fumie stops wielding Kei's gun at you and smiles."
@@ -3669,8 +3669,8 @@ label gps_hospital:
             mari scared "No!!"
         y angry "You don't even know why."
         kei "Yeah, I do. Because I hate you and I've always fucking hated you."
+        "Kei grabbed your shirt and yanks you close."
         if Fumie.alive:
-            "Kei grabbed your shirt and yanks you close."
             show Fumie angry at right with dissolve
             show Keitaro angry at left with move
             "Fumie pushes him."
@@ -3705,9 +3705,31 @@ label gps_hospital:
             "Fumie screams at you to flee and you don't waste that chance."
             "You unlock the door and run to safety. Fumie doesn't follow."
         else:
-            $ battle_start(Kei,3,"The truth hurts you a bit, but you've always hated Kei a little bit, too.", "kei_defended", True)
+            $ battle_start(Kei,1,"The truth hurts you a bit, but you've always hated Kei a little bit, too.", "kei_defended", True, flee=False)
+    else:
+        "Fumie crumples down on the ground in front of Takeshi, her eyes devoid of hope."
+        show Fumie sad
+        fum "What can we do now..? What else do we do!?"
+        y sad "We can still do it. We can still survive. We can't let this be in vain -"
+        fum "Just... leave me alone. I need to get my head on straight."
+        if (Mari in party or Mari.loc == loc) and Mari.alive:
+            mari scared "Fumie... But..."
+        if (Jun in party or Jun.loc == loc) and Jun.alive:
+            Jun scared "Shinobu, are you sure we should leave her here like this?"
+        y sad "Fumie?"
+        fum "GO AWAY!!"
+        $ reference_item(Fumie.wpn)
+        $ Fumie.wpn.use_sfx()
+        "She attacks you!"
+        if (Mari in party or Mari.loc == loc) and Mari.alive:
+            "Mari squeals and runs away."
+        if (Jun in party or Jun.loc == loc) and Jun.alive:
+            Jun scared "Fuck fuckity fucky fuck!!"
+            "Jun runs, covering his head!"
+        "You have no choice but to run away."
     $ loc = g3
-    $ Fumie.kill("suicide")
+    if Fumie.alive:
+        $ Fumie.kill("suicide")
     $ move_to_grid(g3)
     jump grid_loc
         
