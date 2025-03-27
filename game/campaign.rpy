@@ -3010,8 +3010,8 @@ label yuki_intro:
             $ yuki_lied = True
             y none "Yeah, totally."
             "You lie."
-            y none "I saw her walking around G4."
-            yuki "Thank you!! Thank - G4? Are you sure?"
+            y none "I saw her walking around A4."
+            yuki "Thank you!! Thank - A4? Are you sure?"
             y none "Pretty sure. Why?"
             yuki "Um ... nothing. Maybe - no, it's nothing."
             yuki "All right, bye."
@@ -3776,6 +3776,7 @@ label takkeifum_boat_death:
     "There's no doubt now as to who stole the boat from the shed. It has washed ashore along with them."
     "You wonder how far they got before their collars exploded ... You start to change your mind about escaping by boat at all."
     $ boat_missing = False
+    $ boat_coast_loc = loc
     jump grid_loc
     
     
