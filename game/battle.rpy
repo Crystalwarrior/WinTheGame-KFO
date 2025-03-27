@@ -1156,7 +1156,7 @@ label battle_your_turn:
         $ battle_missed = True
         memo2 "You miss!"
     if wpn.uses > 0:
-        $ wpn.use()
+        $ wpn.use(use_sound=False)
     if battle_wpn_broken:
         play sound "sfx/beep_double2.ogg"
         if wpn.type == "gun":

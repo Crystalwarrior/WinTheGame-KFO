@@ -188,13 +188,14 @@ init -2 python:
         def drop_sfx(self):
             renpy.sound.play("sfx/"+self.sfx3+".ogg", channel=1)
             
-        def use(self):
+        def use(self, use_sound=True):
             global wpn
             global armor
             global sanity
             if not self.broken and self.uses > 0:
                 self.use_count += 1
-                self.use_sfx()
+                if use_sound:
+                    self.use_sfx()
                 if self.healing > 0:
                     num = renpy.random.randint(0,10)
                     heal_amt = (self.healing * 7) + num
