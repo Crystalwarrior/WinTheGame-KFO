@@ -1,4 +1,4 @@
-﻿############################
+############################
 ######### CONFIG ###########
 ############################
 
@@ -107,7 +107,9 @@ label start:
         $ starter_wpns.append(machinegun)
     if persistent.won_game_traditional:
         $ starter_wpns.append(flamethrower)
-        
+    # SHOE START LET'S GO
+    if shoe_start:
+        $ starter_wpns = [shoe]
     #######################LOCATIONS
     
     call game_init_locs #Initialize locations, REQUIRED!
@@ -290,7 +292,8 @@ label start:
 init:
     $ story_mode = True
     $ intro_mode = True
-    $ ammo_mode = False
+    $ ammo_mode = True
+    $ shoe_start = False
     $ rand_start = False
     $ locs_can_be = []
     $ story_freemove = False
@@ -403,6 +406,14 @@ screen game_settings:
             textbutton ("3 days") action SetVariable("time_limit",3) style "digi_button" text_style "digi_button"
             textbutton ("7 days") action SetVariable("time_limit",7) style "digi_button" text_style "digi_button"
             textbutton ("14 days") action SetVariable("time_limit",14) style "digi_button" text_style "digi_button"
+        hbox xalign 0.0:
+            add "gui/bracket.png"
+            label "shoe start"
+        text "Your starting weapon will be a shoe." xpos 20 size 13
+        null height 10
+        hbox xalign 0.5 spacing 15:
+            textbutton ("on") action SetVariable("shoe_start",True) style "digi_button" text_style "digi_button"
+            textbutton ("off") action SetVariable("shoe_start",False) style "digi_button" text_style "digi_button"
         null height 10
             
         textbutton "Start Game" action Return(True) xalign 0.5
@@ -467,8 +478,12 @@ label freeplay_intro:
     $ food.add(amt=2)
     "You find the {color=#FFF}water and rations{/color}."
     "The flap opens wider and you immediately see what must be your weapon ..."
-    
-    $ your_wpn= renpy.random.choice(starter_wpns)
+
+    # SHOE START LET'S GO
+    if shoe_start:
+        $ your_wpn = shoe
+    else:
+        $ your_wpn= renpy.random.choice(starter_wpns)
     #$ renpy.block_rollback()
 
     $ your_wpn.add()
@@ -638,6 +653,7 @@ label forbidden_zone_fail:
             mari "Shinobu! Run!!"
         if (Jun in party or Jun.loc == loc):
             jun "Let's get out of here, right now!!"
+        "You make a break for it and leave!"
         $ loc = runaway()
         jump grid_loc
     
