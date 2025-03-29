@@ -1,7 +1,7 @@
 # About the project
 This is a Killing Fever Online fork of [WinTheGame by Happy Backwards](https://happybackwards.itch.io/win-the-game) [(lemmasoft forum topic)](https://lemmasoft.renai.us/forums/viewtopic.php?t=25603) licensed under [Creative Commons Attribution-NonCommercial](http://creativecommons.org/licenses/by-nc/4.0/). This fork intends to fix bugs, expand character interactions, additional content, add features, and more!
 
-# [DOWNLOAD!](https://github.com/Crystalwarrior/WinTheGame-KFO/releases/download/latest/WinTheGame-all.zip)
+# [DOWNLOAD!](https://github.com/Crystalwarrior/WinTheGame-KFO/releases/latest)
 
 # For Developers:
 You need to use the [Renpy 6.17 SDK]([url](https://www.renpy.org/release/6.17)) to work on this project!
