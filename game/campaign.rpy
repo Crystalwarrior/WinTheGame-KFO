@@ -2745,6 +2745,9 @@ label school_maze_correct:
         $ Emi.wpn.get_sfx()
         show Mari
         "Mari secretly takes the gun from Emi's hands as she gets near. You relax now that she's disarmed."
+        # Mari gets you a new powerful weapon. Yay!
+        $ bayonet.add()
+        $ Emi.wpn = None
         show Emi
         emi "... Mari?"
         show Mari content
