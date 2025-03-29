@@ -3358,7 +3358,7 @@ label kei_intro:
     kei "Around here maybe, or maybe not. I just have to keep safe."
     if Fumie.loc == loc and Fumie.alive:
         fum "I've got your back!"
-        kei "I think we should split up, for our own goods. We'll attract more attention together."
+        kei "I think we should split up, for our own good. We'll attract more attention together."
         kei "Besides, shouldn't you go guard the hospital?"
         y none "Why guard the hospital?"
         fum "Takeshi said it's the best place to do his hacking. We don't want some idiot to go in and wreck the place!"
@@ -4232,45 +4232,161 @@ label mansion_correct:
         jun sad "It's very quiet here."
         
     if (lied_to_mari or mari_knows_yuki_lie or mari_knows_emi_kill) and (Mari in party or Mari.loc == loc) and not wish_no_sin:
+        # Leave you at a sliver of health
         $ show_blood()
+        $ health = 1
+        $ renpy.transition(hpunch)
+        # Same song as when you first meet Mari
+        stop ambience fadeout 5.0
+        play music "music/TheSigh.ogg" fadein 2.0 fadeout 2.0 noloop
         if Mari.wpn != None:
             $ Mari.wpn.use_sfx()
             if Mari.wpn.type == "gun":
                 "A shot bangs. Your chest aches."
+                show Mari yell with dissolve
                 "You look down and see Mari pointing her gun at you."
             else:
                 "You chest is suddenly in pain."
+                show Mari yell with dissolve
                 "You look down and see that Mari has attacked you."
         else:
+            show Mari yell with dissolve
             if wpn != fist:
                 "Mari grabs your weapon. Before you realize it, she has attacked you."
             else:
                 "Before you realize it, she has attacked you."
             "Once. Only once. But right where it needed to be."
+        $ renpy.transition(vpunch)
+        play sound "sfx/bodyfall.ogg"
         "You fall to your knees and look at her in disbelief."
         if (Jun in party or Jun.loc == loc):
+            $ Mari.wpn.get_sfx()
             "Jun runs up and snatches the weapon from her hands. She doesn't resist."
-            jun "What the fuck!?"
-        y none "Why ...?"
+            jun scared "What the fuck!?"
+        else:
+            "Mari tosses the weapon aside and glares down at you as you writhe on the ground."
+        y scared "Why ...?"
         if lied_to_mari:
             mari angry "That was for Kenji."
             mari angry "I knew you lied to me. I knew you killed him."
+            y scared "But ... He was playing the game!"
+            mari angry "Oh, was he, now?"
+            # He's the only person you killed
+            if you.kills <= 1:
+                y scared "Just give me the benefit of the doubt! I haven't killed anyone else!"
+                mari yell "That's not how this works!"
+                mari angry "If that was all there is to it, then why ...?"
+                mari yell "Why did you lie to me!?"
+                y scared "I ... I didn't... know this would happen!"
+                y scared "You would've s-shot me if I told you the truth!"
+                mari angry "Maybe I should've."
+            y scared "Mari, please. Think about what you're doing!"
+            mari angry "I'm well aware, Okita."
+            # Not the only person you killed
+            if you.kills > 1 or mari_knows_emi_kill:
+                mari yell "I know he's not the only person you killed."
+                y scared "But... I-It was kill... or be killed..! What else what I was supposed to do?!"
         if mari_knows_emi_kill:
             mari yell "Killing Emi like you did ... You think I'd just forgive you?"
+            mari angry "That wasn't self-defense. She was already disarmed. You're heartless."
+            y scared "She was a lost cause! I gave her a merciful end!"
+            mari yell "Do you realize how insane you sound!?"
+            mari angry "What right do you have to decide who lives and who dies?"
+            mari yell "What she needed was {u}therapy{/u}, not a fucking {u}euthanasia{/u}!"
+            y sad "I ..."
+            mari yell "No, your real goal was to dwindle the numbers! That's the only way this makes any sense!"
+            y scared "No! Mari, please! W-Why won't you believe me?!"
         if mari_knows_yuki_lie:
-            mari angry "Lying to Yuki ... that showed me your true colors."
-        mari yell "I'm not as stupid as you think."
-        y none "Mari ...?"
-        "Her stone expression saddens."
-        mari angry "I told myself that I would keep our promise - that we'd get off of the island together."
-        mari angry "But that was it."
+            mari angry "You're a liar."
+            mari angry "With the way you treat your classmates, do you really think I can trust anything you say?"
+            y scared "Wh- What is this about!?"
+            mari yell "Do you not even remember?!"
+            mari yell "It's about Yuki! You lied to his face and told me you hated him!"
+            y scared "I was just being honest!"
+            mari angry "How is {u}that{/u} honest?!"
+            if Yuki.alive:
+                mari yell "You wanted him to die!!"
+                y scared "He's still alive! We were going to come back for him! I just needed him out of there!"
+                mari angry "I don't believe you."
+            else:
+                mari yell "You got Yuki killed!! Look!"
+                "She points out Yuki's profile on the stats page. He's lost the game."
+                y scared "H-How is that... my fault...!? I didn't kill him! We don't... know... what happened!"
+                mari yell "You might as well have!"
+        # If you *JUST* lied to Yuki and he's alive, this comes across as unreasonable.
+        if (not lied_to_mari and not mari_knows_emi_kill) and Yuki.alive:
+            y sad "S-So that's it, then? All it takes is... a liar for you to... pull the trigger?"
+            y angry "Mari... {u}you{/u} lied to me."
+            y sad "You promised... that we'd get off of the island together."
+            show Mari sad
+            "She gulps. Her stone expression breaks into one of sorrow."
+        # Otherwise she's got a point lol
+        else:
+            mari yell "I'm not as stupid as you think."
+            y scared "Mari ...?"
+            "Her stone expression saddens."
+            mari sad "I told myself that I would keep our promise - that we'd get off of the island together."
+            mari angry "But that was it."
+
         if (Jun in party or Jun.loc == loc):
             jun scared "Jesus fucking Christ, woman!!"
             jun scared "Are you all right, dude!? Speak to me!"
         "You look at the blood on your hands. You've lost too much of it. The pain consumes you."
+        scene black with dissolve
         "You whisper Mari's name and fade into darkness."
-        "Mari has won this game."
-        jump game_over
+        python:
+            found_medicine = None
+            if firstaid.is_in_inventory():
+                found_medicine = firstaid
+            elif medkit.is_in_inventory():
+                found_medicine = medkit
+            elif Jun.item[0] == firstaid or Jun.item[0] == medkit:
+                found_medicine = Jun.item[0]
+        if (Jun in party or Jun.loc == loc) and found_medicine != None:
+            mari sad " ... ... "
+            jun scared "... !!"
+            "You hear an argument between Jun and Mari break out."
+            $ found_medicine.destroy(1)
+            $ found_medicine.use_sfx()
+            "Finally, you lose consciousness."
+            $ add_time(2,False)
+            $ health = 25
+            scene mansion with fade
+            "You wake up. Miraculously, you're still alive."
+            show Jun scared
+            jun scared "Shinobu!!"
+            y scared "J- Jun? Did you..."
+            jun scared "Fuck, man... Thought I lost you! I had to patch you up."
+            jun sad "You've been out for two hours."
+            y scared "Two-- What about Mari?!"
+            show Jun lookaway with dissolve
+            pause 0.5
+            if (not lied_to_mari and not mari_knows_emi_kill) and Yuki.alive:
+                # She did kinda shoot you over lying to someone, who didn't even die
+                $ Mari.kill("suicide", add_body=False)
+            else:
+                # Bros got your back.
+                $ Mari.kill("murder", Jun, add_body=False)
+            $ Mari.loc = None
+            "Jun's expression hardens. He shakes his head. His hands are stained with blood."
+            "You stare at your own bloodied wound. It's bandaged."
+            pause 0.5
+            y sad "Jun... I screwed up, didn't I?"
+            jun "What?"
+            y sad "This is my fault. Mari was right."
+            pause 0.5
+            "There's a moment of silence, until Jun finally musters up the courage to speak."
+            jun sad "Look... We're close. I'm not giving up yet."
+            jun angry "Shinobu, you got me this far. So I've got your back, no matter what. You got that?"
+            "You look at Jun. His expression is serious."
+            pause 0.5
+            y happy "Thanks, Jun. I owe you one."
+            jun happy "You don't owe me shit. We're in this together."
+            "He pats you on the back and helps you get up from the ground."
+            jun skeptical "We're pretty lucky no one has noticed us here."
+        else:
+            "Mari has won this game."
+            jump game_over
         
     if (Mari in party or Mari.loc == loc):
         mari "I would have thought there'd be more people around ... Soldiers maybe?"
@@ -4279,6 +4395,7 @@ label mansion_correct:
         "The wall surrounding the grounds looks impenetrable, but you have a grappling hook, so you can scale it."
         $ hook.use_sfx()
         "You throw the hook and it snugs tight."
+        jump puzzle_complete
     else:
         "A very high wall surrounds the mansion inside. It's too high to jump or climb over, but you see an entrance in front of you."
         "You're extremely cautious when you approach it. You hold your breath as you step up in front of it. There is no door handle."
@@ -4299,11 +4416,12 @@ label mansion_correct:
             "Your eye catches some disturbance in the wood nearby. You move closer and see that there are digital nodes with knobs set in it."
         "A foreign language is etched in the wood ... but this is no language you understand. It's not a language you're sure even exists."
         if (Jun in party or Jun.loc == loc):
-            jun angry "What they hell is this jibberish?"
+            jun angry "What the hell is this jibberish?"
         "You run your fingers over the designs."
         "You know that there is something you must achieve to gain entry."
         ####### PUZZLE
         jump puzzle
+
 label puzzle_complete:
     if not hook.is_in_inventory():
         "The gate clicks and goes ajar. It worked!"
