@@ -2060,7 +2060,7 @@ label bathhouse_ai:
                         nana "M-Mari?"
                         mari "Go home ... Go home ... for me ..."
                         "She grips your hands, covering them in blood."
-                        if not firstaid.is_in_inventory():
+                        if not firstaid.is_in_inventory() and not medkit.is_in_inventory():
                             y scared"No ... Mari, no ..."
                             show Mari content
                             "She smiles for you one last time. You cry."
@@ -2072,11 +2072,18 @@ label bathhouse_ai:
                             "You press your head onto her body and weep while Nanako mourns for Lucy and Hitomo."
                         else:
                             y none "Don't talk like that!"
-                            "You pull out your first aid kit and immediately start to work on Mari's wound. She wasn't going to die - not if you had anything to say about it."
-                            $ firstaid.use_sfx()
-                            $ Mari.health = 100
-                            $ Mari.sanity = 100
-                            $ firstaid.destroy(1)
+                            if firstaid.is_in_inventory():
+                                "You pull out your first aid kit and immediately start to work on Mari's wound. She wasn't going to die - not if you had anything to say about it."
+                                $ firstaid.use_sfx()
+                                $ Mari.health = 100
+                                $ Mari.sanity = 100
+                                $ firstaid.destroy(1)
+                            elif medkit.is_in_inventory():
+                                "You pull out your medical kit and immediately start to work on Mari's wound. She wasn't going to die - not if you had anything to say about it."
+                                $ medkit.use_sfx()
+                                $ Mari.health = 100
+                                $ Mari.sanity = 100
+                                $ medkit.destroy(1)
                             "You clean and dress her wound. It's pretty bad, but you got the bullet out of her, and now all she needed was time in completely recovering."
                             "You were going to get her off of this island if it was the last thing you did ... The literalness struck you, but you swallowed that down and ignored it."
                 
