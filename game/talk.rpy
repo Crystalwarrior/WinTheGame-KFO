@@ -885,10 +885,16 @@ label murder_follower_reaction:
     if murdered_i.type != "hostile" and (mari_here or jun_here):
         if wish_no_sin:
             if jun_here:
-                show Jun scared with dissolve
+                if mari_here:
+                    show Jun scared at right with dissolve
+                else:
+                    show Jun scared with dissolve
                 jun "... Shit..."
             if mari_here:
-                show Mari scared with dissolve
+                if jun_here:
+                    show Mari scared at left with dissolve
+                else:
+                    show Mari scared with dissolve
                 mari "W-Why..!?"
             y none "I... I had to."
             y none "Trust me, if I didn't do that, we'd be screwed!"
