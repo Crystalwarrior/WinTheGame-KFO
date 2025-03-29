@@ -3091,6 +3091,7 @@ label yuki_intro:
                 yuki "No doubt about that. Hitomo and I are close friends."
                 y none "... Of couse you are."
             yuki "Thank you so much."
+            hide Yuki with dissolve
             "Yuki runs away with a quick wave."
             $ Yuki.move(Nanako.loc) #Teleport him to Nanako
             $ Yuki.type = "fixed"
@@ -3105,6 +3106,7 @@ label yuki_intro:
             y none "Pretty sure. Why?"
             yuki "Um ... nothing. Maybe - no, it's nothing."
             yuki "All right, bye."
+            hide Yuki with dissolve
             "Yuki scratches his head and leaves."
             $ Yuki.move(a4) #Teleport
             if (Mari in party or Mari.loc == loc):
@@ -3231,6 +3233,9 @@ label bathhouse_nanako_yuki:
 label yuki_waiting:
     # If you lied to Yuki, he is waiting (somewhere)
     show Yuki scared with dissolve
+    # He's pretty beat up now. Good job!
+    $ Yuki.health = min(Yuki.health, 50)
+    $ Yuki.sanity = min(Yuki.sanity, 50)
     "Yuki is standing here. His clothes are torn and his hair is a mess. He whips around and stares at you like a wild animal."
     yuki "Nana!?"
     y none "It's just me, Yuki."
