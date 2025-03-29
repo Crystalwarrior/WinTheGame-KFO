@@ -2038,6 +2038,7 @@ label bathhouse_ai:
                     "Mari squeaks when you open her door, but when she finds it's you, she bolts out and wraps her arms around you and sobs."
                     "You hold her for a long moment."
                     y none "Nothing is going to happen to you. I'm here. I'm here."
+                    hide Mari with dissolve
                     "Nanako mourns over Lucy, and seeing Hitomo's gun, her as well."
                 else:
                     play music "music/Reynardine.ogg"
