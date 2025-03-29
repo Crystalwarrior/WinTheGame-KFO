@@ -4311,10 +4311,15 @@ label mansion_correct:
                 y scared "He's still alive! We were going to come back for him! I just needed him out of there!"
                 mari angry "I don't believe you."
             else:
-                mari yell "You got Yuki killed!! Look!"
-                "She points out Yuki's profile on the stats page. He's lost the game."
-                y scared "H-How is that... my fault...!? I didn't kill him! We don't... know... what happened!"
-                mari yell "You might as well have!"
+                if Yuki.murderer == you:
+                    mari yell "You killed him, Shinobu!!"
+                    y scared "I-I..."
+                    "You gulp. There's no arguing her - you {u}did{/u} kill him afterwards."
+                else:
+                    mari yell "You got Yuki killed!! Look!"
+                    "She points out Yuki's profile on the stats page. He's lost the game."
+                    y scared "H-How is that... my fault...!? I didn't kill him! We don't... know... what happened!"
+                    mari yell "You might as well have!"
         # If you *JUST* lied to Yuki and he's alive, this comes across as unreasonable.
         if (not lied_to_mari and not mari_knows_emi_kill) and Yuki.alive:
             y sad "S-So that's it, then? All it takes is... a liar for you to... pull the trigger?"
@@ -4342,8 +4347,10 @@ label mansion_correct:
                 found_medicine = firstaid
             elif medkit.is_in_inventory():
                 found_medicine = medkit
-            elif Jun.item[0] == firstaid or Jun.item[0] == medkit:
+            elif (Jun in party or Jun.loc == loc) and (Jun.item[0] == firstaid or Jun.item[0] == medkit):
                 found_medicine = Jun.item[0]
+            elif (Mari in party or Mari.loc == loc) and (Mari.item[0] == firstaid or Mari.item[0] == medkit):
+                found_medicine = Mari.item[0]
         if (Jun in party or Jun.loc == loc) and found_medicine != None:
             mari sad " ... ... "
             jun scared "... !!"
@@ -4376,18 +4383,37 @@ label mansion_correct:
             y sad "Jun... I screwed up, didn't I?"
             jun "What?"
             y sad "This is my fault. Mari was right."
-            pause 0.5
             "There's a moment of silence, until Jun finally musters up the courage to speak."
             jun sad "Look... We're close. I'm not giving up yet."
             jun angry "Shinobu, you got me this far. So I've got your back, no matter what. You got that?"
             "You look at Jun. His expression is serious."
-            pause 0.5
             y happy "Thanks, Jun. I owe you one."
             jun happy "You don't owe me shit. We're in this together."
             "He pats you on the back and helps you get up from the ground."
             jun skeptical "We're pretty lucky no one has noticed us here."
+        elif (not lied_to_mari and not mari_knows_emi_kill) and Yuki.alive and found_medicine != None:
+            $ found_medicine.destroy(1)
+            $ found_medicine.use_sfx()
+            "Finally, you lose consciousness."
+            $ add_time(2,False)
+            $ health = 25
+            scene mansion with fade
+            "You wake up. Miraculously, you're still alive."
+            y sad "M-Mari..?"
+            "You look around. Mari is nowhere to be seen."
+            # She did kinda shoot you over lying to someone, who didn't even die
+            $ Mari.kill("suicide", add_body=False)
+            $ Mari.loc = None
+            "But... As you check the stats screen..."
+            "Mari has comitted suicide."
+            y sad "No... No!!"
+            "You scream. But no one comes."
+            $ add_time(1,False)
+            "You cry, for a long time..."
+            "Until you finally get up from your knees."
+            y none "I... I have to win. I have to win the game."
         else:
-            "Mari has won this game."
+            "Mari has won the game."
             jump game_over
         
     if (Mari in party or Mari.loc == loc):
