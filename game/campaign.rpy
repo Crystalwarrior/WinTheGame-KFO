@@ -1901,6 +1901,7 @@ label bathhouse_ai:
         show Jun with dissolve
         y none "Stay out here just in case Ai comes back this way."
         jun "Sure, okay."
+        $ party_remove(Jun)
     stop ambience fadeout 1.0
     scene onsen with fade
     play music "music/bgs_reverbbells.ogg" noloop
@@ -2096,6 +2097,7 @@ label bathhouse_ai:
             "So, that's how she survived and why she has no weapon."
             if Jun in followers:
                 $ Jun.move(rm_lockers)
+                $ party_add(Jun)
                 show Jun scared with dissolve
                 "Jun walks into the room, startling you - with good reason."
                 jun "Holy fuck ..."
@@ -2205,6 +2207,10 @@ label ai_kill_bath:
     "Lucy lowers her bow as grief swamps her, tears forming in her eyes. Nanako goes silent as well."
     if (Mari in party or Mari.loc == loc):
         mari scared "Oh no ... She's really ...?"
+    if (Jun in followers):
+        # Get him back in our party
+        $ Jun.move(rm_lockers)
+        $ party_add(Jun)
     if (Jun in party or Jun.loc == loc):
         if (Mari in party or Mari.loc == loc):
             show Jun at Position(xcenter=0.1) behind Lucy with dissolve
