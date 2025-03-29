@@ -338,13 +338,13 @@ init -2 python:
             self.friends.append(friend)
             self.friends = list(set(self.friends))
 
-        def kill(self,type,killer=None):
+        def kill(self,type,killer=None, add_body=True):
             global players_alive
             global death_list
             self.alive = False
             players_alive -= 1
             loc_to_add = self.loc
-            if self not in loc_to_add.bodies:
+            if self not in loc_to_add.bodies and add_body:
                 loc_to_add.bodies.append(self)
             loc_to_add.bodies = list(set(loc_to_add.bodies)) #remove duplicate bodies
             self.death_type = type #"Murder" (must supply "killer"), Suicide, or else FZ death
