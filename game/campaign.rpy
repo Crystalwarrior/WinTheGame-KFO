@@ -2141,6 +2141,7 @@ label bathhouse_ai:
                 $ Nanako.make_friend(you)
             stop music fadeout 4.0
             if (Mari in party or Mari.loc == loc) and Mari.alive:
+                $ party_add(Mari)
                 "You help Mari to stand and walk."
             $ loc = rm_lockers
             jump room_loc
