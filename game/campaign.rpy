@@ -2305,7 +2305,6 @@ label ai_revenge_kill:
     if (Mari in party or Mari.loc == loc):
         mari "Oh, no... No no no."
     y "At least Ai's rampage is now over."
-    $ uncutscene()
     return
 
                 
@@ -3186,7 +3185,7 @@ label bathhouse_nanako_yuki:
         if (Mari in party or Mari.loc == loc):
             "Mari wails and falls to the ground."
             if (Jun in party or Jun.loc == loc):
-                "Jun attempt to console her."
+                "Jun attempts to console her."
         "It takes you too much time to move on again."
     elif not Yuki.alive:
         show Nanako
@@ -3238,7 +3237,6 @@ label bathhouse_nanako_yuki:
         hide Yuki
         hide Nanako
         with dissolve
-    $ uncutscene()
     return
     
 ## YUKI (if you lied)

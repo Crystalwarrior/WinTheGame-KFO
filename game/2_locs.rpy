@@ -413,8 +413,7 @@ label error_sound:
         
 label grid_loc:
     $ uncutscene()
-    if sanity_sounds:
-        $ calculatesanitysound()
+    $ calculatesanitysound()
     if loc.type == "room": #just in case here by mistake
         jump room_loc
     $ find_all_pop()
@@ -553,6 +552,7 @@ label grid_loc:
     call events_run_period #CHECK FOR EVENTS, again, after showing who's here
     $ show_drop_stuff = True
     $ movement_keys = True
+    call say_people_here #Showing and announcing who is in the location
     menu:# This is where we show the menu options
         "Put Boat In Water" if moving_boat and loc.shore:
             $ movement_keys = False
@@ -645,8 +645,7 @@ label bear_trap_info:
     
 label room_loc:
     $ uncutscene()
-    if sanity_sounds:
-        $ calculatesanitysound()
+    $ calculatesanitysound()
     if loc.type == "grid": #just in case here by mistake
         jump grid_loc
     show screen health
@@ -751,6 +750,7 @@ label room_loc:
     $ show_drop_stuff = True
     $ movement_keys = True
 
+    call say_people_here #Showing and announcing who is in the location
     menu:     
         "Repair Boat" if loc == rm_shed and boat_repair < 3 and not boat_missing:
             call shed_repair
