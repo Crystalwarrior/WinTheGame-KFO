@@ -21,8 +21,8 @@ label weapon_desc:
         "You pull out a small hand gun and ammunition. The weight and quality of it make you shiver. You've never owned a gun before."
         if your_wpn.name == "bayonet":
             "A knife is attached to the front of the gun ... it may be useful in melee combat as well. You're not sure how much damage it can do, though ..."
-    # elif your_wpn.name == "poison":
-        # "You pull out two bottles. You're confused until you read the labels and find out that they are poisonous ... They will be no use unless someone ingests them."
+    elif your_wpn.name == "poison":
+        "You pull out two bottles. You're confused until you read the labels and find out that they are poisonous ... They will be no use unless someone ingests them."
     elif your_wpn.name == "shoe":
         "... A shoe? They gave you a {u}shoe{/u} to defend yourself!? You feel almost as if you might cry."
     elif your_wpn.name == "shotgun" or your_wpn.name == "shotgun_sawed" or your_wpn.name == "shotgun_pump":
@@ -398,7 +398,14 @@ label find_emi:
     
 label find_goro:
     $ Goro.met = True
-    "Goro introduction."
+    goro "W-w-w-w-wuh..!?"
+    "You find Goro, the most handsome man in your school. You're extremely jealous of him."
+    y "Hey, Goro."
+    goro "gWUUUHUUH!!!! AGGHHHHHHHHHH!!!"
+    "Goro runs away."
+    y "Tsk, tsk, tsk. I'll catch you... Someday..."
+    $ Goro.move("rand")
+    $ Goro.type = "coward"
     return
     
 label find_tetsuo:

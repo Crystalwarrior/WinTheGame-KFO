@@ -107,8 +107,8 @@ label game_init_items:
         throwingknives = items("throwingknives", "Throwing Knives","Aerodynamic silver blades that were meant to be thrown, but they can be wielded as regular knives.", "metal_pull", "hook_attack", "sword_drop",weapon_range="both", weapon_rating=3, battle_range=7, conspicuous=True)
         
         #MISC
-        #poison = items("poison", "Poison","Bottles of liquid not meant for human consumption. Very large warnings labels about their lethality.", "glass", "plastic", "glass_break", type="food")
-        #poison.amount_to_add = 2
+        poison = items("poison", "Poison","Bottles of liquid not meant for human consumption. Very large warnings labels about their lethality.", "glass", "plastic", "glass_break", type="food")
+        poison.amount_to_add = 2
         walkietalkie = items("walkietalkie", "Walkie Talkie","A handheld single channel two-way radio. With a pair, you could give one to a teammate to keep in contact while separated.", "radio", "walkietalkie", "drop1",sanity_rating=2)
         walkietalkie.uses = 2
         walkietalkie.broken_message = "Walkie Talkie batteries have died."

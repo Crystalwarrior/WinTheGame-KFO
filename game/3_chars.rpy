@@ -45,7 +45,7 @@ label game_init_chars:
             )
         Emi.sanity =  50 #Emi starts off with half her sanity, for story purposes
         
-        Goro = char("Goro", "Ryusaki", "Male","Anime","Shifty-eyed boy who always sat by himself.","hostile","boy8", None , None, gor, "Foolish mortal!", "scream_boy5", "Goro scared", "Goro scared",g2)
+        Goro = char("Goro", "Ryusaki", "Male","Anime","Shifty-eyed boy who always sat by himself.","hostile","boy8", None, poison, goro, "Foolish mortal!", "scream_boy5", "Goro scared", "Goro scared",g2)
         Mari = char("Mari", "Tsutaya", "Female","Art","Avid painter, quiet, and good student.","fixed","girl1", revolver, walkietalkie, mari, "I ... forgive you ...", "scream_girl1", "Mari scared", "Mari angry",rm_shrine)
         Tetsuo = char("Tetsuo", "Maruyama", "Male","Student Council (Vice President)","Go-getter. Very active in school.","coward","boy11", axe, None, tet, "You ... You really are trying to kill me!", "scream_boy16", "Tetsuo scared", "Tetsuo scared",e2)
         Fumie = char("Fumie", "Sugihara", "Female","Volleyball","Best friends with just about everyone.","coward","girl16", hook, None, fum, "I don't wanna die!! I ... I ...", "scream_girl4", "Fumie scared", "Fumie angry",g3)
@@ -144,7 +144,7 @@ init:
     $ emi = Character('Emi', kind=narrator, window_left_padding = 150,image="Emi")
     $ kei = Character('Kei', kind=narrator, window_left_padding = 150,image="Keitaro")
     $ fum = Character('Fumie', kind=narrator, window_left_padding = 150,image="Fumie")
-    $ gor = Character('Goro', kind=narrator, window_left_padding = 150,image="blank_side")
+    $ goro = Character('Goro', kind=narrator, window_left_padding = 150,image="Goro")
     $ ai = Character('Ai', kind=narrator, window_left_padding = 150,image="Ai")
     $ tak = Character('Takeshi', kind=narrator, window_left_padding = 150,image="Takeshi")
     $ nana = Character('Nanako', kind=narrator, window_left_padding = 150,image="Nanako")
@@ -251,6 +251,10 @@ init:
     image side Hitomo = im.FactorScale("char/side/side_hit.jpg", .9, .9)
     image side Hitomo scared = im.FactorScale("char/side/side_hit_scared.jpg", .9, .9)
     image side Hitomo happy = im.FactorScale("char/side/side_hit_happy.jpg", .9, .9)
+
+    image side Goro = im.FactorScale("char/side/side_goro.jpg", .9, .9)
+    image side Goro scared = im.FactorScale("char/side/side_goro_scared.jpg", .9, .9)
+    image side Goro happy = im.FactorScale("char/side/side_goro_happy.jpg", .9, .9)
     
     image side blank_side = im.FactorScale("char/blank.jpg", .9, .9)
     
