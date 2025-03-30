@@ -1811,64 +1811,53 @@ label ai_battle_begin:
         y none "Kill me, like you killed Hitomo?"
         ai "No, I'll use her weapon this time. Cleaner this way."
         y none "You're sick."
-    if loc != a1:
-        ai "What did you get?"
-        "You assume she means the weapon you got."
-    else:
-        ai "And what did you get?"
-    if wpn is not None and wpn.type == "gun":
-        if ammo_mode:
-            $ wpn.use()
+    
+    # It shouldn't let you get more than one cheap-shot on her per game. Kind of goofy otherwise
+    if not Ai.met:
+        if loc != a1:
+            ai "What did you get?"
+            "You assume she means the weapon you got."
         else:
-            $ wpn.use_sfx()
-        $ Ai.health -= 40
-        show Ai yell with dissolve
-        $ show_blood()
-        "Quicker than she can blink, you whip out your weapon and shoot her. She yelps in pain, but still stands."
-        y none "Gun."
-        show Ai evil
-        "She holds her bleeding wound and cackles deliriously."
-        if loc == rm_showers:
-            $ battle_start(Ai,0,"And then she suddenly charges at you.","ai_kill_bath", False, flee=False)
-        elif Hitomo.alive and loc == a2:
-            play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","ai_kill_bridge", False, flee=False)
-        else:
-            play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False)
-            
-    elif wpn is not None and wpn.wpn_range == "ranged":
-        $ show_blood()
-        $ wpn.use_sfx()
-        $ Ai.health -= 25
-        show Ai scared
-        "As fast as you can, you pull out your weapon and get a hit on her. She staggers and looks at what you just impaled her with."
-        show Ai evil
-        "A smile seems to form on her demented face."
-        if loc == rm_showers:
-            $ battle_start(Ai,0,"And then she suddenly charges at you.","ai_kill_bath", False, flee=False)
-        elif Hitomo.alive and loc == a2:
-            play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","ai_kill_bridge", False, flee=False)
-        else:
-            play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False)
-    else:
-        if wpn is not None:
-            if wpn != fist:
-                "You pull out your weapon and she stares at you."
+            ai "And what did you get?"
+        if wpn is not None and wpn.type == "gun":
+            if ammo_mode:
+                $ wpn.use()
             else:
-                "You brandish your fists and she stares at you."
-            show Ai smile
-            "And then smiles."
-        if loc == rm_showers:
-            $ battle_start(Ai,0,"And then she suddenly charges at you.","ai_kill_bath", False, flee=False)
-        elif Hitomo.alive and loc == a2:
-            play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"Her chainsaw buzzes to life.","ai_kill_bridge", False, flee=False)
+                $ wpn.use_sfx()
+            $ Ai.health -= 40
+            show Ai yell with dissolve
+            $ show_blood()
+            "Quicker than she can blink, you whip out your weapon and shoot her. She yelps in pain, but still stands."
+            y none "Gun."
+            show Ai evil
+            "She holds her bleeding wound and cackles deliriously."
+        elif wpn is not None and wpn.wpn_range == "ranged":
+            $ show_blood()
+            $ wpn.use_sfx()
+            $ Ai.health -= 25
+            show Ai scared
+            "As fast as you can, you pull out your weapon and get a hit on her. She staggers and looks at what you just impaled her with."
+            show Ai evil
+            "A smile seems to form on her demented face."
         else:
-            play sound "sfx/chainsaw_long.ogg"
-            $ battle_start(Ai,0,"Her chainsaw buzzes to life.","murdered_ai", False)
+            if wpn is not None:
+                if wpn != fist:
+                    "You pull out your weapon and she stares at you."
+                else:
+                    "You brandish your fists and she stares at you."
+                show Ai smile
+                "And then smiles."
+    else:
+        "She smiles."
+    $ Ai.met = True
+    if loc == rm_showers:
+        $ battle_start(Ai,0,"And then she suddenly charges at you.","ai_kill_bath", False, flee=False)
+    elif Hitomo.alive and loc == a2:
+        play sound "sfx/chainsaw_long.ogg"
+        $ battle_start(Ai,0,"Her chainsaw buzzes to life.","ai_kill_bridge", False, flee=False)
+    else:
+        play sound "sfx/chainsaw_long.ogg"
+        $ battle_start(Ai,0,"Her chainsaw buzzes to life.","murdered_ai", False)
 
 label found_hitomo_dead:
     $ Ai.move(rm_showers)

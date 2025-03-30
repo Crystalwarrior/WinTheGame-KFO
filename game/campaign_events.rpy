@@ -247,6 +247,7 @@ init:
     $ event("find_ikoma", "Ikoma.loc == loc and Ikoma.alive and not Ikoma.met and not Ikoma.hidden", event.once(), priority=75)
     $ event("ikoma_scene", "Ikoma.loc == loc and Ikoma.alive and Ikoma.met and not Ikoma.hidden", event.only(), priority=75)
     $ event("find_ai", "Ai.loc == loc and Ai.alive and not Ai.met and not Ai.hidden and not freeplay", event.once(), priority=75)
+    $ event("ai_scene", "Ai.loc == loc and Ai.alive and Ai.met and not Ai.hidden and not freeplay", event.only(), priority=50)
     $ event("find_hitomo", "Hitomo.loc == loc and Hitomo.alive and not Hitomo.met and not freeplay", event.once(), priority=75)
     $ event("Hitomo_talk", "Hitomo.loc == loc and Hitomo.alive and Hitomo.met and not Hitomo.hidden and not freeplay", event.once(), priority=75)
     $ event("find_asai", "Asai.loc == loc and Asai.alive and not Asai.met and not Asai.hidden and not freeplay", event.once(), priority=75)
@@ -654,20 +655,35 @@ label ikoma_emi:
 
 label find_ai:
     $ cutscene()
-    $ Ai.met = True
     show Ai with dissolve
     "The loud-mouthed sports girl of the class is standing ahead of you."
     show Ai evil
-    "She spots you and she smiles."
+    "She spots you and smiles."
     $ reference_item(Ai.wpn)
     play music "music/AngryOpheliasSong.ogg"
     "She turns and reveals that she's holding a bloody chainsaw."
     if (Mari in party or Mari.loc == loc):
         mari scared "Oh my god!"
-    elif (Jun in party or Jun.loc == loc):
+    if (Jun in party or Jun.loc == loc):
         jun scared "Sweet baby Jesus!"
     jump ai_battle_begin
-    
+
+
+label ai_scene:
+    $ cutscene()
+    show Ai with dissolve
+    "Ai is here..!"
+    show Ai evil
+    play music "music/AngryOpheliasSong.ogg"
+    $ reference_item(Ai.wpn)
+    "She spots you and smiles."
+    if (Mari in party or Mari.loc == loc):
+        mari scared "Noooo!"
+    if (Jun in party or Jun.loc == loc):
+        jun scared "Run!!"
+    play sound "sfx/chainsaw_long.ogg"
+    $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False)
+
 label find_yuki:
     $ Yuki.met = True
     jump yuki_intro
