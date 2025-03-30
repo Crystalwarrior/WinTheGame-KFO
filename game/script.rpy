@@ -1,4 +1,4 @@
-﻿############################
+############################
 ######### CONFIG ###########
 ############################
 
@@ -771,13 +771,13 @@ label credits:
     hide credit_text with dissolve
     show screen blood1
     #Musicians
-    show credit_text "music:\n{size=-10}koan69\nscmixer\nSackJo22\nthanvannispen\nspinmeister{/size}" with dissolve
+    show credit_text "music:\n{size=-10}koan69\nscmixer\nSackJo22\nthanvannispen\nspinmeister\nPorchCat{/size}" with dissolve
     $ renpy.pause(5.0)
     hide credit_text with dissolve
     show screen blood6
     play sound "sfx/scream_man_distant2.ogg"
     #Musician (ending song)
-    show credit_text "ending song:\n{size=-10}\"rhythm stalker\" - koan69{/size}" with dissolve
+    show credit_text "music:\n{size=-10}7OOP3D\nDJRCHIVE\nmorgantj{/size}\n\nending song:\n{size=-10}\"rhythm stalker\" - koan69{/size}" with dissolve
     $ renpy.pause(5.0)
     hide credit_text with dissolve
     #Foley Artists
