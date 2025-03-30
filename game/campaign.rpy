@@ -1706,6 +1706,8 @@ label ai_attacks_hitomo:
 label ai_kill_bridge:
     $ just_murdered_someone = False
     $ you_can_cross_bridge = True
+    # Saved Hitomo from Ai!
+    $ saved_hitomo = True
     play music "music/FeelingDark_loop.ogg" 
     "Ai's body, still standing, slowly leans backwards and then tumbles down into the chasm, disappearing completely. You try to catch your breath."
     show Hitomo scared with dissolve
@@ -1759,6 +1761,7 @@ label ai_kill_bridge:
             play sound "sfx/scream_woman_distant2.ogg"
             "And then her hand is gone and her screams return in full."
             "The swinging of the bridge slowly stops. You swallow."
+            $ Hitomo.kill("suicide")
             if (Jun in party or Jun.loc == loc):
                 play sound "sfx/bridge_cross.ogg"
                 show Jun mad with dissolve
@@ -1773,7 +1776,6 @@ label ai_kill_bridge:
                 "You shake it off and proceed down the rest of the bridge."
             $ move_to_grid(a1)
         "Pull her up":
-            $ saved_hitomo = True
             "You ignore her attempts to keep you away and let her nails claw at your skin as you pull her up onto the bridge once more. She is light, so it is not too difficult, but she is not making it easy for you."
             stop music fadeout 4.0
             show Hitomo with dissolve
@@ -1799,8 +1801,7 @@ label ai_kill_bridge:
             $ move_to_room(rm_bathhouse)
             
     jump grid_loc
-        
-    
+
 label ai_battle_begin:
     # Make her hostile after you encounter her in battle so your followers aren't being unreasonable
     $ Ai.type = "hostile"
@@ -1880,7 +1881,6 @@ label found_hitomo_dead:
         "Someone got Hitomo."
     "That means that the way across the bridge is clear ... and whoever killed her was probably over there right now."
     $ you_can_cross_bridge = True
-    $ hitomo_dead = True
     jump grid_loc
     
     
@@ -2379,7 +2379,7 @@ label bath_kill_mari:
         "Blood pours from Mari too easily ... You can't bear to look. You feel shame like none other before."
         show Nanako scared at center with move
     else:
-         show Nanako scared with dissolve
+        show Nanako scared with dissolve
     "Nanako's sporadic moments and high-pitched scream grab your attention. Just one more to deal with ... and she was defenseless."
     show Nanako angry
     nana "You're burning in hell, I hope you know, you goddamned bastard!!"
@@ -2462,6 +2462,8 @@ label bath_no_ai:
     else:
         #- If you are NOT with Hitomo (she's dead), you will walk into an empty room and eventually get shot at by a bow and arrow. You turn around and see Lucy aimed at you. You have the option to talk to her, or attack her.
         scene lockers_men with fade
+        if (Jun in party or Jun.loc == loc):
+            $ Jun.move(rm_lockers)
         $ loc = rm_lockers
         "You are not sure where to go, so you walk into the men's locker room. It's empty. There must be only women here."
         "You laugh to yourself, wondering if your classmates would still respect gender boundaries, even at the end of times."
@@ -2471,6 +2473,38 @@ label bath_no_ai:
         lucy "You're not supposed to be here!"
         $ reference_item(Lucy.wpn)
         "You see Lucy, the half-American girl with a bow and arrow aimed at you. You're not too sure she actually knows how to use that thing."
+        # If you saved Hitomo from Ai, but let her fall down the bridge.
+        if saved_hitomo and (Mari in party or Mari.loc == loc):
+            mari scared "Don't shoot! That's the guy I told you about!"
+            lucy "I-Isn't Hitomo supposed to be with them!?"
+            y none "Ai attacked us. We fought her off, but Hitomo..."
+            if (Jun in party or Jun.loc == loc):
+                jun lookaway "She uh... lost her footing and fell down the bridge."
+            else:
+                y none "She fell."
+            show Lucy scared
+            "Lucy gasped."
+            if (Mari in party or Mari.loc == loc):
+                "Mari covers her mouth and stares at you and Jun."
+                if (Jun in party or Jun.loc == loc):
+                    "Jun looks away."
+            lucy "I have to tell Nana! Oh my god, Nana!!"
+            if Mari.loc == loc:
+                show Mari at left
+                show Lucy sad at right
+                show Nanako at center
+                with dissolve
+            else:
+                show Lucy sad at left
+                show Nanako at right
+                with dissolve
+            "Nanako rushes in through the shower doors. She gasps."
+            lucy "Hitomo! He says that she... She fell!!"
+            nana "No... No!!"
+            show Lucy sad
+            "Lucy silently sobs to herself."
+            scene black with dissolve
+            call meeting_nanako_lucy
         menu:
             "[[Attack]":
                 #-- Killing her will disgust Jun, and he will leave. You go and find Mari/Nanako in the other room.
@@ -2483,10 +2517,17 @@ label bath_no_ai:
                     lucy "Mari? What are you doing with ... him?"
                     mari "He's helped me. We're looking for a way off the island!"
                     lucy "But ... why did Hitomo let you over here?"
-                    y none "Hitomo?"
-                    mari "No one stopped us ..."
-                    show Lucy scared
-                    "Lucy gasped."
+                    if not Hitomo.met:
+                        y none "Hitomo?"
+                        mari "No one stopped us ..."
+                        show Lucy scared
+                        "Lucy gasped."
+                    else:
+                        y sad "She was ... she was ..."
+                        lucy "Oh no, oh no ..."
+                        y sad "She's dead."
+                        show Lucy scared
+                        "Lucy's mouth drops and her bow lowers."
                 else:
                     #Else, Nanako tells Lucy to kill you.
                     y none "You got me. I was just poking around."
@@ -2507,9 +2548,9 @@ label bath_no_ai:
                 show Lucy scared at left with move
                 show Nanako scared at right with dissolve
                 "Nanako rushes in through the shower doors. She gasps."
-                nana "Shoot him, hurry!"
-                lucy "But - Hitomo! He says that she wasn't out there!"
                 if not (Mari in party or Mari.loc == loc):
+                    nana "Shoot him, hurry!"
+                    lucy "But - Hitomo! He says that she wasn't out there!"
                     show Nanako angry
                     nana "Because he killed her!"
                     if you in Mari.enemies:
@@ -2521,11 +2562,14 @@ label bath_no_ai:
                     $ Lucy.wpn.get_sfx()
                     $ battle_start(Lucy,0,"Lucy loads her bow while choking on tears.", "no_hitomo_lucy_dead", True, flee=False)
                 else:
+                    nana "What did you say?!"
+                    lucy "Hitomo wasn't out there!"
                     mari "Do you think ...?"
                     show Nanako angry
                     nana "Yes. Someone got her. Those bastards."
                     show Lucy sad
                     "Lucy silently sobs to herself."
+                    scene black with dissolve
                     call meeting_nanako_lucy
     jump grid_loc
                 
@@ -2549,16 +2593,43 @@ label no_hitomo_lucy_dead2:
     jump no_hitomo_lucy_dead
 
 label meeting_nanako_lucy:
+    scene lockers_ladies with fade
+    if Hitomo.alive and Hitomo.loc == loc:
+        if Mari.loc == loc:
+            show Hitomo at farleft
+            show Lucy at farright
+            show Mari at mid_left
+            show Nanako at mid_right
+            with dissolve
+        else:
+            show Hitomo at left
+            show Lucy at right
+            show Nanako at center
+            with dissolve
+    else:
+        if Mari.loc == loc:
+            show Mari at left
+            show Lucy sad at right
+            show Nanako at center
+            with dissolve
+        else:
+            show Lucy sad at left
+            show Nanako at right
+            with dissolve
     #-- Nanako will say who and why they're hiding in the bathhouse, and that they are welcome to stay, but if they agree she's the leader in charge.
     #-- If you have seen Tetsuo killed with arrows, you will see that Lucy also has arrows.
     if who_has_arrows:
         call lucy_arrows_conflict
     y none "How are you holding up in here?"
-    lucy "It's good. There's clean water and we can keep clean."
-    if Hitomo.alive and Hitomo.loc == loc:
-        hit "The forest is so icky."
-    nana "I feel safe here. It's so normal in here ... I can't explain it."
-    lucy "The vending machine had barely anything in it, but we're managing."
+    if Hitomo.alive:
+        lucy "It's good. There's clean water and we can keep clean."
+        if Hitomo.loc == loc:
+            hit "The forest is so icky."
+        nana "I feel safe here. It's so normal in here ... I can't explain it."
+        lucy "The vending machine had barely anything in it, but we're managing."
+    else:
+        lucy "I... I miss her."
+        y none "O-Oh... I meant..."
     nana "We can't feed any more people, so don't even think about it."
     y none "Well ... Maybe not us, but if we find other survivors, can't we send them here?"
     nana "No! This place is only safe because it's just us here. We can't trust others - we can't even trust you!"
@@ -2575,7 +2646,7 @@ label meeting_nanako_lucy:
     nana "Take care of business and get out."
     "Nanako wasn't very welcoming."
 
-    # Add her back into your party if she isn't already
+    # Add Mari back into your party if she isn't already
     if Mari.loc == loc and Mari in followers and Mari not in party:
         $ party_add(Mari)
     jump room_loc
