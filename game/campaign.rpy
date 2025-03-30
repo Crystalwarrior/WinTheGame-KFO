@@ -2062,6 +2062,7 @@ label bathhouse_ai:
                             "You press your head onto her body and weep while Nanako mourns for Lucy and Hitomo."
                         else:
                             y none "Don't talk like that!"
+                            hide Mari with dissolve
                             if firstaid.is_in_inventory():
                                 "You pull out your first aid kit and immediately start to work on Mari's wound. She wasn't going to die - not if you had anything to say about it."
                                 $ firstaid.use_sfx()
@@ -2095,7 +2096,7 @@ label bathhouse_ai:
             if Jun in followers:
                 $ Jun.move(rm_lockers)
                 $ party_add(Jun)
-                show Jun scared with dissolve
+                show Jun scared at right with dissolve
                 "Jun walks into the room, startling you - with good reason."
                 jun "Holy fuck ..."
                 if Mari.loc == loc:
