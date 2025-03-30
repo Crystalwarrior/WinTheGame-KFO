@@ -361,7 +361,6 @@ screen game_settings:
             hbox xalign 0.0:
                 add "gui/bracket.png"
                 label "randomize start"
-            null height 10
             hbox xalign 0.5 spacing 15:
                 textbutton ("yes") action SetVariable("rand_start",True) style "digi_button" text_style "digi_button"
                 textbutton ("no") action SetVariable("rand_start",False) style "digi_button" text_style "digi_button"
@@ -369,40 +368,37 @@ screen game_settings:
         if story_mode:
             hbox xalign 0.0:
                 add "gui/bracket.png"
-                label "chars wait for you"
-            text "NPCs will stay in their starting location until met." xpos 20 size 13   
-            null height 10
+                label "mobile characters"
+            text "NPCs will move around more frequently" xpos 20 size 13
             hbox xalign 0.5 spacing 15:
-                textbutton ("yes") action SetVariable("story_freemove",False) style "digi_button" text_style "digi_button"
-                textbutton ("no") action SetVariable("story_freemove",True) style "digi_button" text_style "digi_button"
+                textbutton ("yes") action SetVariable("story_freemove",True) style "digi_button" text_style "digi_button"
+                textbutton ("no") action SetVariable("story_freemove",False) style "digi_button" text_style "digi_button"
             null height 10
-        hbox xalign 0.0:
-            add "gui/bracket.png"
-            label "ammo system"
-        text "Guns will eventually run out of bullets." xpos 20 size 13
-        null height 10
-        hbox xalign 0.5 spacing 15:
-            textbutton ("on") action SetVariable("ammo_mode",True) style "digi_button" text_style "digi_button"
-            textbutton ("off") action SetVariable("ammo_mode",False) style "digi_button" text_style "digi_button"
-        hbox xalign 0.0:
-            add "gui/bracket.png"
-            label "time limit"
-        text "How long you have to win the game." xpos 20 size 13
-        null height 10
-        hbox xalign 0.5 spacing 15:
-            textbutton ("3 days") action SetVariable("time_limit",3) style "digi_button" text_style "digi_button"
-            textbutton ("7 days") action SetVariable("time_limit",7) style "digi_button" text_style "digi_button"
-            textbutton ("14 days") action SetVariable("time_limit",14) style "digi_button" text_style "digi_button"
         hbox xalign 0.0:
             add "gui/bracket.png"
             label "shoe start"
         text "Your starting weapon will be a shoe." xpos 20 size 13
-        null height 10
         hbox xalign 0.5 spacing 15:
             textbutton ("on") action SetVariable("shoe_start",True) style "digi_button" text_style "digi_button"
             textbutton ("off") action SetVariable("shoe_start",False) style "digi_button" text_style "digi_button"
         null height 10
-            
+        hbox xalign 0.0:
+            add "gui/bracket.png"
+            label "ammo system"
+        text "Guns will eventually run out of bullets." xpos 20 size 13
+        hbox xalign 0.5 spacing 15:
+            textbutton ("on") action SetVariable("ammo_mode",True) style "digi_button" text_style "digi_button"
+            textbutton ("off") action SetVariable("ammo_mode",False) style "digi_button" text_style "digi_button"
+        null height 10
+        hbox xalign 0.0:
+            add "gui/bracket.png"
+            label "time limit"
+        text "How long you have to win the game." xpos 20 size 13
+        hbox xalign 0.5 spacing 15:
+            textbutton ("3 days") action SetVariable("time_limit",3) style "digi_button" text_style "digi_button"
+            textbutton ("7 days") action SetVariable("time_limit",7) style "digi_button" text_style "digi_button"
+            textbutton ("14 days") action SetVariable("time_limit",14) style "digi_button" text_style "digi_button"
+        null height 10
         textbutton "Start Game" action Return(True) xalign 0.5
 
     
