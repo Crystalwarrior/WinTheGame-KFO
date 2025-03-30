@@ -442,15 +442,13 @@ label grid_loc:
         $ just_murdered_someone = False
         if len(party) > 0:
             call murder_follower_reaction
-        if len(loc.pop) > 0:
-            if loc.pop[0] != you:
-                "Those around you are horrified by what they've seen. They flee!"
-                python:
-                    for i in loc.pop:
-                        i.make_foe(you)
-                        if i != you:
-                            i.move("rand")
-                            renpy.say(None,"%s goes %s."%(i.name,escape_plan))
+        if strangers_here:
+            "Those around you are horrified by what they've seen."
+            python:
+                for i in strangers:
+                    # i.make_foe(you)
+                    i.move("rand")
+                    renpy.say(None,"%s goes %s."%(i.name,escape_plan))
                         
     if trap_caught_person != None and trap_loc == loc:
         jump trap_fight
@@ -676,13 +674,13 @@ label room_loc:
         $ just_murdered_someone = False
         if len(party) > 0:
             call murder_follower_reaction
-        elif len(loc.pop) > 1:
-            "Those around you are horrified by what they've seen. They flee!"
+        if strangers_here:
+            "Those around you are horrified by what they've seen."
             python:
-                for i in loc.pop:
-                    if i != you:
-                        i.move("rand")
-                        renpy.say("%s goes %s."%(i.name,escape_plan))
+                for i in strangers:
+                    # i.make_foe(you)
+                    i.move("rand")
+                    renpy.say(None,"%s goes %s."%(i.name,escape_plan))
                         
     #If someone's here while you're carrying the boat
     if moving_boat and strangers_here:
