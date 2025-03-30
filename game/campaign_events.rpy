@@ -116,7 +116,6 @@ init:
     $ did_not_intervene_jun = False
     $ you_can_cross_bridge = False
     $ bath_save_mari = False
-    $ hitomo_dead= False
     $ moving_boat = False
     $ answered_yuki = False
     $ mari_knows_yuki_lie = False

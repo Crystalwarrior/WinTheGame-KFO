@@ -1009,7 +1009,7 @@ label cave_jun:
                     "Say good-bye": 
                         y "All right. Thanks for not killing me when you had the chance. I'll return the favor. For now."
                         show Jun scared
-                        y "... That was joke."
+                        y "... That was a joke."
                         show Jun skeptical
                         jun "You're not funny, man."
             else:
@@ -1030,7 +1030,7 @@ label cave_jun:
                     "Say good-bye": 
                         y "All right. Thanks for not killing me when you had the chance. I'll return the favor. For now."
                         show Jun scared
-                        y "... That was joke."
+                        y "... That was a joke."
                         show Jun lookaway
                         jun "You're not funny, man."
                 
