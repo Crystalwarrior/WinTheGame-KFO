@@ -1,4 +1,4 @@
-############################
+﻿############################
 ######### CONFIG ###########
 ############################
 
@@ -41,10 +41,7 @@ label start:
         $ cannot_die = True
     else:
         $ cannot_die = False
-        
-    #Hear heartbeat sounds when low on health or sanity? (can be annoying to some)
-    $ sanity_sounds = False
-    
+
     #GPS Toggle - Show little portraits of where the players are on the map
     ## Two items can be acquired to turn on map portraits: 
     ###1. GPS (see everyone who is alive)
@@ -299,7 +296,6 @@ init:
     $ story_freemove = False
         
 label real_start:
-    #$ config.developer = False
     $ show_gps = False
     $ cannot_die = False    
     $ show_buttons = False
@@ -370,25 +366,16 @@ screen game_settings:
                 textbutton ("yes") action SetVariable("rand_start",True) style "digi_button" text_style "digi_button"
                 textbutton ("no") action SetVariable("rand_start",False) style "digi_button" text_style "digi_button"
             null height 10
-        # if story_mode:
-            # hbox xalign 0.0:
-                # add "gui/bracket.png"
-                # label "chars wait for you"
-            # text "NPCs will stay in their starting loc until met." xpos 20 size 13   
-            # null height 10
-            # hbox xalign 0.5 spacing 15:
-                # textbutton ("yes") action SetVariable("story_freemove",False) style "digi_button" text_style "digi_button"
-                # textbutton ("no") action SetVariable("story_freemove",True) style "digi_button" text_style "digi_button"
-            # null height 10
-            
-        hbox xalign 0.0:
-            add "gui/bracket.png"
-            label "sanity sounds"
-        text "Heartbeat sounds when low on sanity or health." xpos 20 size 13
-        null height 10
-        hbox xalign 0.5 spacing 15:
-            textbutton ("on") action SetVariable("sanity_sounds",True) style "digi_button" text_style "digi_button"
-            textbutton ("off") action SetVariable("sanity_sounds",False) style "digi_button" text_style "digi_button"
+        if story_mode:
+            hbox xalign 0.0:
+                add "gui/bracket.png"
+                label "chars wait for you"
+            text "NPCs will stay in their starting location until met." xpos 20 size 13   
+            null height 10
+            hbox xalign 0.5 spacing 15:
+                textbutton ("yes") action SetVariable("story_freemove",False) style "digi_button" text_style "digi_button"
+                textbutton ("no") action SetVariable("story_freemove",True) style "digi_button" text_style "digi_button"
+            null height 10
         hbox xalign 0.0:
             add "gui/bracket.png"
             label "ammo system"
@@ -516,7 +503,6 @@ init -1:
     $ advantage = 0
     $ enemy_wpn = None
     $ room_here = None
-    $ has_followers = False
     $ won_the_game = False
     $ show_people_here = False
     $ already_know_who = False
@@ -580,8 +566,7 @@ init -1:
         
     #Check if player has seen intro splash screen before
     if persistent.seen_splash is None:
-        $ persistent.seen_splash = False   
-        
+        $ persistent.seen_splash = False
     
     #Show tutorials only once
     if persistent.ever_battled is None: #Battle Tut
@@ -596,6 +581,10 @@ init -1:
     #Seen intro scene?
     if persistent.seen_intro is None:
         $ persistent.seen_intro = False
+        
+    #Initialize sanity sounds
+    if persistent.sanity_sounds is None:
+        $ persistent.sanity_sounds = True
 
 
             

@@ -693,19 +693,7 @@ label room_loc:
     if show_report:
         $ show_report = False
         $ time_for_fz()
-    
-    #Are there followers here? (so you can talk to them)
-    $ has_followers = False
-    if len(party) > 0:
-        $ has_followers = True
-    elif len(followers) > 0:
-        python:
-            for i in followers:
-                if i.loc == loc:
-                    has_followers = True
-                    
-    
-            
+        
     #Are there items here?
     if len(loc.items) > 0:
         $ there_are_items = True

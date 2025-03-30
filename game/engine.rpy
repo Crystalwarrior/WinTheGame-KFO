@@ -74,36 +74,43 @@ init python:
         global sanity
         global health
         if sanity <= 20 or health <= 20:
-            renpy.music.play("sfx/sanity4.ogg", fadeout = 1.0, fadein = 5.0, channel="sanity", tight=True)
             if sanity <= 20:
                 renpy.show_screen("beep_yellow_continuous")
             if health <= 20:
                 renpy.show_screen("beep_red_continuous")
+            if persistent.sanity_sounds:
+                renpy.music.play("sfx/sanity4.ogg", fadeout = 1.0, fadein = 5.0, channel="sanity", tight=True)
         elif sanity <= 40 or health <= 40:
             if sanity > 20:
                 renpy.hide_screen("beep_yellow_continuous")
             if health > 20:
                 renpy.hide_screen("beep_red_continuous")
-            renpy.music.play("sfx/sanity3.ogg", fadeout = 1.0, fadein = 1.0, channel="sanity")
+            if persistent.sanity_sounds:
+                renpy.music.play("sfx/sanity3.ogg", fadeout = 1.0, fadein = 1.0, channel="sanity")
         elif sanity <= 60 or health <= 60:
             if sanity > 20:
                 renpy.hide_screen("beep_yellow_continuous")
             if health > 20:
                 renpy.hide_screen("beep_red_continuous")
-            renpy.music.play("sfx/sanity2.ogg", fadeout = 1.0, fadein = 1.0, channel="sanity")
+            if persistent.sanity_sounds:
+                renpy.music.play("sfx/sanity2.ogg", fadeout = 1.0, fadein = 1.0, channel="sanity")
         elif sanity <= 80 or health <= 80:
             if sanity > 20:
                 renpy.hide_screen("beep_yellow_continuous")
             if health > 20:
                 renpy.hide_screen("beep_red_continuous")
-            renpy.music.play("sfx/sanity1.ogg", fadeout = 1.0, fadein = 1.0, channel="sanity")
+            if persistent.sanity_sounds:
+                renpy.music.play("sfx/sanity1.ogg", fadeout = 1.0, fadein = 1.0, channel="sanity")
         else:
             #print "stop sanity sound"
             if sanity > 20:
                 renpy.hide_screen("beep_yellow_continuous")
             if health > 20:
                 renpy.hide_screen("beep_red_continuous")
-            renpy.music.stop(fadeout=3.0,channel="sanity")
+            if persistent.sanity_sounds:
+                renpy.music.stop(fadeout=3.0,channel="sanity")
+        if not persistent.sanity_sounds:
+            renpy.music.stop(fadeout=0.0, channel="sanity")
             
     def party_add(name):
         global party

@@ -546,6 +546,19 @@ screen preferences:
                     textbutton _("stop") action Preference("after choices", "stop") style "digi_button" text_style "digi_button" xalign 1.0
                     textbutton _("go on") action Preference("after choices", "skip") style "digi_button" text_style "digi_button" xalign 1.0
 
+            frame:
+                style_group "pref"
+                has vbox
+
+                hbox:
+                    add "gui/bracket.png"
+                    vbox:
+                        label _("sanity sounds")
+                        text  "Heartbeat sounds when low on sanity or health." size 10
+                hbox xalign 1.0:
+                    textbutton _("on") action SetField(persistent, 'sanity_sounds', True) style "digi_button" text_style "digi_button" xalign 1.0
+                    textbutton _("off") action SetField(persistent, 'sanity_sounds', False) style "digi_button" text_style "digi_button" xalign 1.0
+
         vbox:
             frame:
                 style_group "pref"
@@ -674,6 +687,19 @@ screen preferences:
                 hbox xalign 1.0:
                     textbutton _("stop") action Preference("after choices", "stop") style "digi_button" text_style "digi_button" xalign 1.0
                     textbutton _("go on") action Preference("after choices", "skip") style "digi_button" text_style "digi_button" xalign 1.0
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                hbox:
+                    add "gui/bracket.png"
+                    vbox:
+                        label _("sanity sounds")
+                        text  "Heartbeat sounds when low on sanity or health." size 15
+                hbox xalign 1.0:
+                    textbutton _("on") action SetField(persistent, 'sanity_sounds', True) style "digi_button" text_style "digi_button" xalign 1.0
+                    textbutton _("off") action SetField(persistent, 'sanity_sounds', False) style "digi_button" text_style "digi_button" xalign 1.0
 
         vbox:
             frame:
