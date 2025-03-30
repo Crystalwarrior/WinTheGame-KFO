@@ -58,9 +58,9 @@ screen new_battle:
         for i in range(0,len(battle_grid)):
                 
             if i in slat_range and battle_moving and battle_grid[i] != "foe":
-                imagebutton idle "battle/slat_green.png" hover "battle/slat_green2.png" action Return(i) ypos slat_y
+                imagebutton idle "battle/slat_green.png" hover "battle/slat_green2.png" action Return(i) ypos slat_y focus_mask True
             elif i in slat_range and battle_attacking:
-                imagebutton idle "battle/slat_green.png" hover "battle/slat_red2.png" action Return(i) ypos slat_y
+                imagebutton idle "battle/slat_green.png" hover "battle/slat_red2.png" action Return(i) ypos slat_y focus_mask True
             elif i in slat_range and (show_moving_slat or f_moving):
                 add "battle/slat_green.png" ypos slat_y
             # elif i in slat_range and show_attack_slat2 and not enemy_time:
