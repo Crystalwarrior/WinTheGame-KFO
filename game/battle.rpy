@@ -492,7 +492,7 @@ init python:
             if enemy.item[0].defense > their_def:
                 their_def = enemy.item[0].defense
         if play_music:
-            renpy.music.stop(fadeout=2.0)  
+            renpy.music.stop(fadeout=2.0)
         if not freeplay:
             renpy.show(enemy.death_sprite)
         renpy.say(None,battle_message)
@@ -1047,7 +1047,7 @@ label battle_enemy_turn:
             renpy.sound.play("sfx/beep2.ogg")
             renpy.pause(0.5)
         $ enemy_atk_face = enemy.atk_sprite
-        $renpy.show(enemy_atk_face)
+        $ renpy.show(enemy_atk_face)
         $ num = renpy.random.randint(0,100)
         
         $ chance = get_accuracy(enemy.wpn)           
@@ -1061,7 +1061,7 @@ label battle_enemy_turn:
             $ damage = gen_atk(enemy_atk)
             
             $ damage = shield(damage,your_def)
-            $renpy.transition(hpunch)
+            $ renpy.transition(hpunch)
             $ num_damage = damage * -1
             $ add_health(num_damage)
             memo2 "%(e_name)s inflicts {color=#FF0000}%(damage)d{/color} points of damage on you."
@@ -1070,13 +1070,13 @@ label battle_enemy_turn:
             play sound "sfx/beep_on.ogg"
             memo2 "%(e_name)s attacked but missed you!"
         $ f_attacking = False
-        $renpy.show(enemy.death_sprite)
+        $ renpy.show(enemy.death_sprite)
     if f_fleeing:
         $ e_name = enemy.name
         if f_flee_successful:
             play sound "sfx/flee.ogg" channel 1
-            $renpy.hide(enemy.name)
-            $renpy.transition(dissolve)
+            $ renpy.hide(enemy.name)
+            $ renpy.transition(dissolve)
             $ renpy.pause(0.4)
             python:
                 for i in range(0,len(battle_grid)):
