@@ -188,7 +188,7 @@ label you_attacked_kenji:
 label kenji_attacked_you:
     if (Jun in party or Jun.loc == loc):
         jun mad "I knew we couldn't trust this bastard!"
-    elif (Mari in party or Mari.loc == loc):
+    if (Mari in party or Mari.loc == loc):
         "Mari wipes tears from her eyes."
         mari sad "He was such a sweet guy in school ..."
     else:

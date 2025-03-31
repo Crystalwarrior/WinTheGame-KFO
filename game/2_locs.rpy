@@ -540,13 +540,9 @@ label grid_loc:
     #Check if there are events to show, REQUIRED!
     call events_run_period 
     
-    
-    call say_people_here #Showing and announcing who is in the location
-
     if this_is_a_new_loc: #Turn off the "new loc" flag
         $ this_is_a_new_loc = False
-                            
-        
+
     call events_run_period #CHECK FOR EVENTS, again, after showing who's here
     $ show_drop_stuff = True
     $ movement_keys = True
@@ -719,8 +715,6 @@ label room_loc:
         
     call events_run_period #CHECK FOR EVENTS
 
-    call say_people_here #Showing and announcing who is in the location
-    
     $ show_north = False
     $ show_south = False
     $ show_east = False
