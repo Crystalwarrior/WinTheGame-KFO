@@ -1,4 +1,4 @@
-﻿############################
+############################
 ######### CONFIG ###########
 ############################
 
@@ -608,7 +608,6 @@ label game_over:
 #DEATH BY FORBIDDEN ZONE
 label forbidden_zone_fail:
     if sanity <= 20:
-        $ renpy.block_rollback()
         hide screen health
         hide screen beep_red_continuous
         hide screen beep_yellow_continuous
