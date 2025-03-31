@@ -540,6 +540,11 @@ init python:
         renpy.hide_screen("new_battle")
         renpy.transition(dissolve)
         add_sanity(-30)
+        # Your party members will lose sanity, too!
+        for ally in party:
+            ally.sanity -= 30
+            if ally.sanity < 0:
+                ally.sanity = 0
         renpy.notify("You've taken a human life.")
         enemy_call = enemy.call_name
         enemy_phrase = enemy.death_phrase
