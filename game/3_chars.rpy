@@ -47,7 +47,7 @@ label game_init_chars:
         
         Goro = char("Goro", "Ryusaki", "Male","Anime","Shifty-eyed boy who always sat by himself.","hostile","boy8", None , None, gor, "Foolish mortal!", "scream_boy5", "Goro scared", "Goro scared",g2)
         Mari = char("Mari", "Tsutaya", "Female","Art","Avid painter, quiet, and good student.","fixed","girl1", revolver, walkietalkie, mari, "I ... forgive you ...", "scream_girl1", "Mari scared", "Mari angry",rm_shrine)
-        Tetsuo = char("Tetsuo", "Maruyama", "Male","Student Council (Vice President)","Go-getter. Very active in school.","coward","boy11", axe, None, tet, "You ... You really are trying to kill me!", "scream_boy16", "Tetsuo scared", "Tetsuo scared",e2)
+        Tetsuo = char("Tetsuo", "Maruyama", "Male","Student Council (Vice President)","Go-getter. Very active in school.","fixed","boy11", axe, None, tet, "You ... You really are trying to kill me!", "scream_boy16", "Tetsuo scared", "Tetsuo scared",e2)
         Fumie = char("Fumie", "Sugihara", "Female","Volleyball","Best friends with just about everyone.","coward","girl16", hook, None, fum, "I don't wanna die!! I ... I ...", "scream_girl4", "Fumie scared", "Fumie angry",g3)
         Kei = char("Keitaro", "Tayama", "Male","Baseball","Star player of the school's baseball team.","normal","boy13", pistol, None, kei, "I can't believe this ... You asshole!", "scream_boy7", "Keitaro angry", "Keitaro scared",f4)
         Takeshi = char("Takeshi", "Uehara", "Male","Kendo","Popular boy with a famous family.","normal","boy3", sword, laptop, tak, "Beaten by a pansy ... ugh.", "scream_boy1", "Takeshi sad", "Takeshi angry",d4)
