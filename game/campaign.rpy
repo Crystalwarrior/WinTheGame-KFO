@@ -2362,6 +2362,12 @@ label nana_bath_mari_betray:
             lucy "Leave!!"
             y none "Why should I!?"
             nana "Because -"
+            $ Lucy.wpn.use_sfx()
+            $ show_blood()
+            if wish_safety_you:
+                $ damage_you(-10)
+            else:
+                $ damage_you(-20)
             "An arrow suddenly pierces you. Lucy looks surprised, as if it slipped her hand by mistake. But here it is. An arrow in you."
             nana "D-d-don't just stand there, finish him off!!"
             $ battle_start(Lucy,3,"Lucy struggles with another arrow. It's either kill or be killed now.","bath_kill_lucy", True, flee=False)
