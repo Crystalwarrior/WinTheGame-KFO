@@ -414,7 +414,7 @@ label new_battle: #This is a giant loop
                 
 init python:
     ########## BATTLE START ##########
-    def battle_start(foe,positioning,opener,ending,play_music, flee = True,foe_advantage=False):
+    def battle_start(foe,positioning,opener,ending,play_music, flee = True,foe_advantage=False, allies_will_help=False):
         global enemy 
         global advantage
         global battle_won
@@ -452,6 +452,12 @@ init python:
         enemy_atk = enemy_wpn.wpn_rating
         enemy_def = enemy_wpn.defense
         enemy.make_foe(you)
+        
+        if allies_will_help:
+            # Your allies are not gonna be OK with being attacked, so they'll help
+            for ally in party:
+                ally.make_foe(enemy)
+
         if positioning == 1:
             battle_grid = [None,None,None,None,"foe","you",None,None,None,None]
         elif positioning == 2:
