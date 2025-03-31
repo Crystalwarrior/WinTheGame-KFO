@@ -539,12 +539,14 @@ init python:
         if loc.type == "room":
             rand_exit = loc.parent
         else:
-            rand_exit = renpy.random.choice(loc.exits)
-            if rand_exit.forbidden and sanity >= 50:
-                for i in loc.exits:
-                    if not i.forbidden:
-                        rand_exit = i
-                        return rand_exit
+            choices = []
+            for e in loc.exits:
+                if e == a1 and not you_can_cross_bridge:
+                    continue
+                if e.forbidden and sanity >= 50:
+                    continue
+                choices.append(e)
+            rand_exit = renpy.random.choice(choices)
         return rand_exit
         
     gui_is_off = False
