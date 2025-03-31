@@ -119,8 +119,6 @@ init python:
         name.loc = loc
         renpy.notify(name.name+" travels with you now.")
         #store_say(None,"{color=#00db00}"+name.name+" travels with you now.")
-        if name not in followers:
-            follower_add(name)
             
         
     def party_remove(name):
