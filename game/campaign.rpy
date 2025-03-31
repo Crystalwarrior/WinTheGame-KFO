@@ -1232,13 +1232,13 @@ label tetsuo_asai:
             jump chase_down_asai
         "Attack Asai":
             $ kill_asai_later = False
-            $ battle_start(Asai,3,"Asai's trouble-making days are over.", "you_killed_asai", True)
+            $ battle_start(Asai,3,"Asai's trouble-making days are over.", "you_killed_asai", True, flee_enemy_jump="tetsuo_killed_asai")
         "Attack Tetsuo":
             $ Tetsuo.wpn = fist
             $ kill_asai_later = False
             hide Asai with quickdissolve
             show Tetsuo scared at center with move
-            $ battle_start(Tetsuo,3,"Might as well beat Asai to the punch. You've secretly always wanted to do this anyway, because this guy is annoying as hell.", "you_killed_tetsuo", True)
+            $ battle_start(Tetsuo,3,"Might as well beat Asai to the punch. You've secretly always wanted to do this anyway, because this guy is annoying as hell.", "you_killed_tetsuo", True, flee_enemy_jump="you_killed_tetsuo")
 
 label stopped_asai:
     show Tetsuo happy
@@ -1282,43 +1282,42 @@ label stopped_asai:
     jump grid_loc
 
 label you_killed_asai:
-    "Asai crumples into a fetal position and goes lifeless."
+    if not Asai.alive:
+        "Asai crumples into a fetal position and goes lifeless."
     call murder_follower_reaction
     if Tetsuo.met and Tetsuo.alive:
         if kill_asai_later:
             "Time to return back to Tetsuo and let him know you dealt with this clown."
-            # Bring Mari back into your party
-            if Mari.loc == e2 and Mari in followers:
-                $ party_add(Mari)
             jump return_to_tetsuo
-        else:
+        elif Tetsuo.loc == loc:
             jump tetsuo_killed_asai
     else:
         "One down. How many more to go?"
     jump grid_loc
 
 label return_to_tetsuo:
-    $ loc = e2
     $ cutscene()
     play ambience "sfx/grassland2.ogg" fadeout 1.0 fadein 2.0
     scene forest3 with fade
+    $ loc = e2
     "You walk back to where you last saw Tetsuo."
     # Bring Mari back into your party
     if Mari.loc == e2 and Mari in followers:
         $ party_add(Mari)
     if Asai.murderer == you:
-        "I got your stuff back. The clown's dead."
+        y evil "The clown's dead."
         jump tetsuo_killed_asai
     if axe.is_in_inventory():
         y none "Here's your axe back..."
     else:
-        y none "Crap. I left your axe behind..."
+        y none "Sorry, I couldn't get the axe."
     show Tetsuo at center
     tet "Oh, that's okay! You can keep it. I'm not really interested in {u}using it{/u} for anything, anyway."
     jump stopped_asai
     
 
 label found_tetsuo_murdered:
+    $ cutscene()
     if Yoriko.alive:
         play music "music/bgs_creepy.ogg"
         $ Tetsuo.kill("murder",Yoriko,drop_loot=True)
@@ -1337,7 +1336,10 @@ label tetsuo_killed_asai:
     menu:
         "Reassure His Safety":
             y none "You're safe now. He can't take your stuff, or hurt you."
-            tet "You {u}killed{/u} him!"
+            if not Asai.alive:
+                tet "You {u}killed{/u} him!"
+            else:
+                tet "You {u}attacked{/u} him!"
             y angry "Don't overreact. People are dying left and right in this game - I'm just trying to help you. Really."
             tet "I need to get to a phone - I need to call the police!!"
             y scared "Settle down!!"
@@ -1369,10 +1371,11 @@ label tetsuo_killed_asai:
             y evil "You're next."
             tet "What!? No!"
             tet "It's against school policy to threaten m-!"
-            $ battle_start(Tetsuo,3,"So. Annoying.", "you_killed_tetsuo", True)
+            $ battle_start(Tetsuo,3,"So. Annoying.", "you_killed_tetsuo", True, flee_enemy_jump="you_killed_tetsuo")
     
 label you_killed_tetsuo:
-    "Tetsuo was surprisingly easy to kill. But it didn't feel as good as you imagined it."
+    if not Tetsuo.alive:
+        "Tetsuo was surprisingly easy to kill. But it didn't feel as good as you imagined it."
     call murder_follower_reaction
     if Asai.alive and Asai.loc == loc:
         show Asai scared with dissolve
@@ -1399,7 +1402,7 @@ label chase_down_asai:
     asai "Fuck off! No! Go away! No!"
     menu:
         "[[Attack]":
-            $ battle_start(Asai,0,"If he's not going to make the first move, then all the better for you.", "you_killed_asai", False, flee=True)
+            $ battle_start(Asai,0,"If he's not going to make the first move, then all the better for you.", "you_killed_asai", True, flee_enemy_jump="you_killed_asai")
         "Reason with him":
             y angry "Knock it off, and grow up!"
             show Asai scared
@@ -1419,7 +1422,7 @@ label chase_down_asai:
             asai "I'm gonna live!!"
             # Hey, look! He grows up! That pep talk made him less of a coward!
             $ Asai.type = "normal"
-            $ battle_start(Asai,0,"He finally attacks you. You're prepared.", "you_killed_asai", False, flee=True)
+            $ battle_start(Asai,0,"He finally attacks you. You're prepared.", "you_killed_asai", True, flee=True, flee_enemy_jump="you_killed_asai")
         "Threaten him":
             y angry "Give it back."
             "You point at the axe Asai stole."
@@ -1442,7 +1445,7 @@ label chase_down_asai:
             else:
                 "Asai gives a nervious chuckle."
                 y angry "So, what will it--"
-                $ battle_start(Asai,3,"Before you can finish your sentence, he lunges at you!", "you_killed_asai", False, foe_advantage=True)
+                $ battle_start(Asai,3,"Before you can finish your sentence, he lunges at you!", "you_killed_asai", True, foe_advantage=True, flee_enemy_jump="you_killed_asai")
                 
     
 label yoriko_arrow_attack:
