@@ -216,7 +216,7 @@ init -2 python:
                             self.broken = False
                             self.uses = 0
                             self.use_count = 0
-                            self.use_sfx = "sfx/slice.ogg"
+                            self.sfx2 = "sfx/slice.ogg"
                             self.wpn_rating = 4
                             self.battle_range = 2
                             self.weapon_range="melee"
