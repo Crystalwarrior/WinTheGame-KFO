@@ -136,7 +136,7 @@ init:
 label kenji_attacks_you:
     
     stop music fadeout 3.0
-    $ party.remove(Kenji)
+    $ party_remove(Kenji)
     "Your forced banter dies down. Kenji appears to be struggling in matching your pace, obviously not used to outdoor activities."
     if loc == d1:
         "The trees thin and you can see the ocean as you press east. It is a very steep fall off of the cliff to the ragged rocks below."

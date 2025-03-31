@@ -428,7 +428,7 @@ label kenji_leave:
         ken "It was the same way in school! You stupid tease!"
         "Kenji was suddenly very violent and pulling out knives. Mari hides behind you."
         $ battle_start(Kenji,0,"You have to take him down.", "kenji_attacked_you", False)
-    $ party.append(Kenji)
+    $ party_add(Kenji)
     $ move_to_grid(loc)
     
 
@@ -522,8 +522,8 @@ label mari_find:
                     "Together, you're both ready to face whatever will come next."
                     memo "Mari will now travel with you, but you will still fight alone. If you die, she dies, too."
                     memo "You can talk to her, or any follower, when inside of a building. You can change what items they are carrying when you do. You can leave them to defend their location, but make sure they have a good weapon or else they will die."
-                    $ party.append(Mari)
-                    $ followers.append(Mari)
+                    $ party_add(Mari)
+                    $ follower_add(Mari)
                     hide Mari with dissolve
                 else:
                     y sad "I had to take him down."
@@ -569,8 +569,8 @@ label mari_find:
                         memo "Mari now travels with you."
                         if len(followers) == 0:
                             memo "Followers have a chance of assisting you in battle and can carry one extra item for you. You can talk to your followers at any time."
-                        $ party.append(Mari)
-                        $ followers.append(Mari)
+                        $ party_add(Mari)
+                        $ follower_add(Mari)
                         hide Mari with dissolve
                     "No":
                         y angry "Of course, you can't."
@@ -611,8 +611,8 @@ label mari_find:
         "She sniffles and smiles again."
         mari content "That's the most beautiful thing I've ever heard."
         "The corner of her mouth twitches and you both chuckle. You feel like you can finally move on, but this time, together."
-        $ party.append(Mari)
-        $ followers.append(Mari)
+        $ party_add(Mari)
+        $ follower_add(Mari)
         memo "Mari now travels with you."
         if len(followers) == 0:
             memo "Followers have a chance of assisting you in battle and can carry one extra item for you. You can talk to your followers at any time."
@@ -873,8 +873,8 @@ label killed_jun2:
     y none "Wait!"
     "But he is too fast and is already gone."
     if (Mari in party or Mari.loc == loc):
-        $ mari_hates_you = True
-        $ party.remove(Mari)
+        $ Mari.make_foe(you)
+        $ party_remove(Mari)
         $ followers.remove(Mari)
         $ Mari.move(a1)
         "You hobble back to where you left Mari. Surprisingly, she is not there."
@@ -1058,8 +1058,8 @@ label recruit_jun:
         show Jun
         jun "Then shut up and let's go find out how."
         
-    $ party.append(Jun)
-    $ followers.append(Jun)
+    $ party_add(Jun)
+    $ follower_add(Jun)
     memo "Jun now travels with you."
     if len(followers) == 0:
         memo "Followers have a chance of assisting you in battle and can carry one extra item for you. You can talk to your followers at any time."
