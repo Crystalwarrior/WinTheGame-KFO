@@ -546,6 +546,9 @@ init python:
                 if e.forbidden and sanity >= 50:
                     continue
                 choices.append(e)
+            # if we have no choice we just.. uh... run away in place I guess.
+            if len(choices) <= 0:
+                choices = loc
             rand_exit = renpy.random.choice(choices)
         return rand_exit
         
