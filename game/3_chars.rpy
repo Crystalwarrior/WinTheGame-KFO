@@ -338,9 +338,14 @@ init -2 python:
             self.friends.append(friend)
             self.friends = list(set(self.friends))
 
-        def kill(self,type,killer=None, add_body=True):
+        def kill(self,type,killer=None, add_body=True, drop_loot=False):
             global players_alive
             global death_list
+            if drop_loot:
+                if self.item != None:
+                    self.item[0].drop(char=self)
+                if self.wpn != None:
+                    self.wpn.drop(char=self)
             self.alive = False
             players_alive -= 1
             loc_to_add = self.loc
