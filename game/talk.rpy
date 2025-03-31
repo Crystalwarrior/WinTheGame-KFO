@@ -825,7 +825,7 @@ label ikoma_scene:
         "[[Attack]":
             if (Mari in party or Mari.loc == loc):
                 mari "Shinobu, no!!"
-            elif (Jun in party or Jun.loc == loc):
+            if (Jun in party or Jun.loc == loc):
                 jun "Are you crazy!?"
             $ battle_start(Ikoma,2,"Ikoma welcomes you.", "killed_ikoma", False)
         "Flee":
