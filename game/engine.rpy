@@ -1159,8 +1159,8 @@ label items:
             $ needs_to_be = [ (trap_time[0] + trap_required_time[0]), (trap_time[1] + trap_required_time[1]) ]
             python:
                 while needs_to_be[1] > 23:
-                   needs_to_be[1] -= 24
-                   needs_to_be[0] += 1
+                    needs_to_be[1] -= 24
+                    needs_to_be[0] += 1
             $ item_to_show.drop()
             $ renpy.notify("Setting trap ...")
             $ trap.use_sfx()
