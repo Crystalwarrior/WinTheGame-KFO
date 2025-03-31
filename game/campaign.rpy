@@ -354,8 +354,9 @@ label Kenji_questions:
                 "Yes [[Attack]":
                     play music "music/ALongDay.ogg" fadein 4.0
                     y angry "I have to ... None of us have any choice."
-                    play sound "sfx/knife_pull.ogg"
-                    "Kenji suddenly pulls out a knife he had been holding behind his back."
+                    if Kenji.wpn == throwingknives:
+                        play sound "sfx/knife_pull.ogg"
+                        "Kenji suddenly pulls out a knife he had been holding behind his back."
                     ken "You're right!!"
                     $ battle_start(Kenji,3,"You lunge for each other with your weapons drawn.", "you_attacked_kenji", False)
                 "No":
@@ -384,7 +385,7 @@ label kenji_leave:
         ken "Fine!"
         $ Kenji.wpn.get_sfx()
         $ reference_item(Kenji.wpn)
-        $ battle_start(Kenji,0,"Kenji pulls out a set of knives!", "kenji_attacked_you", True, allies_will_help=True)
+        $ battle_start(Kenji,0,"Kenji pulls out his weapon!", "kenji_attacked_you", True, allies_will_help=True)
     elif Mari not in party:
         $ reference_item(walkietalkie)
         ken "Yeah, man! That's what I thought! I found this walkie talkie radio thing and you won't even believe who I heard on it!"
@@ -425,7 +426,7 @@ label kenji_leave:
         mari sad "I did ... But you never came!"
         ken "So typical of you!"
         ken "It was the same way in school! You stupid tease!"
-        "Kenji was suddenly very violent and pulling out knives. Mari hides behind you."
+        "Kenji was suddenly very violent and pulling out his weapon. Mari hides behind you."
         $ battle_start(Kenji,0,"You have to take him down.", "kenji_attacked_you", False, allies_will_help=True)
     $ party_add(Kenji)
     $ move_to_grid(loc)
@@ -475,7 +476,7 @@ label mari_find:
                     if health < 60:
                         "With your wounds very evident, Mari seems to believe that you were attacked."
                     else:
-                        "You slowly show her the back of your leg where Kenji had thrown his knife at you."
+                        "You slowly show her the back of your leg where Kenji had injured you."
                     y sad "I had to do it .... Because I ... I think he was coming here to kill you!"
                     show Mari angry
                     mari "He ... He was going to kill me?"

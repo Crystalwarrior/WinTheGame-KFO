@@ -137,27 +137,32 @@ label kenji_attacks_you:
     "Your forced banter dies down. Kenji appears to be struggling in matching your pace, obviously not used to outdoor activities."
     if loc == d1:
         "The trees thin and you can see the ocean as you press east. It is a very steep fall off of the cliff to the ragged rocks below."
+    $ Keiji.wpn.use_sfx()
     $ damage_you(-20)
     $ show_blood()
     stop music
     play music "music/AngryOpheliasSong.ogg" fadein 3.0
     "Suddenly, you feel a sharp pain in your lower leg."
-    
-    "You look and see a silver knife sticking out of the back of your leg!"
+    if Kenji.wpn == throwingknives:
+        "You look and see a silver knife sticking out of the back of your leg!"
     $ reference_item(Kenji.wpn)
     show Kenji scared with dissolve
-    "You immediately look at Kenji and see him holding other knives!"
+    if Kenji.wpn == throwingknives:
+        "You immediately look at Kenji and see him holding other knives!"
+    else:
+        "You immediately look at Kenji and see him holding a %(Kenji.wpn.fancy_name)!"
     y scared "Kenji!?"
     if (Mari in party or Mari.loc == loc):
         mari yell "No! How could you!?"
     "He's playing the game! He lied all along! He ... was probably going to kill Mari if he found her!"
-    play sound "sfx/backstab.ogg"
-    "You rip out the knife and flail it away. Your wound is incredibly painful and already bleeding profusely. But you have no choice now."
+    if Kenji.wpn == throwingknives:
+        play sound "sfx/backstab.ogg"
+        "You rip out the knife and flail it away. Your wound is incredibly painful and already bleeding profusely. But you have no choice now."
     ken "I'm not going to lose, man ... I ain't gonna die on this damn island!"
     $ Kenji.type = "normal"
     $ Kenji.met = True
     $ Kenji.make_foe(you)
-    $ battle_start(Kenji,0,"Kenji lunges for you with his knives aimed to kill!", "kenji_attacked_you", False, allies_will_help=True)
+    $ battle_start(Kenji,0,"Kenji lunges for you, aimed to kill!", "kenji_attacked_you", False, allies_will_help=True)
     
     return
 
