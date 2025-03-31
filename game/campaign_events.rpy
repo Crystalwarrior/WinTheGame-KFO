@@ -93,7 +93,7 @@ init:
     $ event("takeshi_boat_lie", "loc == rm_shed and takeshi_boat_lied and seen_boat and not freeplay", event.only(), event.once(), priority=100)
     $ event("ai_revenge_kill", "Ai.alive and dealt_ai == \"tied\"", event.once(), priority=100)
     
-    
+    $ event("found_tetsuo_murdered", "Tetsuo.loc == loc and Tetsuo.alive and Tetsuo.met and not Tetsuo.hidden and not freeplay", event.once(), priority=50)
     # $ event("", "loc == ", event.only(), event.once(), priority=50)
     
 
