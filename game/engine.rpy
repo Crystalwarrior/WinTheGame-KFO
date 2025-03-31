@@ -1646,7 +1646,7 @@ screen follower_item_replace:
             for i in inventory:
                 $ itm = i[0]
                 $ itm_amt = i[1]
-                if not itm.broken: #and i != wpn and i != armor and itm.amount == 1 and itm.type != "explosive":
+                if not itm.broken and itm != boat: #and i != wpn and i != armor and itm.amount == 1 and itm.type != "explosive":
                     $ counter += 1
                     $ whattoshow = "icons/"+itm.name+".jpg"
                     $ whattoshow_hover = im.MatrixColor("icons/"+itm.name+".jpg",im.matrix.brightness(0.25))
