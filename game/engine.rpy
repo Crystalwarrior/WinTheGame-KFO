@@ -327,12 +327,9 @@ init python:
             num = renpy.random.randint(0,100)
             if num < 25:
                 i.sanity -= 5
-            else:
+            elif num > 50:
                 # recover sanity instead, people die in forbidden zones too frequently
                 i.sanity += 1
-                #print "- stayed and lost sanity (", i.sanity,")"
-            #else:
-                #print "- stayed"
         else:
             # we're with a friend! Keep recovering sanity.
             i.sanity += 1
