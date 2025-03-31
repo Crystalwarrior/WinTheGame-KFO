@@ -3585,7 +3585,18 @@ label takeshi_boat_chat:
     if seen_boat:
         menu:
             "Yes":
-                $ takeshi_boat_truth = True
+                python:
+                    takeshi_boat_truth = True
+                    boat_in_shed = False
+                    if boat in all_items:
+                        for i in loc.items:
+                            if i[0] == boat:
+                                boat.destroy(1)
+                                boat_in_shed = True
+                                break
+                    if not boat_in_shed:
+                        takeshi_boat_truth = False
+                        takeshi_boat_lied = True
                 y happy "You won't believe, but I have!"
                 if len(followers) > 0:
                     y none "We're repairing it right now."
@@ -3613,6 +3624,16 @@ label takeshi_boat_chat:
                 y sad "Okay, but we need to organize this. We shouldn't rush it. The boat's not big enough for everyone at once."
                 tak "Of course. Yeah."
                 "You're starting to feel uneasy about telling other people."
+                # Move them to the shed so the GPS can tell
+                if Takeshi.alive:
+                    $ Takeshi.move(rm_shed)
+                    $ Takeshi.type = "fixed"
+                if Kei.alive:
+                    $ Kei.move(rm_shed)
+                    $ Kei.type = "fixed"
+                if Fumie.alive:
+                    $ Fumie.move(rm_shed)
+                    $ Fumie.type = "fixed"
             "No [[Lie]":
                 $ takeshi_boat_lied = True
                 y none "Nope."
@@ -3626,6 +3647,8 @@ label takeshi_boat_chat:
                     tak "Aw. Lame."
                 if (Mari in party or Mari.loc == loc):
                     "Mari looks at you weird, but you plan to explain why telling him about the boat was truly dangerous."
+                if (Jun in party or Jun.loc == loc):
+                    "Jun nods towards you. His face is painted with worry."
     else:
         if Takeshi.met:
             y none "Still looking."
