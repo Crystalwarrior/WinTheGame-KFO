@@ -1062,7 +1062,7 @@ label shed_boat_move:
     
 label boat_in_water:
     $ cutscene()
-    if loc == b4 or loc == c4 or loc ==d4:
+    if loc == b4 or loc == c4 or loc == d4:
         jump boat_fail
     else:
         jump boat_rowaway
@@ -1085,7 +1085,7 @@ label c3_first:
 label c4_first:
     $ cutscene()
     "A strikingly modern pier takes up this section of the coast. It must have been built recently, perhaps whoever put you on this island in the first place ..."
-    "You don't see any boats in the harbor."
+    "You don't see any boats in the harbor, but you do see a {u}security camera{u}. You can't help but grimace."
     return
     
 label d2_first:
@@ -1137,6 +1137,7 @@ label d3_first:
 label d4_first:
     $ cutscene()
     "You slosh around in the wet ruins of some tall building. It looks like there was never a building here, but instead, the framework of a new building that never got finished."
+    "You happen to notice a {u}security camera{u}. You can't help but grimace."
     return
     
 label e3_first:
