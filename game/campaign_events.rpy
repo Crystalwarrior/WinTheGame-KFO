@@ -104,8 +104,6 @@ init:
     $ saw_mari_dead = False
     $ kenji_murdered = False
     $ lied_to_mari = False
-    $ mari_is_waiting = False
-    $ jun_is_waiting = False
     $ mari_will_die = False
     $ dealt_ai = ""
     $ murdered = None

@@ -5,10 +5,8 @@
 ## MARI
 label Mari_talk:
     $ cutscene()
-    $ talking = True
-    
     call events_run_period
-    if mari_hates_you or you in Mari.enemies or freeplay:
+    if you in Mari.enemies or freeplay:
         show Mari scared
         mari "No! Please! Don't hurt me!"
         y none "Mari!?"
@@ -25,11 +23,12 @@ label Mari_talk:
                 "She runs away."
                 jump grid_loc
     else:
-        if mari_is_waiting:
+        if Mari not in party and Mari in followers and not talking:
             show Mari sad
             mari "You came back. I was so scared ..."
         else:
             show Mari
+        $ talking = True
         $ enemy = Mari
         show screen health_enemy
         menu:
@@ -86,19 +85,19 @@ label Mari_talk:
                 else:
                     y none "Forget it."
                 
-            "Tell her to wait here" if not mari_is_waiting and Mari in followers:
+            "Tell her to wait here" if Mari in party and Mari in followers:
                 y none "You have to stay here while I go out."
                 show Mari sad
                 mari "You're going to leave me all alone?"
                 y none "Don't worry, I'll be back for you."
                 mari "Please ... hurry back."
-                $ party.remove(Mari)
-                $ mari_is_waiting = True
-            "Follow me" if mari_is_waiting:
+                # Set her to "fixed" type so she waits, just in case her type changed at some point.
+                $ Mari.type = "fixed"
+                $ party_remove(Mari)
+            "Follow me" if Mari not in party and Mari in followers:
                 y none "Okay, you can follow me again. I hope you're okay."
                 show Mari content
                 mari "I'm fine ... for the most part."
-                $ mari_is_waiting = False
                 $ party.append(Mari)
             "[[Attack]" if sanity <= 30 or lied_to_mari or Mari not in followers:
                 $ wpn.get_sfx()
@@ -132,15 +131,13 @@ label killed_mari:
 label Jun_talk:
     $ cutscene()
     call events_run_period
-    if jun_is_waiting and not talking:
+    if Jun not in party and Jun in followers and not talking:
         show Jun skeptical
         jun "Finally. I was starting to get cabin fever."
-        $ talking = True
     else:
-        $ talking = True
         show Jun
         if not Jun in followers:
-            if jun_hates_you or freeplay:
+            if you in Jun.enemies or freeplay:
                 show Jun scared
                 jun "Shit! Go away!"
                 "Jun breaks for it."
@@ -158,7 +155,8 @@ label Jun_talk:
                 jump grid_loc
             else:
                 jun "Leave me alone, man."
-    $enemy = Jun
+    $ talking = True
+    $ enemy = Jun
     show screen health_enemy
     menu:
         "Change Weapon" if Jun in followers:
@@ -220,21 +218,21 @@ label Jun_talk:
                     "You give him the {color=#FFF}%(new_item_name)s{/color}."
             else:
                 y none "Forget it."
-        "Tell him to wait here" if not jun_is_waiting and Jun in followers:
+        "Tell him to wait here" if Jun in party and Jun in followers:
             y none "Wait here."
             show Jun
             jun "I got your back. Take me with you."
             y none "No, I have to do something alone. Trust me, okay?"
             show Jun lookaway
             jun "Uh ... Fine. I'll hold the fort, I guess."
-            $ party.remove(Jun)
-            $ jun_is_waiting = True
-        "Follow me" if jun_is_waiting and Jun in followers:
+            # Make him wait
+            $ Jun.type = "fixed"
+            $ party_remove(Jun)
+        "Follow me" if Jun not in party and Jun in followers:
             y none "Okay, let's go."
             show Jun
             jun "Cool."
-            $ jun_is_waiting = False
-            $ party.append(Jun)
+            $ party_add(Jun)
         "[[Attack]" if sanity <= 30 or Jun not in followers:
             $ wpn.get_sfx()
             if wpn != fist:
@@ -943,7 +941,6 @@ label murder_follower_reaction:
                 $ Lucy.make_foe(you)
                 $ Nanako.make_foe(you)
                 $ Hitomo.make_foe(you)
-                $ mari_hates_you = True
                 if loc == a2:
                     play sound "sfx/bridge_cross.ogg"
                     "Mari takes off running across the bridge, fleeing from you."
@@ -962,7 +959,6 @@ label murder_follower_reaction:
                 $ Jun.type = "normal"
                 $ Jun.invisible = False
                 $ Jun.make_foe(you)
-                $ jun_hates_you = True
                 hide Jun with dissolve
                 "Jun swiftly backs away until he's far enough to make a run for it. You don't see which way he goes."
     # Argue in self defense to signal your followers don't like you killing people, and to inform about the fleeing mechanic
