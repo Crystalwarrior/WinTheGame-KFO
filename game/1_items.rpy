@@ -325,9 +325,8 @@ init -2 python:
                             renpy.show_screen("item_new")     
                     if discarded != "cancel":
                         discarded.drop("all")
-                
                 elif not pickup:
-                    self.drop("all")
+                    self.drop(amt)
                         
             else:
                 #print "[inventory not full]"
