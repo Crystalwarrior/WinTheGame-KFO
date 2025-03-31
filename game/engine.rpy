@@ -989,10 +989,10 @@ screen stats:
 screen items:
     window:
         background Animation( im.Tile("map/bg1.jpg"),0.2,im.Tile("map/bg2.jpg"),0.2,im.Tile("map/bg3.jpg"),0.2,)
-    add "map/items.png" ypos 15 xpos 0.5 xanchor 0.5
+    add "map/items.png" ypos 6 xpos 0.5 xanchor 0.5
     
     grid 2 2:
-        xpos 0.5 xanchor 0.5 ypos 90
+        xpos 0.5 xanchor 0.5 ypos 40
         spacing 10
         $ count = 0
         for i in inventory:
@@ -1028,7 +1028,7 @@ screen items:
             
             frame:
                 xpadding 10
-                xminimum 375
+                xminimum 390
                 background Frame("map/line_box.png",5,5)
                 has hbox
                 vbox:
@@ -1068,8 +1068,11 @@ screen items:
                             textbutton "USE" text_style "small_button_text" style "small_button" action [Return("use"),SetVariable("item_to_show",itm)]
                         else:
                             textbutton "USE" text_style "small_button_text" style "small_button"
-                            
-                        #textbutton "DROP" text_style "small_button_text" style "small_button" #action [Return("drop"),SetVariable("item_to_show",i)]
+                        
+                        if show_drop_stuff:
+                            textbutton "DROP" text_style "small_button_text" style "small_button" action [Return("drop"),SetVariable("item_to_show",itm)]
+                        else:
+                            textbutton "DROP" text_style "small_button_text" style "small_button"
                         null height 5
                         
                 null width 5
@@ -1087,8 +1090,8 @@ screen items:
         for i in range(count,4):
             frame:
                 xpadding 10
-                xminimum 375
-                yminimum 200
+                xminimum 390
+                yminimum 226
                 background Frame("map/line_box.png",5,5)
                 null
     hbox:
@@ -1200,7 +1203,11 @@ label items:
         jump items
     elif _return == "drop":
         $ item_to_show.drop("all")
+        # update the grid location
         jump items
+    else:
+        if show_drop_stuff:
+            jump grid_loc
     $ notify_y = .001
     return
     
