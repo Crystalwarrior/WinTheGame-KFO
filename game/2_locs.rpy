@@ -248,6 +248,13 @@ init python:
         renpy.show("black")
         renpy.transition(dissolve)
         renpy.pause(0.5)
+        if moving_boat and not (Mari in party or Mari.loc == loc) and not (Jun in party or Jun.loc == loc):
+            add_time(3) #Super extra time for moving the boat alone because friendship rules
+        elif moving_boat:
+            add_time(2) #Extra time for moving the boat because it's heavy and stuff
+        else:
+            add_time(1) #Advance time 1 hour for traveling to a new grid location
+
         loc = newloc
         for x in classmates:
             if x == you:
@@ -257,13 +264,6 @@ init python:
         if not newloc.found:
             this_is_a_new_loc = True #in case you want events when you first discover someplace
             
-        if moving_boat and not (Mari in party or Mari.loc == loc) and not (Jun in party or Jun.loc == loc):
-            add_time(3) #Super extra time for moving the boat alone because friendship rules
-        elif moving_boat:
-            add_time(2) #Extra time for moving the boat because it's heavy and stuff
-        else:
-            add_time(1) #Advance time 1 hour for traveling to a new grid location
-
         music_steps += 1
         if music_steps > 5:
             music_steps = 0
