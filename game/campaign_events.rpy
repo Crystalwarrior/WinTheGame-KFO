@@ -109,8 +109,6 @@ init:
     $ murdered = None
     $ mari_here = False
     $ jun_here = False
-    $ mari_hates_you = False
-    $ jun_hates_you = False
     $ did_not_intervene_jun = False
     $ you_can_cross_bridge = False
     $ bath_save_mari = False

@@ -2082,7 +2082,7 @@ label bathhouse_ai:
                     show Mari sad with dissolve
                     "But Mari is covered in blood. She's holding a bleeding wound on her stomach."
                     y sad "Mari, no ..."
-                    if mari_hates_you:
+                    if you in Mari.enemies:
                         show Mari angry
                         mari "Don't, don't ... touch me ..."
                         "She still hasn't forgiven you, it seems."
@@ -2224,7 +2224,7 @@ label ai_kill_bath:
         "Bow and arrow? Wait, was it Lucy that killed Tetsuo - and nearly you, too!?"
     if Mari.loc == rm_lockers and Mari.alive:
         show Mari scared behind Nanako with dissolve
-        if mari_hates_you:
+        if you in Mari.enemies:
             "You swear you see Mari next to Nanako, but she does nothing to defend you."
             call nana_bath_mari_betray
         else:
