@@ -1034,7 +1034,7 @@ label shed_repair:
 label shed_boat_move:
     $ cutscene()
     if not boat.is_in_inventory():
-        $ boat.add()
+        $ boat.add(pickup=True)
     if boat.is_in_inventory():
         if (Mari in party or Mari.loc == loc) or (Jun in party or Jun.loc == loc):
             y none "Okay, ready? We make our break now."
