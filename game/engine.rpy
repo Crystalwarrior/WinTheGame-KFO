@@ -1887,14 +1887,14 @@ init python:
                         renpy.say(Mari.call_name, "S-Someone's here!")
                         advantage = False
                     if interrupter.type == "hostile":
-                        battle_start(interrupter,1,interrupter.name+" has found you!", "grid_loc", True,foe_advantage=advantage)
+                        battle_start(interrupter,1,interrupter.name+" has found you!", "grid_loc", True, foe_advantage=advantage, allies_will_help=True)
                     elif interrupter.type == "coward":
                         renpy.say(None,interrupter.name+" stumbles inside, screams upon seeing you, and flees back out!")
                         interrupter.move("rand")
                     else:
                         renpy.say(None,interrupter.name+" stumbles inside, surprised to see anyone in here!")
                         if you in interrupter.enemies:
-                            battle_start(interrupter,1,interrupter.name+" takes the opportunity to get rid of you!", "grid_loc", True,foe_advantage=advantage)
+                            battle_start(interrupter,1,interrupter.name+" takes the opportunity to get rid of you!", "grid_loc", True, foe_advantage=advantage, allies_will_help=True)
                         elif interrupter.met:
                             renpy.jump(interrupter.name+"_talk")
                         else:

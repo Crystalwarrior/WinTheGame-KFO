@@ -157,7 +157,7 @@ label kenji_attacks_you:
     $ Kenji.type = "normal"
     $ Kenji.met = True
     $ Kenji.make_foe(you)
-    $ battle_start(Kenji,0,"Kenji lunges for you with his knives aimed to kill!", "kenji_attacked_you", False)
+    $ battle_start(Kenji,0,"Kenji lunges for you with his knives aimed to kill!", "kenji_attacked_you", False, allies_will_help=True)
     
     return
 
@@ -269,7 +269,7 @@ label deathmatch_handler:
                         else:
                             student_flees = True
                 if student_attack:
-                    battle_start(student_attacker,0,"%s sees you and attacks!"%(student_attacker.name),"grid_loc", True)
+                    battle_start(student_attacker,0,"%s sees you and attacks!"%(student_attacker.name),"grid_loc", True, allies_will_help=True)
                 elif student_flees:
                     student_attacker.move("rand")
                     renpy.say(None,"%s sees you and flees %s!"%(student_attacker.name,escape_plan))
@@ -596,7 +596,7 @@ label find_ikoma:
     "Ikoma grins with intent! He slips off a deadly automatic gun from his back!"
     menu:
         "[[Attack]":
-            $ battle_start(Ikoma,2,"Ikoma welcomes you.", "killed_ikoma", False)
+            $ battle_start(Ikoma,2,"Ikoma welcomes you.", "killed_ikoma", False, allies_will_help=True)
         "Flee":
             "You move as fast as your legs can take you."
             $ loc = runaway()
@@ -645,7 +645,7 @@ label ikoma_emi:
     hide Emi with dissolve
     "Ikoma shoots Emi point blank."
     
-    $ battle_start(Ikoma,0,"Then he shoots you.", "killed_ikoma", False)
+    $ battle_start(Ikoma,0,"Then he shoots you.", "killed_ikoma", False, allies_will_help=True)
 
 label find_ai:
     $ cutscene()
@@ -676,7 +676,7 @@ label ai_scene:
     if (Jun in party or Jun.loc == loc):
         jun scared "Run!!"
     play sound "sfx/chainsaw_long.ogg"
-    $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False)
+    $ battle_start(Ai,0,"And then she suddenly revs her chainsaw and charges at you.","murdered_ai", False, allies_will_help=True)
 
 label find_yuki:
     $ Yuki.met = True
@@ -794,7 +794,7 @@ label catch_yoriko:
                             $ Yoriko.type = "hostile"
                             $ reference_item(Yoriko.wpn)
                             $ who_has_arrows = False
-                            $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False)
+                            $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False, allies_will_help=True)
         "Shoot Back":
             if not wpn.type == "gun" and not wpn.wpn_range == "ranged":
                 memo "You need to equip a ranged weapon!"
@@ -905,20 +905,20 @@ label trap_fight:
         "The monster notices you."
         show Ikoma
         "He pries the trap off and gives you a wry smile."
-        $ battle_start(trap_caught_person,0,"%(trapped_n)s cackles like a maniac and charges at you!", "killed_ikoma", True)
+        $ battle_start(trap_caught_person,0,"%(trapped_n)s cackles like a maniac and charges at you!", "killed_ikoma", True, allies_will_help=True)
     elif trap_caught_person == Ai:
         ai "Okita."
         show Ai angry
         ai "You're not playing fair."
         show Ai evil
         "She pries the trap from her bloodied leg and cackles deliriously!"
-        $ battle_start(trap_caught_person,0,"%(trapped_n)s charges at you!", "murdered_ai", True)
+        $ battle_start(trap_caught_person,0,"%(trapped_n)s charges at you!", "murdered_ai", True, allies_will_help=True)
     elif trap_caught_person.type == "coward":
         $ renpy.say(trap_caught_person.call_name,"Shinobu! Help me! I'm stuck!")
     elif trap_caught_person.type == "hostile":
         $ renpy.say(trap_caught_person.call_name,"You did this? Clever.")
         $ renpy.say(trap_caught_person.call_name,"Too bad it won't save you.")
-        $ battle_start(trap_caught_person,0,"%(trapped_n)s pries the trap off and attacks against all odds.", "trap_murder", True)
+        $ battle_start(trap_caught_person,0,"%(trapped_n)s pries the trap off and attacks against all odds.", "trap_murder", True, allies_will_help=True)
     elif you in trap_caught_person.enemies:
         $ renpy.say(trap_caught_person.call_name,"You monster!! Let me go!")
     else:

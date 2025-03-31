@@ -384,8 +384,7 @@ label kenji_leave:
         ken "Fine!"
         $ Kenji.wpn.get_sfx()
         $ reference_item(Kenji.wpn)
-        $ Jun.make_foe(Kenji)
-        $ battle_start(Kenji,0,"Kenji pulls out a set of knives!", "kenji_attacked_you", True)
+        $ battle_start(Kenji,0,"Kenji pulls out a set of knives!", "kenji_attacked_you", True, allies_will_help=True)
     elif Mari not in party:
         $ reference_item(walkietalkie)
         ken "Yeah, man! That's what I thought! I found this walkie talkie radio thing and you won't even believe who I heard on it!"
@@ -396,7 +395,7 @@ label kenji_leave:
             y none "She's dead. I saw her. Who could you have possibly spoken to?"
             $ Kenji.wpn.get_sfx()
             $ reference_item(Kenji.wpn)
-            $ battle_start(Kenji,0,"Kenji pulls out a weapon! He'd rather attack you than explain himself.", "kenji_attacked_you", True)
+            $ battle_start(Kenji,0,"Kenji pulls out a weapon! He'd rather attack you than explain himself.", "kenji_attacked_you", True, allies_will_help=True)
             
         "You've never really spoken to Mari, but she was pretty and you never missed a chance to admire her."
         y none "Yes, we've got to help her."
@@ -427,7 +426,7 @@ label kenji_leave:
         ken "So typical of you!"
         ken "It was the same way in school! You stupid tease!"
         "Kenji was suddenly very violent and pulling out knives. Mari hides behind you."
-        $ battle_start(Kenji,0,"You have to take him down.", "kenji_attacked_you", False)
+        $ battle_start(Kenji,0,"You have to take him down.", "kenji_attacked_you", False, allies_will_help=True)
     $ party_add(Kenji)
     $ move_to_grid(loc)
     
@@ -455,7 +454,7 @@ label mari_find:
             $ Mari.wpn.use_sfx()
             $ show_blood()
             $ damage_you(-20)
-            $ battle_start(Mari,0,"Mari suddenly shoots you.", "killed_mari", True,foe_advantage=True)
+            $ battle_start(Mari,0,"Mari suddenly shoots you.", "killed_mari", True,foe_advantage=True, allies_will_help=True)
         
         if not Kenji.alive:
             y sad "He's dead."
@@ -1898,13 +1897,13 @@ label ai_battle_begin:
         "She smiles."
     $ Ai.met = True
     if loc == rm_showers:
-        $ battle_start(Ai,0,"And then she suddenly charges at you.","ai_kill_bath", False, flee=False)
+        $ battle_start(Ai,0,"And then she suddenly charges at you.","ai_kill_bath", False, flee=False, allies_will_help=True)
     elif Hitomo.alive and loc == a2:
         play sound "sfx/chainsaw_long.ogg"
-        $ battle_start(Ai,0,"Her chainsaw buzzes to life.","ai_kill_bridge", False, flee=False)
+        $ battle_start(Ai,0,"Her chainsaw buzzes to life.","ai_kill_bridge", False, flee=False, allies_will_help=True)
     else:
         play sound "sfx/chainsaw_long.ogg"
-        $ battle_start(Ai,0,"Her chainsaw buzzes to life.","murdered_ai", False)
+        $ battle_start(Ai,0,"Her chainsaw buzzes to life.","murdered_ai", False, allies_will_help=True)
 
 label found_hitomo_dead:
     $ Ai.move(rm_showers)
@@ -2853,7 +2852,7 @@ label school_maze_correct:
         show Jun mad
         "Emi shoots at Jun, but only grazes his arm."
         jun  "What the fucking fuck, lady!?"
-        $ battle_start(Emi,3,"You leap to stop her from attacking again.", "emi_killed", False, flee=False)
+        $ battle_start(Emi,3,"You leap to stop her from attacking again.", "emi_killed", False, flee=False, allies_will_help=True)
     elif (Mari in party or Mari.loc == loc):
         show Mari content at farleft with dissolve
         mari "It's okay ... We're your friends."
@@ -3131,7 +3130,7 @@ label school_emi_ambush:
             $ damage_you(-20)
             
         
-        $ battle_start(Emi,3,"Her bullet pierces you.", "emi_killed", True)
+        $ battle_start(Emi,3,"Her bullet pierces you.", "emi_killed", True, allies_will_help=True)
     jump room_loc
     
 label emi_killed:
