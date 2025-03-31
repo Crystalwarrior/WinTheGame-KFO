@@ -1192,7 +1192,7 @@ label g4_first:
             jun "They're all different, but they all say pretty much the same thing ..."
             jun sad "\"Give me the strength to win.\" \"I want to hug my mother one last time.\""
         if (Mari in party or Mari.loc == loc):
-               mari sad "\"I wish I could live.\""
+            mari sad "\"I wish I could live.\""
         "You share a silence."
     else:
         "You walk up to the spiritual tree and inspect the wishes tied to its limbs."
@@ -1232,20 +1232,20 @@ label wish_tree:
     
     
 init python hide:
-     config.keymap['screenshot'].remove('s')
-     config.keymap['screenshot'].append('K_PRINT')
-    
-     def cheat_overlay():
-         if show_drop_stuff: #only when not in cutscene
-             ui.keymap(K_F1=ui.jumps("cheat_code")) 
-         else:
-             ui.keymap(K_F1=None) 
-         if config.developer:
-             ui.keymap(K_F2=ui.jumps("start")) 
-         if not config.developer:
-             ui.keymap(K_F5=renpy.curried_call_in_new_context("_quick_save")) 
-             ui.keymap(K_F9=renpy.curried_call_in_new_context("_quick_load"))
-         if movement_keys:
+    config.keymap['screenshot'].remove('s')
+    config.keymap['screenshot'].append('K_PRINT')
+
+    def cheat_overlay():
+        if show_drop_stuff: #only when not in cutscene
+            ui.keymap(K_F1=ui.jumps("cheat_code")) 
+        else:
+            ui.keymap(K_F1=None) 
+        if config.developer:
+            ui.keymap(K_F2=ui.jumps("start")) 
+        if not config.developer:
+            ui.keymap(K_F5=renpy.curried_call_in_new_context("_quick_save")) 
+            ui.keymap(K_F9=renpy.curried_call_in_new_context("_quick_load"))
+        if movement_keys:
             if show_north and not north_loc.forbidden or show_north and sanity <= 20:
                 ui.keymap(K_w=ui.jumps("move_north"))
             elif show_north and north_loc.forbidden and sanity > 20:
@@ -1280,7 +1280,7 @@ init python hide:
             else:
                 ui.keymap(K_q=ui.jumps("error_sound"))
                 
-     config.overlay_functions.append(cheat_overlay)
+    config.overlay_functions.append(cheat_overlay)
      
      
 # This is called in a new context when the cheat code is entered.
