@@ -570,16 +570,38 @@ label grid_loc:
             if (Jun in party or Jun.loc == loc):
                 jun sad "... What are you doing?"
             if (Mari in party or Mari.loc == loc):
-                "You look over at Mari but you can see that she was already so incredibly sad. Nothing you do now could make her any sadder."
-                "She walks closer to you and holds out her hand."
-                "You take it."
+                # Mari will jump with you if her sanity is also low
+                if Mari.sanity <= 50:
+                    "You look over at Mari but you can see that she was already so incredibly sad. Nothing you do now could make her any sadder."
+                    "She walks closer to you and holds out her hand."
+                    "You take it."
+                # Otherwise, she'll actually *save* you and make you reconsider.
+                else:
+                    mari scared "S-Shinobu!"
+                    "She walks closer to you and holds out her hand."
+                    "You take it."
+                    mari "Please... Don't do this."
+                    "She looks at you straight in the eyes."
+                    $ add_sanity(20)
+                    "You feel relieved. Perhaps there's a point to keep on living, at least for a while longer."
+                    "You walk away from the cliff with Mari."
+                    if (Jun in party or Jun.loc == loc):
+                        jun sad "Jeez, man! You two scared the crap out of me!"
+                        jun "I thought you were gonna jump or somethin'..."
+                        $ add_sanity(10)
+                        "You chuckle at how bluntly he put it."
+                    # You spooked the heck out of Mari. She's gonna jump with you next time.
+                    $ Mari.sanity = max(0, Mari.sanity - 50)
+                    jump grid_loc
             "You look out at the ocean. There was a home somewhere across that water. A home you will never see again."
             if (Jun in party or Jun.loc == loc):
                 y none "Good bye."
                 jun scared "Good - what!?"
             "You step forwards and plummet straight down."
-            if (Mari in party or Mari.loc == loc):
+            if (Mari in party or Mari.loc == loc) and Mari.sanity <= 50:
                 "Mari is right beside you."
+            scene black with dissolve
+            $ show_blood()
             jump game_over
                 
         "Enter %(room_name)s" if room_here is not None:
