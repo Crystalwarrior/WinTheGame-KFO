@@ -1636,6 +1636,13 @@ screen follower_item_replace:
             xpos .5 ypos .5
             xanchor 0.5 yanchor 0.5
             $ counter = 0
+            # Allow you to trade for Nothing
+            frame:
+                xpos .5 ypos .5
+                xanchor 0.5 yanchor 0.5
+                has vbox
+                imagebutton idle "icons/blank.jpg" hover im.MatrixColor("icons/blank.jpg",im.matrix.brightness(0.25)) action Return("nothing") xcenter 0.5
+                text "Nothing" xpos 0.5 xanchor 0.5 size 12
             for i in inventory:
                 $ itm = i[0]
                 $ itm_amt = i[1]

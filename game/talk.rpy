@@ -60,31 +60,9 @@ label Mari_talk:
                     mari "I'm not even sure how to really do that ..."
             "Change Item" if Mari in followers:
                 show Mari
-                y none "Hold this for a moment."
+                y none "Let's trade items."
                 $ wpn_replace_char = Mari
-                call screen follower_item_replace
-                $ new_item = _return
-                if new_item is not False:
-                    $ old_item = Mari.item
-                    if old_item is not None:
-                        $ old_item_name = old_item[0].fancy_name
-                        #unequip
-                        if wpn is not fist and new_item[0].name == wpn.name:
-                            $ wpn = fist
-                        if armor is not None and new_item[0].name == armor.name:
-                            $ armor = None
-                    $ new_item_name = new_item[0].fancy_name
-                    $ Mari.item = new_item
-                    $ new_item[0].destroy("all")
-                    if old_item is not None:
-                        $ old_item[0].add(amt=old_item[1])
-                        "You trade. She gives you her {color=#FFF}%(old_item_name)s{/color} for the {color=#FFF}%(new_item_name)s{/color}."
-                    else:
-                        "You give her the {color=#FFF}%(new_item_name)s{/color}."
-                        
-                else:
-                    y none "Forget it."
-                
+                call follower_item_trade
             "Tell her to wait here" if Mari in party and Mari in followers:
                 y none "You have to stay here while I go out."
                 show Mari sad
@@ -114,7 +92,45 @@ label Mari_talk:
                 hide screen health_enemy
                 jump grid_loc
     jump Mari_talk
-    
+
+
+label follower_item_trade:
+    call screen follower_item_replace
+    $ new_item = _return
+    if new_item is not False:
+        $ old_item = wpn_replace_char.item
+        if new_item == "nothing":
+            if old_item is not None:
+                $ old_item_name = old_item[0].fancy_name
+                "You take the {color=#FFF}%(old_item_name)s{/color}."
+                $ old_item[0].add(amt=old_item[1])
+                $ wpn_replace_char.item = None
+            else:
+                y none "Forget it."
+        else:
+            # Stack 'em!
+            if old_item is not None and old_item[0].name == new_item[0].name and old_item[0].can_stack:
+                $ new_item[1] += old_item[1]
+                $ old_item = None
+            if old_item is not None:
+                $ old_item_name = old_item[0].fancy_name
+                #unequip
+                if wpn is not fist and new_item[0].name == wpn.name:
+                    $ wpn = fist
+                if armor is not None and new_item[0].name == armor.name:
+                    $ armor = None
+            $ new_item_name = new_item[0].fancy_name
+            $ wpn_replace_char.item = new_item
+            $ new_item[0].destroy("all")
+            if old_item is not None:
+                $ old_item[0].add(amt=old_item[1])
+                "You trade {color=#FFF}%(old_item_name)s{/color} for the {color=#FFF}%(new_item_name)s{/color}."
+            else:
+                "You give the {color=#FFF}%(new_item_name)s{/color}."
+    else:
+        y none "Forget it."
+    return
+
 label killed_mari:
     if (Mari in party or Mari.loc == loc):
         $ follower_remove(Mari)
@@ -195,29 +211,9 @@ label Jun_talk:
                 jun "Uh ... 'kay."
         "Change Item" if Jun in followers:
             show Jun
-            y none "Hold this for a moment."
-            $ wpn_replace_char = Jun
-            call screen follower_item_replace
-            $ new_item = _return
-            if new_item is not False:
-                $ old_item = Jun.item
-                if old_item is not None:
-                    $ old_item_name = old_item[0].fancy_name
-                    #unequip
-                    if wpn is not fist and new_item[0].name == wpn.name:
-                        $ wpn = fist
-                    if armor is not None and new_item[0].name == armor.name:
-                        $ armor = None
-                $ new_item_name = new_item[0].fancy_name
-                $ Jun.item = new_item
-                $ new_item[0].destroy("all")
-                if old_item is not None:
-                    $ old_item[0].add(amt=old_item[1])
-                    "He gives you his {color=#FFF}%(old_item_name)s{/color} for the {color=#FFF}%(new_item_name)s{/color}."
-                else:
-                    "You give him the {color=#FFF}%(new_item_name)s{/color}."
-            else:
-                y none "Forget it."
+            y none "Let's trade items."
+            $ wpn_replace_char = Mari
+            call follower_item_trade
         "Tell him to wait here" if Jun in party and Jun in followers:
             y none "Wait here."
             show Jun
