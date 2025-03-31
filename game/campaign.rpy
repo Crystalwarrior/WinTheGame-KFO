@@ -3946,7 +3946,7 @@ label gps_hospital:
             "Fumie screams at you to flee and you don't waste that chance."
             "You unlock the door and run to safety. Fumie doesn't follow."
         else:
-            $ battle_start(Kei,1,"The truth hurts you a bit, but you've always hated Kei a little bit, too.", "kei_defended", True, flee=False)
+            $ battle_start(Kei,1,"The truth hurts you a bit, but you've always hated Kei a little bit, too.", "kei_defended", True, flee=False, allies_will_help=True)
     else:
         "Fumie crumples down on the ground in front of Takeshi, her eyes devoid of hope."
         show Fumie sad
@@ -4011,6 +4011,7 @@ label boat_missing:
     jump grid_loc
     
 label takkeifum_boat_death:
+    $ cutscene()
     # Takeshi, Kei, and Fumie's body will wash up on the shore, when you go there.
     if Takeshi.alive:
         $ Takeshi.move(loc)
@@ -4045,10 +4046,11 @@ label takkeifum_boat_death:
     
 ## LIED ABOUT BOAT TO TAKESHI
 label takeshi_boat_lie:
+    $ cutscene()
     "After a moment in the shed, you hear something outside."
-    $ loc = b3
     play music "music/ALongDay.ogg"
     scene farm with fade
+    $ loc = b3
     if Takeshi.alive:
         $ Takeshi.move(b3)
     if Kei.alive:
@@ -4105,6 +4107,10 @@ label takeshi_boat_lie:
         y sad "We were going to come back for you!"
     else:
         y sad "I was going to come back for you!"
+        if len(party) > 0:
+            y sad "We were going to come back for you!"
+        else:
+            y sad "I was going to come back for you!"
         
     if Takeshi.alive:
         tak "That sounds real trustworthy."
@@ -4127,8 +4133,8 @@ label takeshi_boat_lie:
         tak "I barely know you, why do you think I can trust you?"
         "So all those times you hung out in school were that superficial to him after all."
         tak "I'll go instead. Move over!"
-        
-        $ battle_start(Takeshi,2,"Takeshi charges for you with deadly force.", "takeshi_boat_kill", False, flee=False)
+
+        $ battle_start(Takeshi,2,"Takeshi charges for you with deadly force.", "takeshi_boat_kill", False, flee=False, allies_will_help=True)
     elif Kei.alive:
         kei "Obviously, you're the piss poor choice for our ambassador."
         kei "I un-nominate you and nominate myself instead."
@@ -4137,7 +4143,7 @@ label takeshi_boat_lie:
             fum "Kei is the best! Give it to him!"
         kei "Hand over the boat. Now."
         
-        $ battle_start(Kei,2,"Kei walks slowly towards you, pounding his fist in his other hand.", "takeshi_boat_kill2", False, flee=False)
+        $ battle_start(Kei,2,"Kei walks slowly towards you, pounding his fist in his other hand.", "takeshi_boat_kill2", False, flee=False, allies_will_help=True)
     elif Fumie.alive:
         $ Fumie.wpn = Kei.wpn
         fum "I ... I won't ask you again!"
@@ -4150,7 +4156,7 @@ label takeshi_boat_lie:
             "You feel a gunshot rip through your shoulder. Fumie was serious."
         else:
             "Fumie shoots you, but misses. She is serious."
-        $ battle_start(Fumie,2,"You can't avoid this fight.", "takeshi_boat_kill3", False, flee=False)
+        $ battle_start(Fumie,2,"You can't avoid this fight.", "takeshi_boat_kill3", False, flee=False, allies_will_help=True)
     jump grid_loc
     
 label takeshi_boat_kill:
@@ -4158,10 +4164,10 @@ label takeshi_boat_kill:
     if Kei.alive:
         kei "You stuck up prick!"
         kei "I've been wanting to do this for a long time."
-        $ battle_start(Kei,0,"Kei walks slowly towards you, pounding his fist in his other hand.", "takeshi_boat_kill2", True, flee=False)
+        $ battle_start(Kei,0,"Kei walks slowly towards you, pounding his fist in his other hand.", "takeshi_boat_kill2", True, flee=False, allies_will_help=True)
     elif Fumie.alive:
         fum "No!! Takeshi! He was all I had left!"
-        $ battle_start(Fumie,0,"You can't avoid this fight.", "takeshi_boat_kill3", True, flee=False)
+        $ battle_start(Fumie,0,"You can't avoid this fight.", "takeshi_boat_kill3", True, flee=False, allies_will_help=True)
     else:
         "You take comfort in knowing that it's over. No else knows about the boat now."
         $ loc = rm_shed
@@ -4170,7 +4176,7 @@ label takeshi_boat_kill:
 label takeshi_boat_kill2:
     if Fumie.alive:
         fum "Kei!! No!!"
-        $ battle_start(Fumie,3,"Fumie turns into your would-be murderer.", "takeshi_boat_kill3", True, flee=False)
+        $ battle_start(Fumie,3,"Fumie turns into your would-be murderer.", "takeshi_boat_kill3", True, flee=False, allies_will_help=True)
     else:
         "You take comfort in knowing that it's over. No else knows about the boat now."
         $ loc = rm_shed
@@ -4225,11 +4231,7 @@ label boat_fight:
             
     else:
         $ renpy.say(boat_attacker.call_name,"I can't believe you. You were going to escape all by yourself!")
-    # Your allies are not gonna be OK with being attacked, so they'll help
-    python:
-        for ally in party:
-            ally.make_foe(boat_attacker)
-    $ battle_start(boat_attacker,0,"%(boat_attacker_n)s lunges at you.", "boat_murder", True)
+    $ battle_start(boat_attacker,0,"%(boat_attacker_n)s lunges at you.", "boat_murder", True, allies_will_help=True)
         
 label boat_murder:
     "How could %(boat_attacker_n)s just attack you like that!?"
