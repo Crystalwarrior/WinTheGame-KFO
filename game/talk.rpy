@@ -262,7 +262,7 @@ label Hitomo_talk:
         hit "Ahh!!"
         menu:
             "[[Attack]":
-                $ battle_start(Hitomo,0,"Might as well.", "murdered_hitomo", True)
+                $ battle_start(Hitomo,0,"Might as well.", "murdered_hitomo", True, allies_will_help=True)
             "[[Done]":
                 pass
     elif not freeplay:
@@ -359,7 +359,7 @@ label Nanako_talk:
         if you in Nanako.enemies:
             show Nanako angry
             "Nanako spits at your feet."
-            $ battle_start(Nanako,0,"You don't care.", "murdered_nanako", True)
+            $ battle_start(Nanako,0,"You don't care.", "murdered_nanako", True, allies_will_help=True)
         elif you in Nanako.friends:
             show Nanako sad
             nana "I don't want you around here. I want to be alone."
@@ -446,10 +446,10 @@ label Fumie_talk:
                 fum "Kei is going to kick your ass! Kei! Kei!!"
                 kei "You bastard!!"
                 $ Fumie.make_foe(you)
-                $ battle_start(Kei,0,"Keitaro lunges at you!", "murdered_kei", True, foe_advantage=True)
+                $ battle_start(Kei,0,"Keitaro lunges at you!", "murdered_kei", True, foe_advantage=True, allies_will_help=True)
             else:
                 fum "You'll pay for this!"
-                $ battle_start(Fumie,0,"Fumie can't be saved now.", "murdered_fumie", True)
+                $ battle_start(Fumie,0,"Fumie can't be saved now.", "murdered_fumie", True, allies_will_help=True)
         elif Kei.met and Kei.alive:
             fum "Welcome to the secret pact!"
             y none "Uh, thanks."
@@ -483,7 +483,7 @@ label Tetsuo_talk:
     show Tetsuo
     if you in Tetsuo.enemies:
         tet "P-p-please!"
-        $ battle_start(Tetsuo,2,"He's annoying just to look at.", "murdered_tetsuo", True)
+        $ battle_start(Tetsuo,2,"He's annoying just to look at.", "murdered_tetsuo", True, allies_will_help=True)
     $ enemy = Tetsuo
     show screen health_enemy
     menu:
@@ -509,7 +509,7 @@ label Keitaro_talk:
         kei "You!?"
         if Fumie.loc == loc:
             $ Fumie.make_foe(you)
-        $ battle_start(Kei,0,"You never liked him anyway.", "murdered_kei", True)
+        $ battle_start(Kei,0,"You never liked him anyway.", "murdered_kei", True, allies_will_help=True)
     $ enemy = Kei
     show screen health_enemy
     menu:
@@ -540,7 +540,7 @@ label Takeshi_talk:
     if you in Takeshi.enemies:
         show Takeshi sad
         tak "Give up, won't you?"
-        $ battle_start(Takeshi,0,"Let's see how tough this guy is!", "murdered_takeshi", True)
+        $ battle_start(Takeshi,0,"Let's see how tough this guy is!", "murdered_takeshi", True, allies_will_help=True)
     $ enemy = Takeshi
     show screen health_enemy
     menu:
@@ -577,18 +577,12 @@ label Kenji_talk:
         ken "So typical of you!"
         ken "It was the same way in school! You stupid tease!"
         "Kenji was suddenly very violent and pulling out knives. Mari hides behind you."
-        $ Mari.make_foe(Kenji)
-        if Jun in party:
-            $ Jun.make_foe(Kenji)
-        $ battle_start(Kenji,0,"You never trusted this guy.", "kenji_attacked_you", True)
+        $ battle_start(Kenji,0,"You never trusted this guy.", "kenji_attacked_you", True, allies_will_help=True)
     if you in Kenji.enemies or freeplay:
         show Kenji scared
         y none "Kenji?"
         ken "I'm not losing! Definitely not to you!"
-        # He attacked you first so Jun and Mari are not gonna like this guy
-        $ Jun.make_foe(Kenji)
-        $ Mari.make_foe(Kenji)
-        $ battle_start(Kenji,0,"You never trusted this guy.", "kenji_attacked_you", True)
+        $ battle_start(Kenji,0,"You never trusted this guy.", "kenji_attacked_you", True, allies_will_help=True)
     $ enemy = Kenji
     show screen health_enemy
     menu:
@@ -636,7 +630,7 @@ label Yuki_talk:
         if you in Yuki.enemies:
             show Yuki scared
             yuki "No! No, please!"
-            $ battle_start(Yuki,0,"Yuki flails around.", "murdered_yuki", True)
+            $ battle_start(Yuki,0,"Yuki flails around.", "murdered_yuki", True, allies_will_help=True)
         else:
             if not answered_yuki:
                 yuki "Back again? Tell me if you see Nanako."
