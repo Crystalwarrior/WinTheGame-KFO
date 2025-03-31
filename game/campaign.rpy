@@ -4261,7 +4261,7 @@ label boat_rowaway:
             "Your goal is clear. You must make it to the mansion."
             "But where should you dock?"
             menu:
-                "Row to the left side of the far island":
+                "Row to the left side of the island [[D5]":
                     # you will beach on the island and walk up to the mighty gate ... and then gattling guns will immediately shred you to pieces.
                     scene open_sea with dissolve
                     "You push away from the shore and start rowing towards the island. It takes some time to do it quietly."
@@ -4276,6 +4276,8 @@ label boat_rowaway:
                     "Who is behind this game?"
                     "You get too close to the gate. Wooden panels pull back from each side and Gatling guns spill out."
                     play sound "sfx/uzi_shoot.ogg"
+                    $ show_blood()
+                    with hpunch
                     if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
                         "Their aim is perfect. The guns rip through you and your friends."
                     elif (Mari in party or Mari.loc == loc) or (Jun in party or Jun.loc == loc):
@@ -4285,7 +4287,7 @@ label boat_rowaway:
                     "You fall backwards and stare up into the sky."
                     "You were so close."
                     jump game_over
-                "Row to the right side of the far island":
+                "Row to the right side of the island [[E5]":
                     # you will beach onto the island and find a locked back gate. There is no way to climb over.
                     jump mansion_correct
 
