@@ -1044,14 +1044,7 @@ label shed_boat_move:
                     mari content "I'll follow you anywhere."
             if (Jun in party or Jun.loc == loc):
                 jun "Let's ditch this mother. I'm done here. Really fucking done."
-            if loc == rm_shed:
-                "You pick up the boat with help and try to weasel it out of the shed."
-            scene farm with fade
             "You walk as quietly as you can so you don't attract attention. If you don't run into any trouble, you only need to pick out where to unload the boat from here."
-            $ loc = b3
-            
-            $ move_to_grid(b3)
-            jump grid_loc
         elif Mari in followers or Jun in followers:
             "The boat is too big for just you. You'll need at least one other person to help you move it."
         else:
