@@ -383,6 +383,7 @@ label new_battle: #This is a giant loop
             $ show_buttons = False
             $ chance = renpy.random.randint(0,100)
             if chance > 33:
+                $ renpy.music.stop(fadeout=3.0)
                 play sound "sfx/beep_good.ogg"
                 memo2 "You successfully escape!"
                 hide screen new_battle
@@ -390,8 +391,11 @@ label new_battle: #This is a giant loop
                 with dissolve
                 
                 $ show_buttons = True
-                $ loc = runaway()
-                $ move_to_grid(loc)
+                if battle_flee_you_jump is not None:
+                    $ renpy.jump(battle_flee_you_jump)
+                else:
+                    $ loc = runaway()
+                    $ move_to_grid(loc)
             else:
                 play sound "sfx/beep_double.ogg"
                 memo2 "You try to escape, but fail!"
@@ -414,7 +418,7 @@ label new_battle: #This is a giant loop
                 
 init python:
     ########## BATTLE START ##########
-    def battle_start(foe,positioning,opener,ending,play_music, flee = True,foe_advantage=False, allies_will_help=False):
+    def battle_start(foe,positioning,opener,ending,play_music, flee = True,foe_advantage=False, allies_will_help=False, flee_you_jump=None, flee_enemy_jump=None):
         global enemy 
         global advantage
         global battle_won
@@ -427,6 +431,8 @@ init python:
         global enemy_def
         global battle_message
         global battle_end_jump
+        global battle_flee_you_jump
+        global battle_flee_enemy_jump
         global battle_grid
         global ever_battled
         global can_flee
@@ -439,6 +445,8 @@ init python:
         f_advantage = foe_advantage
         battle_message = opener
         battle_end_jump = ending
+        battle_flee_you_jump = flee_you_jump
+        battle_flee_enemy_jump = flee_enemy_jump
         enemy = foe
 
         # Battling the trapped person will release them
@@ -1082,6 +1090,7 @@ label battle_enemy_turn:
     
     $ enemy_time = False
     if f_flee_successful:
+        $ renpy.music.stop(fadeout=3.0)
         $ enemy.make_foe(you)
         $ enemy.move("rand")
         play sound "sfx/beep_double2.ogg"
@@ -1095,9 +1104,12 @@ label battle_enemy_turn:
         hide screen health_enemy2
         hide screen new_battle
         with dissolve
-        call murder_follower_reaction
         $ renpy.pause(0.5)
-        jump grid_loc                            
+        if battle_flee_enemy_jump is not None:
+            $ renpy.jump(battle_flee_enemy_jump)
+        else:
+            call murder_follower_reaction
+            jump grid_loc
     elif enemy.health <= 0:
         $ enemy.health = 0
         $ battle_end()
