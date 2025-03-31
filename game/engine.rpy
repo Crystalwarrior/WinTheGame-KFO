@@ -1840,8 +1840,19 @@ init python:
         global sanity
         for i in range(0,num):
             add_time(1)
+            # Your sanity heals quicker with more party members
+            sanity_recover = 2 + len(party)*2
+
             if health < 100 or sanity < 100:
-                add_health_sanity(10,2)
+                add_health_sanity(10,sanity_recover)
+
+            # Your party members will regain sanity, too.
+            for ally in party:
+                # At a lower rate
+                ally.sanity += sanity_recover
+                if ally.sanity > 100:
+                    ally.sanity = 100
+
             renpy.pause(0.5)
             interrupt_sleep = False
             for x in classmates:
