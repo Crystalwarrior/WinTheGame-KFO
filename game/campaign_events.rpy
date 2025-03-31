@@ -112,7 +112,6 @@ init:
     $ did_not_intervene_jun = False
     $ you_can_cross_bridge = False
     $ bath_save_mari = False
-    $ moving_boat = False
     $ answered_yuki = False
     $ mari_knows_yuki_lie = False
     $ mari_knows_emi_kill = False
@@ -1051,14 +1050,12 @@ label shed_boat_move:
             "You walk as quietly as you can so you don't attract attention. If you don't run into any trouble, you only need to pick out where to unload the boat from here."
             $ loc = b3
             
-            $ moving_boat = True
             $ move_to_grid(b3)
             jump grid_loc
         elif Mari in followers or Jun in followers:
             "The boat is too big for just you. You'll need at least one other person to help you move it."
         else:
             "It's incredibly heavy with just one person. Moving it will be extra difficult, but you have no choice now."
-            $ moving_boat = True
     else:
         memo "You need to make room for the boat. Lighten your load a little and try again."
     return
