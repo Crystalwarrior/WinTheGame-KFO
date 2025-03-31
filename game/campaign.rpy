@@ -1264,7 +1264,7 @@ label stop_asai_jun:
             mari scared "What's wrong!?"
         play sound "sfx/bodyfall.ogg"
         hide Tetsuo with dissolve
-        $ Tetsuo.kill("murder",killer=Yoriko)
+        $ Tetsuo.kill("murder",killer=Yoriko,drop_loot=True)
         "Tetsuo falls face-first onto the ground and reveals an arrow in his back!"
         jump yoriko_arrow_attack
     else:
@@ -1294,8 +1294,8 @@ label found_tetsuo_murdered:
     play ambience "sfx/grassland2.ogg" fadeout 1.0 fadein 2.0
     scene forest3 with fade
     if Yoriko.alive:
-        $ Tetsuo.kill("murder",Yoriko)
-        "You walk back to where you last saw him ... but ..."
+        play music "music/bgs_creepy.ogg"
+        $ Tetsuo.kill("murder",Yoriko,drop_loot=True)
         y scared "Oh no ..."
         "Testuo is lying face-first on the ground with an arrow sticking out of him."
         if "Jun" in party:
@@ -1325,7 +1325,7 @@ label tetsuo_killed_asai:
                 play sound "sfx/blood2.ogg"
                 "Tetsuo freezes. He's not even breathing."
                 hide Tetsuo with dissolve
-                $ Tetsuo.kill("murder",Yoriko)
+                $ Tetsuo.kill("murder",Yoriko,drop_loot=True)
                 "He then collapses onto the ground, face-first. An arrow is sticking out of his back."
                 if "Jun" in party:
                     jun scared "Oh, sweet Jesus!"
@@ -1976,7 +1976,7 @@ label bathhouse_ai:
             $ glock.use_sfx()
             $ show_blood()
             $ Ai.move(rm_lockers)
-            $ Lucy.kill("murder",Ai)
+            $ Lucy.kill("murder",Ai,drop_loot=True)
             hide Lucy with quickdissolve
             play music "music/FeelingDark_loop.ogg"
             $ renpy.pause(0.5)
@@ -2012,7 +2012,7 @@ label bathhouse_ai:
             "You spring out of your locker and tackle Ai. You both fall to the floor and the gun flies from her hand."
             "You wrestle her on the floor, wrapping your arm around her neck. You increase pressure until Ai's groaning completely stops."
             "Eventually, Ai's flailing dies down, too."
-            $ Ai.kill("murder",you)
+            $ Ai.kill("murder",you,drop_loot=True)
             "She goes lifeless. Your fevered breathing is mixed with weeping from the lockers."
             play sound "sfx/metal2.ogg"
             "You drop Ai's corpse and immediately open the lockers to find %(group_name)s."
@@ -2039,7 +2039,7 @@ label bathhouse_ai:
                         show Mari angry
                         mari "Don't, don't ... touch me ..."
                         "She still hasn't forgiven you, it seems."
-                        $ Mari.kill("murder",Ai)
+                        $ Mari.kill("murder",Ai,drop_loot=True)
                         hide Mari with dissolve
                         "She goes limp in your arms."
                         "She succumbed to her wounds, and Mari is now dead ... You can hardly believe it."
@@ -2055,7 +2055,7 @@ label bathhouse_ai:
                             show Mari content
                             "She smiles for you one last time. You cry."
                             y scared "Mari!!"
-                            $ Mari.kill("murder",Ai)
+                            $ Mari.kill("murder",Ai,drop_loot=True)
                             hide Mari with dissolve
                             "She goes limp in your arms."
                             "You cannot believe it. You won't believe it. But ... Mari is {u}dead{/u}."
@@ -2985,7 +2985,7 @@ label school_emi_ambush:
         $ Emi.wpn.use_sfx()
         $ show_blood()
         hide Emi with dissolve
-        $ Emi.kill("suicide")
+        $ Emi.kill("suicide",drop_loot=True)
         "She commits suicide. You can't even get a word out of your mouth to stop her before she's sprawled out on the floor in a pool of her own blood."
         y scared "No!! Goddamn it, no!"
         "You scream at her body."
@@ -3041,7 +3041,7 @@ label school_emi_ambush:
                 y sad "Jun ... Don't you dare."
                 hide Jun with dissolve
                 "Jun's hand goes weak and falls from you. He slowly closes his eyes."
-                $ Jun.kill("murdered",killer=Emi)
+                $ Jun.kill("murdered",killer=Emi,drop_loot=True)
                 y none "Jun!!"
                 if (Mari in party or Mari.loc == loc):
                     show Mari scared
@@ -3241,7 +3241,7 @@ label bathhouse_nanako_yuki:
         $ Yuki.wpn.use_sfx()
         $ show_blood()
         hide Yuki with dissolve
-        $ Yuki.kill("suicide")
+        $ Yuki.kill("suicide",drop_loot=True)
         "You stand frozen for a while. You will see this whenever you close your eyes for a long, long time."
         if (Mari in party or Mari.loc == loc):
             "Mari wails and falls to the ground."
@@ -3773,7 +3773,7 @@ label gps_hospital:
     play sound "sfx/beep_alarm.ogg"
     memo "... 1."
     y scared "Takeshi!!"
-    $ Takeshi.kill("fz")
+    $ Takeshi.kill("fz",drop_loot=True)
     play sound "sfx/explosion.ogg"
     $ show_blood()
     hide Takeshi with dissolve
@@ -3852,7 +3852,7 @@ label gps_hospital:
             $ Fumie.wpn.use_sfx()
             $ show_blood()
             hide Keitaro with dissolve
-            $ Kei.kill("murder",killer=Fumie)
+            $ Kei.kill("murder",killer=Fumie,drop_loot=True)
             show Fumie sad
             "Kei jerks backwards. Fumie's smoking gun trembles in her hands."
             y scared "Fumie ... Put down the gun."
@@ -3895,7 +3895,7 @@ label gps_hospital:
         "You have no choice but to run away."
     $ loc = g3
     if Fumie.alive:
-        $ Fumie.kill("suicide")
+        $ Fumie.kill("suicide",drop_loot=True)
     $ move_to_grid(g3)
     jump grid_loc
         
@@ -3939,13 +3939,13 @@ label takkeifum_boat_death:
     # Takeshi, Kei, and Fumie's body will wash up on the shore, when you go there.
     if Takeshi.alive:
         $ Takeshi.move(loc)
-        $ Takeshi.kill("fz")
+        $ Takeshi.kill("fz",drop_loot=True)
     if Kei.alive:
         $ Kei.move(loc)
-        $ Kei.kill("fz")
+        $ Kei.kill("fz",drop_loot=True)
     if Fumie.alive:
         $ Fumie.move(loc)
-        $ Fumie.kill("fz")
+        $ Fumie.kill("fz",drop_loot=True)
     "You almost gag at what you see here."
     if len(boat_missing_dead) == 1:
         $ dead_name = boat_missing_dead[0].name

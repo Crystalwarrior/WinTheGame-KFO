@@ -435,7 +435,7 @@ label find_tetsuo:
             mari scared "What's wrong!?"
         play sound "sfx/bodyfall.ogg"
         hide Tetsuo with dissolve
-        $ Tetsuo.kill("murder",killer=Yoriko)
+        $ Tetsuo.kill("murder",killer=Yoriko,drop_loot=True)
         "Tetsuo falls face-first onto the ground and reveals an arrow in his back!"
         jump yoriko_arrow_attack
     else:
@@ -712,7 +712,7 @@ label find_yoriko:
                 mari scared "What's wrong!?"
             play sound "sfx/bodyfall.ogg"
             hide Tetsuo with dissolve
-            $ Tetsuo.kill("murder",killer=Yoriko)
+            $ Tetsuo.kill("murder",killer=Yoriko,drop_loot=True)
             "Tetsuo falls face-first onto the ground and reveals an arrow in his back!"
             jump yoriko_arrow_attack
     else:
@@ -815,7 +815,7 @@ label catch_yoriko:
                 $ Yoriko.death_sfx()
                 $ renpy.music.stop(fadeout=2.0)
                 $ renpy.sound.play("sfx/bodyfall.ogg",channel=1)
-                $ Yoriko.kill("murder",you)
+                $ Yoriko.kill("murder",you,drop_loot=True)
                 jump you_caught_yoriko
             else:
                 "You hear running. You must have scared them!"
