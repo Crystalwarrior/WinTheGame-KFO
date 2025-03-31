@@ -575,6 +575,16 @@ label murdered_takeshi:
 label Kenji_talk:
     $ cutscene()
     show Kenji
+    if Mari in party:
+        ken "Why are you with this guy, Mari? You should have waited for me!"
+        mari sad "I did ... But you never came!"
+        ken "So typical of you!"
+        ken "It was the same way in school! You stupid tease!"
+        "Kenji was suddenly very violent and pulling out knives. Mari hides behind you."
+        $ Mari.make_foe(Kenji)
+        if Jun in party:
+            $ Jun.make_foe(Kenji)
+        $ battle_start(Kenji,0,"You never trusted this guy.", "kenji_attacked_you", True)
     if you in Kenji.enemies or freeplay:
         show Kenji scared
         y none "Kenji?"
@@ -582,7 +592,7 @@ label Kenji_talk:
         # He attacked you first so Jun and Mari are not gonna like this guy
         $ Jun.make_foe(Kenji)
         $ Mari.make_foe(Kenji)
-        $ battle_start(Kenji,0,"You never trusted this guy.", "murdered_kenji", True)
+        $ battle_start(Kenji,0,"You never trusted this guy.", "kenji_attacked_you", True)
     $ enemy = Kenji
     show screen health_enemy
     menu:
