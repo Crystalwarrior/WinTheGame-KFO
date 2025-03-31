@@ -149,6 +149,12 @@ label game_init_locs:
         d5.shore = True
         e5.shore = True
         
+        #Forest
+        # For wood chopping activities. If True, allows you to chop wood if you have an axe.
+        c1.forest = True
+        c2.forest = True
+        e2.forest = True
+        e3.forest = True
         
         #mini-map coordinates
         a1.minimap_x = 25
@@ -584,10 +590,11 @@ label grid_loc:
         "Make Wish" if loc == g4 and not made_wish:
             $ movement_keys = False
             jump wish_tree
-        "Chop Wood" if loc == e2 and axe.is_in_inventory() and not already_chopped:
+        "Chop Wood [[3 hours]" if axe.is_in_inventory() and loc.forest:
             $ movement_keys = False
-            $ already_chopped= True
-            "You take your axe and harvest the best-looking wood in the forest."
+            play sound "sfx/hammer.ogg"
+            "You take your axe and harvest the best-looking wood in the area."
+            $ add_time(3)
             $ wood.add()
         "Wait in Camouflage" if armor == camo:
             $ movement_keys = False
@@ -827,6 +834,7 @@ init -2 python:
             self.zone = self
             self.shore = False #on the coast?
             self.cliff = False #has a steep cliff (you can jump off of)?
+            self.forest = False #has wood to chop
             
         def forbid(self):
             self.forbidden = True
