@@ -4203,6 +4203,10 @@ label boat_fight:
             
     else:
         $ renpy.say(boat_attacker.call_name,"I can't believe you. You were going to escape all by yourself!")
+    # Your allies are not gonna be OK with being attacked, so they'll help
+    python:
+        for ally in party:
+            ally.make_foe(boat_attacker)
     $ battle_start(boat_attacker,0,"%(boat_attacker_n)s lunges at you.", "boat_murder", True)
         
 label boat_murder:
