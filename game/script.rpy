@@ -1,4 +1,4 @@
-############################
+﻿############################
 ######### CONFIG ###########
 ############################
 
@@ -521,7 +521,6 @@ init -1:
     $ hide_health_stats = False
     $ can_flee = True
     $ f_advantage = False
-    $ already_chopped = False
     $ tut_pickup = False
     $ tut_openbag = False
     $ tut_show_pickup = False
