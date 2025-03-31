@@ -254,9 +254,9 @@ init python:
         renpy.show("black")
         renpy.transition(dissolve)
         renpy.pause(0.5)
-        if moving_boat and not (Mari in party or Mari.loc == loc) and not (Jun in party or Jun.loc == loc):
+        if boat.is_in_inventory() and not (Mari in party or Mari.loc == loc) and not (Jun in party or Jun.loc == loc):
             add_time(3) #Super extra time for moving the boat alone because friendship rules
-        elif moving_boat:
+        elif boat.is_in_inventory():
             add_time(2) #Extra time for moving the boat because it's heavy and stuff
         else:
             add_time(1) #Advance time 1 hour for traveling to a new grid location
@@ -460,7 +460,7 @@ label grid_loc:
         jump trap_fight
              
     #If someone's here while you're carrying the boat
-    if moving_boat and strangers_here:
+    if boat.is_in_inventory() and strangers_here:
         $ boat_attacker = strangers[0]
         jump boat_fight
 
@@ -554,7 +554,7 @@ label grid_loc:
     $ movement_keys = True
     call say_people_here #Showing and announcing who is in the location
     menu:# This is where we show the menu options
-        "Put Boat In Water" if moving_boat and loc.shore:
+        "Put Boat In Water" if boat.is_in_inventory() and loc.shore:
             $ movement_keys = False
             jump boat_in_water
         "Get Boat" if loc == boat_coast_loc:
@@ -708,7 +708,7 @@ label room_loc:
                     renpy.say(None,"%s goes %s."%(i.name,escape_plan))
                         
     #If someone's here while you're carrying the boat
-    if moving_boat and strangers_here:
+    if boat.is_in_inventory() and strangers_here:
         $ boat_attacker = strangers[0]
         jump boat_fight
   
