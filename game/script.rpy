@@ -3,9 +3,6 @@
 ############################
 
 init -3:
-    #Can rollback? (if you want to make the game harder and decisions semi-permanent.)
-    #$ config.rollback_enabled = False
-
     #What screen is default when right-click or ESC key?
     $_game_menu_screen = "preferences_screen"
     
