@@ -798,10 +798,13 @@ label catch_yoriko:
                             $ reference_item(Yoriko.wpn)
                             $ who_has_arrows = False
                             $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False)
-        "Shoot Back" if (wpn.type == "gun" or wpn.wpn_range == "ranged"):
+        "Shoot Back":
+            if not wpn.type == "gun" and not wpn.wpn_range == "ranged":
+                memo "You need to equip a ranged weapon!"
+                jump catch_yoriko
             $ Yoriko.health -= renpy.random.randint(10, wpn.wpn_rating*4)
             if ammo_mode:
-                $wpn.use()
+                $ wpn.use()
             else:
                 $ wpn.use_sfx()
             if wpn.type == "gun":
