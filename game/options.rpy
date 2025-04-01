@@ -13,7 +13,7 @@ init -1 python hide:
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
 
-    config.developer = False
+    config.developer = True
 
     ## Block rollback function unless you're a developer
     config.rollback_enabled = config.developer
@@ -254,7 +254,7 @@ init -1 python hide:
     ## stored. (It needs to be set early, before any other init code
     ## is run, so the persisten information can be found by the init code.)
 python early:
-    config.save_directory = "deathgame-1313682820"
+    config.save_directory = "WinTheGame_saves"
 
 init -1 python hide:
     #########################################
