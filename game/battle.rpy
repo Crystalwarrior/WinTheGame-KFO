@@ -818,8 +818,10 @@ label battle_enemy_turn:
                         renpy.say(p_attacker.call_name, helper_phrase)
                     continue
                 num = renpy.random.randint(0,100)
-                # 25% chance for each party member to help out, but only if your enemy isn't on death's door
-                if num <= 25 and enemy.health > 5:
+                helpchance_success = num <= max(15, p_attacker.sanity*0.93)
+                # Chance for each party member to help out, but only if
+                # their sanity is good enough and your enemy isn't on death's door
+                if helpchance_success and enemy.health > 5:
                     #print "party member attacks!"
                     p_attacker_n = p_attacker.name
                     enemy_name  = enemy.name
@@ -832,6 +834,8 @@ label battle_enemy_turn:
                     p_attacker.wpn.use_sfx()
                     reference_item(p_attacker.wpn)
                     renpy.pause(0.25)
+                    # Lose sanity for helping, cuz hurting people feels bad :((
+                    p_attacker.sanity = max(0, p_attacker.sanity - 3)
                     show_blood()
                     if enemy.gender == "Male":
                         num = renpy.random.randint(1,4)
