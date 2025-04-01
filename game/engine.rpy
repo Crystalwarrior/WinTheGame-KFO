@@ -1874,6 +1874,8 @@ label deaths_door:
         $ renpy.pause(2.0, hard=True)
     # If you continue being a gremlin, now you've done it to yourself.
     $ config.allow_skipping = True
+    if health <= 0:
+        jump game_over
     return
 
 
