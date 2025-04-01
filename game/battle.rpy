@@ -113,7 +113,7 @@ screen new_battle:
                     text (enemy.name) ypos slat_y xalign 0.5
                     hbox:
                         null width 40
-                        bar range 100 value enemy.health left_bar Frame("gui/bar_full_red.png",5,5) right_bar Frame("gui/bar_empty.png",5,5) thumb None xmaximum 105 ypos slat_y ymaximum 10
+                        bar range 100 value enemy.health+5 left_bar Frame("gui/bar_full_red.png",5,5) right_bar Frame("gui/bar_empty.png",5,5) thumb None xmaximum 105 ypos slat_y ymaximum 10
                         null width 40
             elif i == "you":
                 vbox:
@@ -121,7 +121,7 @@ screen new_battle:
                     text "You" ypos slat_y xalign 0.5
                     hbox:
                         null width 40
-                        bar range 100 value health left_bar Frame("gui/bar_full.png",5,5) right_bar Frame("gui/bar_empty.png",5,5) thumb None xmaximum 105 ypos slat_y ymaximum 10
+                        bar range 100 value health+5 left_bar Frame("gui/bar_full.png",5,5) right_bar Frame("gui/bar_empty.png",5,5) thumb None xmaximum 105 ypos slat_y ymaximum 10
                         null width 40
             else:
                 null width 185

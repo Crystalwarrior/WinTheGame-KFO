@@ -569,7 +569,7 @@ screen health:
                 "health <= 80", "red_bar_flash1",
                 "True", "red_bar",)
             bar:
-                value health
+                value health+5
                 range 100
                 left_bar full_bar_graphic
                 right_bar "empty_bar"
@@ -585,7 +585,7 @@ screen health:
                 "sanity <= 80", "green_bar_flash1",
                 "True", "green_bar",)
             bar:
-                value sanity
+                value sanity+5
                 range 100
                 left_bar full_bar_graphic
                 right_bar "empty_bar"
@@ -1112,7 +1112,7 @@ screen items:
         
         hbox:
             bar:
-                value health
+                value health+5
                 range 100
                 left_bar Frame("gui/bar_full_red.png",5,5)
                 right_bar Frame("gui/bar_empty.png",5,5)
@@ -1122,7 +1122,7 @@ screen items:
         hbox:
             xpos -60
             bar:
-                value sanity
+                value sanity+5
                 range 100
                 left_bar Frame("gui/bar_full.png",5,5)
                 right_bar Frame("gui/bar_empty.png",5,5)
@@ -2087,7 +2087,7 @@ screen health_enemy:
                 "enemy.health <= 80", "red_bar_flash1",
                 "True", "red_bar",)
             bar:
-                value enemy.health
+                value enemy.health+5
                 range 100
                 left_bar full_bar_graphic
                 right_bar "empty_bar"
@@ -2103,7 +2103,7 @@ screen health_enemy:
                 "enemy.sanity <= 80", "green_bar_flash1",
                 "True", "green_bar",)
             bar:
-                value enemy.sanity
+                value enemy.sanity+5
                 range 100
                 left_bar full_bar_graphic
                 right_bar "empty_bar"
@@ -2142,7 +2142,7 @@ screen health_enemy2:
                 "enemy.health <= 80", "red_bar_flash1",
                 "True", "red_bar",)
             bar:
-                value enemy.health
+                value enemy.health+5
                 range 100
                 left_bar full_bar_graphic
                 right_bar "empty_bar"
@@ -2158,7 +2158,7 @@ screen health_enemy2:
                 "enemy.sanity <= 80", "green_bar_flash1",
                 "True", "green_bar",)
             bar:
-                value enemy.sanity
+                value enemy.sanity+5
                 range 100
                 left_bar full_bar_graphic
                 right_bar "empty_bar"
