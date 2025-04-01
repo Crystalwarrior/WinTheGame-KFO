@@ -409,9 +409,11 @@ label new_battle: #This is a giant loop
 
     #Determine if battle is over
     if enemy.health <= 0:
+        $ config.skipping = False
         $ enemy.health = 0
         $ battle_end()
     elif health <= 0 and not cannot_die:
+        $ config.skipping = False
         $ health = 0
         jump game_over
     else:
@@ -1102,6 +1104,7 @@ label battle_enemy_turn:
     
     $ enemy_time = False
     if f_flee_successful:
+        $ config.skipping = False
         $ renpy.music.stop(fadeout=3.0)
         $ enemy.make_foe(you)
         $ enemy.move("rand")
@@ -1123,9 +1126,11 @@ label battle_enemy_turn:
             call murder_follower_reaction
             jump grid_loc
     elif enemy.health <= 0:
+        $ config.skipping = False
         $ enemy.health = 0
         $ battle_end()
     elif health <= 0 and not cannot_die:
+        $ config.skipping = False
         $ health = 0
         jump game_over
     $ f_waiting = False
@@ -1201,9 +1206,11 @@ label battle_your_turn:
         else:
             memo2 "Your weapon breaks!"
     if enemy.health <= 0:
+        $ config.skipping = False
         $ enemy.health = 0
         $ battle_end()
     elif health <= 0 and not cannot_die:
+        $ config.skipping = False
         $ health = 0
         jump game_over
     return######################################
@@ -1234,5 +1241,6 @@ label enemy_incapacitated:
         $ show_blood()
         memo2 "You finish off your opponent."
     if enemy.health <= 0:
+        $ config.skipping = False
         $ enemy.health = 0
         $ battle_end()
