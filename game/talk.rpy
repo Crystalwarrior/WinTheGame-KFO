@@ -212,7 +212,7 @@ label Jun_talk:
         "Change Item" if Jun in followers:
             show Jun
             y none "Let's trade items."
-            $ wpn_replace_char = Mari
+            $ wpn_replace_char = Jun
             call follower_item_trade
         "Tell him to wait here" if Jun in party and Jun in followers:
             y none "Wait here."
