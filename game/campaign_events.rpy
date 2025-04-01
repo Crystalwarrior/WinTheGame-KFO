@@ -809,8 +809,8 @@ label catch_yoriko:
             if not wpn.type == "gun" and not wpn.wpn_range == "ranged":
                 memo "You need to equip a ranged weapon!"
                 jump catch_yoriko
-            $ Yoriko.health -= renpy.random.randint(10, wpn.wpn_rating*4)
-            if ammo_mode:
+            $ Yoriko.health -= min(10, renpy.random.randint(0, wpn.wpn_rating*4))
+            if ammo_mode and wpn.use_count > 0:
                 $ wpn.use()
             else:
                 $ wpn.use_sfx()
