@@ -237,7 +237,19 @@ screen navigation:
     # The background of the game menu.
     window:
         style "gm_root"
-        
+
+    # The various buttons.
+    frame:
+        style_group "gm_nav" xalign .5 yalign .98 background None
+
+        has vbox
+        if show_buttons:
+            hbox:
+                add "gui/bracket_small.png" ypos 7
+                textbutton _("quick load") action Jump("_quick_load") xalign 0.0 style "menu_buttons" text_style "menu_buttons_text"
+            hbox:
+                add "gui/bracket_small.png" ypos 7
+                textbutton _("quick save") action Jump("_quick_save") xalign 0.0 style "menu_buttons" text_style "menu_buttons_text"
     # The various buttons.
     frame:
         style_group "gm_nav" xalign .98 yalign .98 background None
