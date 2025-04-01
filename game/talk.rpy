@@ -867,6 +867,7 @@ label murdered_goro:
     jump grid_loc
     
 label murder_follower_reaction:
+    $ cutscene()
     python:
         murdered_i = None
         for i in classmates:
