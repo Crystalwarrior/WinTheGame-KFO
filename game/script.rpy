@@ -587,7 +587,6 @@ init -1:
 #GAME OVER SCREEN (bad ending)
 label game_over:
     $ config.skipping = False
-    $ config.allow_skipping = False
     hide screen health
     hide screen health_enemy
     hide screen health_enemy2
@@ -606,7 +605,6 @@ label game_over:
     $ renpy.pause()
     stop music fadeout 3.0
     scene black with intro_dissolve
-    $ config.allow_skipping = True
     $ renpy.full_restart()
     
 #DEATH BY FORBIDDEN ZONE
