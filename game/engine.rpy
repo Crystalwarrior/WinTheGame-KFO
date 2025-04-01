@@ -1024,7 +1024,7 @@ screen items:
                     # )
             $ whattoshow = "icons/"+item_name+".jpg"
                 
-            $ allowed_to_act = persistent.always_act or not ((battling and not battle_selection) or health <= 0)
+            $ allowed_to_act = persistent.always_act or not (battling and not battle_selection) or health > 0
             
             frame:
                 xpadding 10
