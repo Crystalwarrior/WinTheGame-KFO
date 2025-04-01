@@ -232,9 +232,10 @@ label new_battle: #This is a giant loop
         memo2 "{color=#FFFFFF}MELEE{/color} weapons require you to be next to your opponent. {color=#FFFFFF}RANGED{/color} weapons can attack from far away, but their accuracy lowers."
         memo2 "You can heal yourself or equip new weapons in the {color=#FFFFFF}ITEMS{/color} screen. You can {color=#FFFFFF}FLEE{/color} battle if you reach either end of the grid. Some battles you cannot run from."
         #show screen health_enemy2
-        
+    $ battle_selection = True
     menu:
         "{image=gui/bullseye.png} Attack":
+            $ battle_selection = False
             if wpn.uses == 0 or (wpn.wpn_range !="both" and wpn.uses >0 and wpn.use_count < wpn.uses) or wpn.wpn_range == "both":
                 if do_something_stupid:
                     $ num = renpy.random.randint(0,100)
@@ -307,6 +308,7 @@ label new_battle: #This is a giant loop
                     memo2 "Your weapon is broken."
                 $ renpy.restart_interaction()
         "{image=gui/boom.png} Throw{image=gui/caret0.png}{image=gui/caret0.png}" if len(explosives) > 0:
+            $ battle_selection = False
             $ throwing = True
             python:
                 slat_range = range(10)
@@ -362,6 +364,7 @@ label new_battle: #This is a giant loop
             else:
                 jump new_battle
         "{image=gui/move.png} Move{image=gui/caret0.png}{image=gui/caret0.png}{image=gui/caret0.png}":
+            $ battle_selection = False
             $ battle_moving = True
             $ slat_range = []
             
@@ -378,8 +381,10 @@ label new_battle: #This is a giant loop
             jump new_battle
          # "{image=gui/boom.png} Item{image=gui/caret0.png}{image=gui/caret0.png}{image=gui/caret0.png}":
         "{image=gui/wait.png} Wait{image=gui/caret0.png}{image=gui/caret0.png}{image=gui/caret0.png}":
+            $ battle_selection = False
             call battle_enemy_turn
         "Flee" if (y_place == 0 or y_place == 9) and can_flee:
+            $ battle_selection = False
             $ show_buttons = False
             $ chance = renpy.random.randint(0,100)
             if chance > 33:
@@ -1065,6 +1070,9 @@ label battle_enemy_turn:
             $ num_damage = damage * -1
             $ add_health(num_damage)
             memo2 "%(e_name)s inflicts {color=#FF0000}%(damage)d{/color} points of damage on you."
+            # Give the player an opportunity to heal
+            if health <= 0 and persistent.always_act:
+                call deaths_door
         else:
             $ battle_missed = True
             play sound "sfx/beep_on.ogg"

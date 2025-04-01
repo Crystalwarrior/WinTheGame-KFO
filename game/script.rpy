@@ -1,4 +1,4 @@
-﻿############################
+############################
 ######### CONFIG ###########
 ############################
 
@@ -554,8 +554,12 @@ init -1:
         
     #Initialize the auto-battle feature in battle
     if persistent.autoattack is None:
-        $ persistent.autoattack = True    
+        $ persistent.autoattack = True
         
+    #Initialize the death's door feature in battle
+    if persistent.always_act is None:
+        $ persistent.always_act = True
+
     #Check if player has seen intro splash screen before
     if persistent.seen_splash is None:
         $ persistent.seen_splash = False

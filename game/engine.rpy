@@ -1024,7 +1024,7 @@ screen items:
                     # )
             $ whattoshow = "icons/"+item_name+".jpg"
                 
-                
+            $ allowed_to_act = persistent.always_act or not ((battling and not battle_selection) or health <= 0)
             
             frame:
                 xpadding 10
@@ -1052,15 +1052,23 @@ screen items:
                             text item_heal_rating ypos -1 color "#398339" size 16
                     vbox:
                         xalign 0.5 ypos 5
-          
                         if (wpn != itm and armor != itm) and (itm.wpn_rating > 0 or itm.defense > 0) and itm.type != "explosive" and not itm.broken:
-                            textbutton "EQUIP" text_style "small_button_text" style "small_button" action [Return("equip"),SetVariable("item_to_show",itm)]
+                            if allowed_to_act:
+                                textbutton "EQUIP" text_style "small_button_text" style "small_button" action [Return("equip"),SetVariable("item_to_show",itm)]
+                            else:
+                                textbutton "EQUIP" text_style "small_button_text" style "small_button"
                         elif wpn == itm or armor == itm:
-                            textbutton "EQUIPPED" text_style "unequip_button_text" style "unequip_button" action [Return("unequip"),SetVariable("item_to_show",itm)]
+                            if allowed_to_act:
+                                textbutton "EQUIPPED" text_style "unequip_button_text" style "unequip_button" action [Return("unequip"),SetVariable("item_to_show",itm)]
+                            else:
+                                textbutton "EQUIPPED" text_style "unequip_button_text" style "unequip_button"
                         else:
                             textbutton "EQUIP" text_style "small_button_text" style "small_button"
-                            
-                        if itm == trap:
+                        
+                        if not allowed_to_act:
+                            # Disable the button during enemy turn
+                            textbutton "USE" text_style "small_button_text" style "small_button"
+                        elif itm == trap:
                             textbutton "SET" text_style "small_button_text" style "small_button" action [Return("use"),SetVariable("item_to_show",itm)]
                         elif itm == bag:
                             textbutton "OPEN" text_style "small_button_text" style "small_button" action [Return("use"),SetVariable("item_to_show",itm)]
@@ -1069,7 +1077,7 @@ screen items:
                         else:
                             textbutton "USE" text_style "small_button_text" style "small_button"
                         
-                        if show_drop_stuff:
+                        if show_drop_stuff and allowed_to_act:
                             textbutton "DROP" text_style "small_button_text" style "small_button" action [Return("drop"),SetVariable("item_to_show",itm)]
                         else:
                             textbutton "DROP" text_style "small_button_text" style "small_button"
@@ -1835,7 +1843,40 @@ init python:
 
     config.window_overlay_functions.append(button_game_menu)
     
-    
+
+################
+# DEATH'S DOOR #
+################
+
+label deaths_door:
+    python:
+        config.skipping = False
+        config.allow_skipping = False
+        has_healing_items = False
+        for i in inventory:
+            if i[0].healing > 0:
+                has_healing_items = True
+                break
+    memo2 "{color=#FF0000}You're on death's door!{/color} This is your last opportunity to save yourself{w=1}{nw}"
+    # Pause in text to give you indication this is timed
+    if health <= 0:
+        extend ".{w=1}{nw}"
+    if health <= 0:
+        extend ".{w=1}{nw}"
+    if health <= 0:
+        extend ".{w=1}{nw}"
+    if health <= 0:
+        extend ".{w=1}{nw}"
+    if health <= 0:
+        extend ".{w=1}"
+    # If you spam click, you still get a chance
+    if health <= 0:
+        $ renpy.pause(2.0, hard=True)
+    # If you continue being a gremlin, now you've done it to yourself.
+    $ config.allow_skipping = True
+    return
+
+
 ###################
 ### WAIT / SLEEP ###
 ###################

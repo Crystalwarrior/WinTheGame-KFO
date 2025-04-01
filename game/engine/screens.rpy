@@ -518,6 +518,18 @@ screen preferences:
                 hbox xalign 1.0:
                     textbutton _("on") action SetField(persistent, 'autoattack', True) style "digi_button" text_style "digi_button"
                     textbutton _("off") action SetField(persistent, 'autoattack', False) style "digi_button" text_style "digi_button"
+            frame:
+                style_group "pref"
+                has vbox
+
+                hbox:
+                    add "gui/bracket.png"
+                    vbox:
+                        label _("always act")
+                        text  "You can always use items, even during enemy turn and at 0 HP." size 10
+                hbox xalign 1.0:
+                    textbutton _("on") action SetField(persistent, 'always_act', True) style "digi_button" text_style "digi_button"
+                    textbutton _("off") action SetField(persistent, 'always_act', False) style "digi_button" text_style "digi_button"
 
         vbox:
             frame:
@@ -647,7 +659,7 @@ screen preferences:
                     add "gui/bracket.png"
                     vbox:
                         label _("text speed")
-                        text "How fast the text shows." size 15
+                        text "How fast the text shows." size 10
                 bar value Preference("text speed")
             frame:
                 style_group "pref"
@@ -657,10 +669,22 @@ screen preferences:
                     add "gui/bracket.png"
                     vbox:
                         label _("auto-attack")
-                        text  "No need to aim during battles." size 15
+                        text  "No need to aim during battles." size 10
                 hbox xalign 1.0:
                     textbutton _("on") action SetField(persistent, 'autoattack', True) style "digi_button" text_style "digi_button"
                     textbutton _("off") action SetField(persistent, 'autoattack', False) style "digi_button" text_style "digi_button"
+            frame:
+                style_group "pref"
+                has vbox
+
+                hbox:
+                    add "gui/bracket.png"
+                    vbox:
+                        label _("always act")
+                        text  "You can always use items, even during enemy turn and at 0 HP" size 10
+                hbox xalign 1.0:
+                    textbutton _("on") action SetField(persistent, 'always_act', True) style "digi_button" text_style "digi_button"
+                    textbutton _("off") action SetField(persistent, 'always_act', False) style "digi_button" text_style "digi_button"
 
         vbox:
             frame:

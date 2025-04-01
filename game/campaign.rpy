@@ -1474,6 +1474,8 @@ init python:
             damage = damage * -1
         add_health(damage)
         if health <= 0:
+            renpy.call("deaths_door")
+        if health <= 0:
             renpy.jump("game_over")
 
 label abandon_arrow_chase:
