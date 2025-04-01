@@ -445,6 +445,7 @@ label grid_loc:
 
     #People around you react to murder
     if just_murdered_someone:
+        $ cutscene()
         $ just_murdered_someone = False
         if len(party) > 0:
             call murder_follower_reaction
@@ -455,6 +456,7 @@ label grid_loc:
                     # i.make_foe(you)
                     i.move("rand")
                     renpy.say(None,"%s goes %s."%(i.name,escape_plan))
+        $ uncutscene()
                         
     if trap_caught_person != None and trap_loc == loc:
         jump trap_fight
@@ -696,6 +698,7 @@ label room_loc:
     
     #People around you react to murder
     if just_murdered_someone:
+        $ cutscene()
         $ just_murdered_someone = False
         if len(party) > 0:
             call murder_follower_reaction
@@ -706,6 +709,7 @@ label room_loc:
                     # i.make_foe(you)
                     i.move("rand")
                     renpy.say(None,"%s goes %s."%(i.name,escape_plan))
+        $ uncutscene()
                         
     #If someone's here while you're carrying the boat
     if boat.is_in_inventory() and strangers_here:
