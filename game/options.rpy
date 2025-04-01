@@ -33,7 +33,7 @@ init -1 python hide:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Win the Game - KFO"
-    config.version = "0.8.7"
+    config.version = "0.8.8"
     
     config.window_icon = "winky.png"
 
