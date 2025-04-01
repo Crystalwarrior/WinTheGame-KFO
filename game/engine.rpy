@@ -1709,9 +1709,9 @@ screen follower_item_replace:
                         text show_wpn
                     if item_name[0].defense > 0:
                         add "gui/armor.png"
-                        $ show_wpn = "{color=#FFF}"+str(item_name[0].armor_rating)+"{/color}"
+                        $ show_wpn = "{color=#FFF}"+str(item_name[0].defense)+"{/color}"
                         text show_wpn
-                    if item_name[0].defense > 0:
+                    if item_name[0].healing > 0:
                         add "gui/heal.png"
                         $ show_wpn = "{color=#FFF}"+str(item_name[0].healing)+"{/color}"
                         text show_wpn
