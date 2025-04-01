@@ -137,7 +137,7 @@ label kenji_attacks_you:
     "Your forced banter dies down. Kenji appears to be struggling in matching your pace, obviously not used to outdoor activities."
     if loc == d1:
         "The trees thin and you can see the ocean as you press east. It is a very steep fall off of the cliff to the ragged rocks below."
-    $ Keiji.wpn.use_sfx()
+    $ Kenji.wpn.use_sfx()
     $ damage_you(-20)
     $ show_blood()
     stop music
