@@ -21,9 +21,10 @@ init python:
             health = 0
         #calculatesanitysound()
         
-    def add_sanity(num):
+    def add_sanity(num, silent=False):
         global sanity
-        renpy.sound.play("sfx/beep1.ogg",channel="system")
+        if not silent:
+            renpy.sound.play("sfx/beep1.ogg",channel="system")
         if notify_y != .095:
             renpy.show_screen("beep_yellow")
         if num > 0:
