@@ -686,7 +686,11 @@ label won_game:
     dp "All players have been eliminated!"
     play sound "sfx/beep_win.ogg"
     dp "You have {color=#FF0000}won the game{/color}!"
-    dp "{image=icons/trophy.jpg}\n\n:)"
+    if you.kills <= 0:
+        dp "No attributed kills!? Impressive! I don't know how you managed {u}that{/u}!"
+        dp "{image=icons/trophy_pacifist.jpg}\n\n:)"
+    else:
+        dp "{image=icons/trophy.jpg}\n\n:)"
     dp "A helicopter will be arriving shortly to pick you up and take you home."
     dp "I bet you can't wait to show your parents your new trophy! It's not real or anything. But you can show them that picture. I'm sure they'll believe you. You are alive, after all."
     dp "Oh, and the collar around your neck - which is kind of permanent. Sorry!"
@@ -697,7 +701,10 @@ label won_game:
     dp "But wasn't it F-U-N?"
     dp "On your ride back, please be sure to fill out the comment card provided. You can check the box at the bottom if you'd like to be considered for the next game!"
     dp "I can't promise you'll be selected, since there is quite a long waiting list to participate, but I will personally put in a good word for you, {color=#fff}<StudentName>{/color}! You have been by far my favorite contestant!"
-    dp "I mean, the way you killed {color=#fff}<Student_Kill1>{/color} was just amazing! Such expertise!"
+    if you.kills <= 0:
+        dp "I mean, the way you watched {color=#fff}<Student_Kill1>{/color} get killed was just hilarious! Such dramatic flair!"
+    else:
+        dp "I mean, the way you killed {color=#fff}<Student_Kill1>{/color} was just amazing! Such expertise!"
     nvl clear
     dp "Anyway, it seems like our time is coming to an end. I hope you enjoyed the game!"
     dp "We certainly enjoyed having you."
