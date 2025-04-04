@@ -1045,6 +1045,8 @@ label battle_enemy_turn:
         
     if f_waiting:
         python:
+            # Staying inactive in combat is certainly a decision of all time
+            enemy.sanity -= 2
             renpy.pause(0.5)
             enemy_call = enemy.call_name
             rand_sayings = ["Leave me alone!", "Go away!", "Stop it!!", "You won't get away with this!", "I can't believe you!","Shinobu!?","I don't want to die!"]
@@ -1099,6 +1101,8 @@ label battle_enemy_turn:
                     if battle_grid[i] == "foe":
                         battle_grid[i] = None
         else:
+            # The enemy feels threatened by the failed attempt
+            $ enemy.sanity -= 3
             memo2 "%(e_name)s tries to flee, but can't get away!"
         $ f_fleeing = False
         $ f_moving = False
