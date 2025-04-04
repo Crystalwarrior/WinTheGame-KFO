@@ -1776,24 +1776,28 @@ label deaths_door:
             if i[0].healing > 0:
                 has_healing_items = True
                 break
-    memo2 "{color=#FF0000}You're on death's door!{/color} This is your last opportunity to save yourself{w=1}{nw}"
-    # Pause in text to give you indication this is timed
-    if health <= 0:
-        extend ".{w=1}{nw}"
-    if health <= 0:
-        extend ".{w=1}{nw}"
-    if health <= 0:
-        extend ".{w=1}{nw}"
-    if health <= 0:
-        extend ".{w=1}{nw}"
-    if health <= 0:
-        extend ".{w=1}"
-    # If you spam click, you still get a chance
-    if health <= 0:
-        $ renpy.pause(2.0, hard=True)
-    # If you continue being a gremlin, now you've done it to yourself.
-    $ config.allow_skipping = True
-    if health <= 0:
+    # Death's Door mechanic only happens if you can always act
+    if has_healing_items and persistent.always_act:
+        memo2 "{color=#FF0000}You're on death's door!{/color} This is your last opportunity to save yourself{w=1}{nw}"
+        # Pause in text to give you indication this is timed
+        if health <= 0:
+            extend ".{w=1}{nw}"
+        if health <= 0:
+            extend ".{w=1}{nw}"
+        if health <= 0:
+            extend ".{w=1}{nw}"
+        if health <= 0:
+            extend ".{w=1}{nw}"
+        if health <= 0:
+            extend ".{w=1}"
+        # If you spam click, you still get a chance
+        if health <= 0:
+            $ renpy.pause(2.0, hard=True)
+        # If you continue being a gremlin, now you've done it to yourself.
+        $ config.allow_skipping = True
+        if health <= 0:
+            jump game_over
+    else:
         jump game_over
     return
 
