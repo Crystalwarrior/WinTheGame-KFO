@@ -2064,11 +2064,27 @@ label bathhouse_ai:
             hide locker with dissolve
             "You spring out of your locker and tackle Ai. You both fall to the floor and the gun flies from her hand."
             "You wrestle her on the floor, wrapping your arm around her neck. You increase pressure until Ai's groaning completely stops."
-            "Eventually, Ai's flailing dies down, too."
-            $ Ai.kill("murder",you,drop_loot=True)
-            "She goes lifeless. Your fevered breathing is mixed with weeping from the lockers."
-            play sound "sfx/metal2.ogg"
-            "You drop Ai's corpse and immediately open the lockers to find %(group_name)s."
+            if rope.is_in_inventory():
+                menu:
+                    "Kill Her":
+                        $ dealt_ai = "dead"
+                    "Tie Her Up":
+                        $ dealt_ai = "tied"
+            else:
+                $ dealt_ai = "dead"
+            if dealt_ai == "dead":
+                "Eventually, Ai's flailing dies down, too."
+                $ Ai.kill("murder",you,drop_loot=True)
+                "She goes lifeless. Your fevered breathing is mixed with weeping from the lockers."
+                play sound "sfx/metal2.ogg"
+                "You drop Ai's corpse and immediately open the lockers to find %(group_name)s."
+            else:
+                $ rope.use_sfx()
+                $ rope.destroy(1)
+                $ Ai.type = "fixed"
+                $ Ai.hidden = True
+                "You take out your rope and tie her up."
+                "Hopefully, this will put a stop to her rampage. You don't care what happens to her next."
             show Nanako scared with dissolve
             play sound "sfx/bodyfall.ogg"
             "Nanako falls out of her locker in an emotional mess, but she's at least alive."
@@ -2220,6 +2236,8 @@ label ai_kill_bath:
         "You wallop the back of her skull and she stops moving. You hope you haven't killed her as you pull her from the water so she doesn't drown."
         $ rope.use_sfx()
         $ rope.destroy(1)
+        $ Ai.type = "fixed"
+        $ Ai.hidden = True
         "You take out your rope and tie her up."
     $ bow.get_sfx()
     "???" "Put your hands where I can see them!!"
@@ -2337,18 +2355,35 @@ label ai_kill_bath:
     jump grid_loc
         
 label ai_revenge_kill:
+    $ ai_killer = None
+    if Nanako.alive:
+        $ Nanako.sanity -= 25
+        $ ai_killer = Nanako
+    if Lucy.alive:
+        $ Lucy.sanity -= 25
+        $ ai_killer = Lucy
     $ cutscene()
     # If you tied Ai up, they just execute her offscreen.
-    $ Nanako.sanity -= 25
-    $ Lucy.sanity -= 25
-    $ Ai.kill("murder",Lucy)
+    if ai_killer != None:
+        $ Ai.kill("murder", ai_killer)
+    # Otherwise she bites her own tongue
+    else:
+        $ Ai.kill("suicide")
     "You have a sinking feeling."
     "You check your stats page, and realize Ai is dead."
-    y "D-did they take revenge?"
-    if (Jun in party or Jun.loc == loc):
-        jun "Ugh. Can't say she didn't have it coming."
-    if (Mari in party or Mari.loc == loc):
-        mari "Oh, no... No no no."
+    if ai_killer != None:
+        y "I-Is this revenge?"
+        if (Jun in party or Jun.loc == loc):
+            jun "Ugh. Can't say she didn't have it coming."
+        if (Mari in party or Mari.loc == loc):
+            mari "Oh, no... No no no."
+    else:
+        y "...She... took her own life."
+        if (Jun in party or Jun.loc == loc):
+            jun "Jesus! Why was she that obsessed with the game!?"
+        if (Mari in party or Mari.loc == loc):
+            mari "No! Why..!? I thought we could reason with her!"
+            y "I... guess not."
     y "At least Ai's rampage is now over."
     return
 
