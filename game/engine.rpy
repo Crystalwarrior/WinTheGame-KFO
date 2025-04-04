@@ -1024,7 +1024,15 @@ screen items:
                     # )
             $ whattoshow = "icons/"+item_name+".jpg"
                 
-            $ allowed_to_act = persistent.always_act or not (battling and not battle_selection) or health > 0
+            $ allowed_to_act = True
+            # If we're not allowed to act in certain situations, handle those situations here
+            if not persistent.always_act:
+                # If we're at 0 health, we're done!
+                if health <= 0:
+                    $ allowed_to_act = False
+                # If we're battling and it's not our turn to select an option
+                if battling and not battle_selection:
+                    $ allowed_to_act = False
             
             frame:
                 xpadding 10
