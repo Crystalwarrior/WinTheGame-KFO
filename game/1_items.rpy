@@ -339,6 +339,7 @@ init -2 python:
                     for i in inventory:
                         if i[0] == self:
                             i[1] += amt
+                            break
                             
                 if not silent:
                     renpy.sound.play("sfx/beep_good.ogg", channel="system")
@@ -348,6 +349,7 @@ init -2 python:
                     if i[0] == self:
                         # Take item out of location inventory
                         loc.items.remove(i)
+                        break
                 
             
         def drop(self, num=1,char="you"):
@@ -361,6 +363,7 @@ init -2 python:
                     if i[0].name == self.name:
                         num = i[1]
                         found = True
+                        break
                 if not found:
                     num = 1
             #print "removing!",self.name,num
@@ -371,9 +374,11 @@ init -2 python:
                 #store_say(None,"{color=#FF0000}Removing "+self.fancy_name+" ...{/color}")
                 for i in inventory:
                     if i[0] == self:
-                        i[1] -= num
-                        if i[1] <= 0:
+                        if i[1] - num <= 0:
                             inventory.remove(i)
+                        else:
+                            i[1] -= num
+                        break
                 if self == wpn:
                     wpn = fist
                 elif self == armor:
@@ -411,9 +416,11 @@ init -2 python:
                 for i in inventory:
                     if i[0] == self:
                         inventory.remove(i)
+                        break
             else:
                 for i in inventory:
                     if i[0] == self:
                         i[1] -= num
                         if i[1] <= 0:
                             inventory.remove(i)
+                        break
