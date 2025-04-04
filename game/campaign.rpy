@@ -3047,6 +3047,7 @@ label school_emi_ambush:
         $ show_blood()
         hide Emi with dissolve
         $ Emi.kill("suicide",drop_loot=True)
+        $ add_sanity(-10, silent=True)
         "She commits suicide. You can't even get a word out of your mouth to stop her before she's sprawled out on the floor in a pool of her own blood."
         y scared "No!! Goddamn it, no!"
         "You scream at her body."
@@ -3064,18 +3065,24 @@ label school_emi_ambush:
                 show Mari sad at left
                 with dissolve
                 mari "We have to stop the blood ... Oh, oh! I can't ... Why is this happening to us!?"
+                $ add_sanity(-10, silent=True)
                 "Mari is trying to save Jun while sobbing to herself."
             show Jun sad with dissolve
-            if firstaid.is_in_inventory() or medkit.is_in_inventory():
-                $ jun_survived_emi = True
+            python:
+                found_medicine = None
                 if firstaid.is_in_inventory():
-                    $ firstaid.destroy(1)
-                    $ firstaid.use_sfx()
-                    "You used a first aid kit to dress Jun's wound."
-                if medkit.is_in_inventory():
-                    $ medkit.destroy(1)
-                    $ medkit.use_sfx()
-                    "You used a medical kit to dress Jun's wound."
+                    found_medicine = firstaid
+                elif medkit.is_in_inventory():
+                    found_medicine = medkit
+                elif (Jun in party or Jun.loc == loc) and Jun.item != None and (Jun.item[0] == firstaid or Jun.item[0] == medkit):
+                    found_medicine = Jun.item[0]
+                elif (Mari in party or Mari.loc == loc) and Mari.item != None and (Mari.item[0] == firstaid or Mari.item[0] == medkit):
+                    found_medicine = Mari.item[0]
+            if found_medicine:
+                $ jun_survived_emi = True
+                $ found_medicine.destroy(1)
+                $ found_medicine.use_sfx()
+                "You used a %(found_medicine.fancy_name) to dress Jun's wound."
             else:
                 #Jun dies
                 "Jun is losing blood fast ... You fall on your knees beside him."
@@ -4503,9 +4510,9 @@ label mansion_correct:
                 found_medicine = firstaid
             elif medkit.is_in_inventory():
                 found_medicine = medkit
-            elif (Jun in party or Jun.loc == loc) and (Jun.item[0] == firstaid or Jun.item[0] == medkit):
+            elif (Jun in party or Jun.loc == loc) and Jun.item != None and (Jun.item[0] == firstaid or Jun.item[0] == medkit):
                 found_medicine = Jun.item[0]
-            elif (Mari in party or Mari.loc == loc) and (Mari.item[0] == firstaid or Mari.item[0] == medkit):
+            elif (Mari in party or Mari.loc == loc) and Mari.item != None and (Mari.item[0] == firstaid or Mari.item[0] == medkit):
                 found_medicine = Mari.item[0]
         if (Jun in party or Jun.loc == loc) and found_medicine != None:
             mari sad " ... ... "
