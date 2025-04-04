@@ -269,7 +269,7 @@ label letsgo:
             call Kenji_encounter
         "Hide":
             "You need to be safe, just in case someone actually is \"playing the game.\" You quietly stoop low and press yourself against the wall."
-            $ add_sanity(-10)
+            $ add_sanity(-10, silent=True)
             play sound "sfx/door_squeak.ogg"
             "The rustling of the grass gets closer and then you hear it just outside of the front door. The door then hinges open with a heart-wrenching creak."
             "Heavy footsteps enter the room ... and a figure reveals itself."
@@ -1093,7 +1093,7 @@ label tetsuo_asai:
     else:
         $ Asai.met = True
     if (Mari in party or Mari.loc == loc) and Mari.alive:
-        mari scared "What is he doing..?"
+        mari scared "What..?"
     show Tetsuo happy
     tet "Don't worry about that, because I'm not playing the game!"
     tet "I just need to rally all the students together, and we'll start a formal protest by the edge of island. Surely they can't ignore our rights."
@@ -1174,6 +1174,7 @@ label tetsuo_asai:
             $ show_blood()
             hide Asai with dissolve
             $ Tetsuo.kill("murder",Asai)
+            $ Asai.sanity -= 30
             $ add_sanity(-15)
             "You cannot bear to watch as the guy who used to be the class clown brutally hacks at Tetsuo's body. No one would have survived that."
             "When you can finally find the strength to look back, Asai is scurrying off."
@@ -2085,6 +2086,7 @@ label bathhouse_ai:
                     play music "music/Reynardine.ogg"
                     "You immediately spring up and find Mari's locker. She's curled up inside, not moving. You reach in and pull her out. Her shivering tells you that she is alive."
                     show Mari sad with dissolve
+                    $ add_sanity(-10, silent=True)
                     "But Mari is covered in blood. She's holding a bleeding wound on her stomach."
                     y sad "Mari, no ..."
                     if you in Mari.enemies:
@@ -2093,6 +2095,7 @@ label bathhouse_ai:
                         "She still hasn't forgiven you, it seems."
                         $ Mari.kill("murder",Ai,drop_loot=True)
                         hide Mari with dissolve
+                        $ add_sanity(-20, silent=True)
                         "She goes limp in your arms."
                         "She succumbed to her wounds, and Mari is now dead ... You can hardly believe it."
                     else:
@@ -2109,6 +2112,7 @@ label bathhouse_ai:
                             y scared "Mari!!"
                             $ Mari.kill("murder",Ai,drop_loot=True)
                             hide Mari with dissolve
+                            $ add_sanity(-20, silent=True)
                             "She goes limp in your arms."
                             "You cannot believe it. You won't believe it. But ... Mari is {u}dead{/u}."
                             "You press your head onto her body and weep while Nanako mourns for Lucy and Hitomo."
@@ -2128,6 +2132,7 @@ label bathhouse_ai:
                                 $ Mari.sanity = 100
                                 $ medkit.destroy(1)
                             "You clean and dress her wound. It's pretty bad, but you got the bullet out of her, and now all she needed was time in completely recovering."
+                            $ add_sanity(5)
                             "You were going to get her off of this island if it was the last thing you did ... The literalness struck you, but you swallowed that down and ignored it."
                 
             else:
@@ -2155,6 +2160,7 @@ label bathhouse_ai:
                     jun "Is ... Mari ...?"
                     if not Mari.alive:
                         show Jun sad
+                        $ Jun.sanity -= 10
                         "You nod, trying not to go weak again. Jun is speechless. The heaviness of this game might have just hit him."
                     else:
                         $ party_add(Mari)
@@ -2177,9 +2183,6 @@ label bathhouse_ai:
                 show Nanako angry
                 nana "Everything was fine until you assholes came along!!"
                 "She was clearly still upset about the death of her friends, so you tug on Jun's arm so he won't push her any further."
-                hide Nanako 
-                hide Jun
-                with dissolve
             else:
                 $ Nanako.make_friend(you)
             stop music fadeout 4.0
