@@ -907,7 +907,7 @@ screen stats:
             thumb None
             xmaximum 227
             ymaximum 34
-        $player_score = "%d / %d"%(players_alive,total_players)
+        $ player_score = "%d / %d"%(players_alive,total_players)
         text player_score xpos 0.5 xanchor 0.5 ypos -29 drop_shadow None outlines [(2,"#000",0,0)] size 16
         
     side "c r":
@@ -1213,78 +1213,14 @@ label items:
         $ item_to_show.drop("all")
         # update the grid location
         jump items
-    else:
-        if show_drop_stuff:
-            jump grid_loc
     $ notify_y = .001
     return
-    
-label equip_wpn:     
-    $ item_to_show.equip()
-    if battling:
-        return
-    else:
-        jump grid_loc
-    
-    
-label use_item:    
-    if item_to_show == trap:
-        $ trap_set = True
-        $ trap_loc = loc
-        $ trap_time = [day,hour]
-        $ needs_to_be = [ (trap_time[0] + trap_required_time[0]), (trap_time[1] + trap_required_time[1]) ]
-        python:
-            while needs_to_be[1] > 23:
-               needs_to_be[1] -= 24
-               needs_to_be[0] += 1
-        $ item_to_show.drop()
-        $ renpy.notify("Setting trap ...")
-        $ trap.use_sfx()
-    elif item_to_show == gas:
-        $ fuel_found = False
-        python:
-            for x in inventory:
-                if x[0].type == "fuel" and x[0].use_count > 0:
-                    fuel_found = True
-                    renpy.notify("Refilling weapon ...")
-                    gas.use_sfx()
-                    renpy.pause(1.0)
-                    x[0].restore_use()
-        if fuel_found:
-            $ gas.destroy()
-        else:
-            memo "You don't have anything that needs gas."
-    elif item_to_show == bag and tut_openbag:
-        $ item_to_show.consume()
-        $ renpy.notify("Opening bag ...")
-        $ bag.use_sfx()
-        show screen items
-        $ renpy.pause(1.0,hard=True)
-        hide screen items
-        show screen health
-        jump letsgo
-    elif item_to_show.uses > 0:
-        $ item_to_show.use()
-    else:
-        $ item_to_show.consume()
-    if battling:
-        return
-    else:
-        jump grid_loc
-    
 
 ######################
 #### ITEM POP-UPS ####
 ######################
 
 label item_loc_selection:
-    jump selection_one
-    # if len(loc.items) == 1:
-        # jump selection_one
-    # else:
-        # jump selection_many
-        
-label selection_one:
     if item_picked == trap and trap_set:
         call bear_trap_info
     else:
@@ -1293,42 +1229,10 @@ label selection_one:
                 for i in loc.items:
                     if i[0].name == item_picked.name:
                         item_picked_amt = i[1]
-        $ item_picked.add(amt=item_picked_amt,silent=True,pickup=True)
+                        break
+            item_picked.add(amt=item_picked_amt,silent=True,pickup=True)
     if item_picked == bag and tut_pickup:
         jump gui_tutorial2
-    else:
-        jump grid_loc
-        
-# label selection_many:
-    # $ item_quantity = 0
-    # call screen loc_inventory
-    # $ item_to_add = _return
-    # if item_to_add != 0:
-        # if item_to_add == trap and trap_set:
-            # call bear_trap_info
-        # else:
-            # $ item_to_add.add(item_quantity,True)
-            # python:
-                # for x in loc.items:
-                    # if item_to_add == x[0]:
-                        # x[1] = 0
-    # if itm == bag and tut_pickup:
-        # jump gui_tutorial2
-    # elif len(loc.items) > 0 and item_to_add != 0:
-        # jump selection_many
-    # else:
-        # jump grid_loc
-
-label item_drop_selection:
-    # call screen item_drop_select
-    # $ item_to_drop = _return
-    # if item_to_drop != 0:
-    $ item_to_drop.drop()
-    # if len(inventory) > 0 and item_to_drop != 0:
-        # jump item_drop_selection
-    # else:
-    if battling:
-        return
     else:
         jump grid_loc
 
@@ -1744,24 +1648,16 @@ init python:
 ########################
 
 label _quick_save:
-    $ renpy.sound.play("sfx/beep1.mp3", channel="system")
-    $ renpy.notify("Saving ...")
-    #$ renpy.pause(1.0)
-    $ renpy.save('quicksave', _('Quick Save'))
-
+    $ quick_save()
     return
 
 label _quick_load:
     call screen load_confrim
     $ do_load = _return
     if do_load:
-        $ renpy.sound.play("sfx/beep_stutter.ogg", channel="system")
-        $ renpy.notify("Loading ...")
-        $ renpy.pause(0.25)
-        $ renpy.load('quicksave')
-    else:
-        return
-    
+        $ quick_load()
+    return
+
 screen load_confrim:
     frame xalign 0.5 yalign 0.5:
         has vbox:
@@ -1776,6 +1672,13 @@ init python:
         renpy.sound.play("sfx/beep_stutter.ogg", channel="system")
         renpy.notify("Saving ...")
         renpy.save('quicksave', _('Quick Save'))
+
+    def quick_load():
+        renpy.sound.play("sfx/beep_stutter.ogg", channel="system")
+        renpy.notify("Loading ...")
+        ui.pausebehavior(0)
+        ui.interact(suppress_underlay=True, suppress_overlay=True)
+        renpy.load('quicksave')
 
     def toggle_skipping():
         config.skipping = not config.skipping
