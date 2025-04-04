@@ -908,7 +908,7 @@ label trap_fight:
     "The bear trap has caught someone!!"
     $ renpy.show(trap_caught_person.death_sprite)
     "%(trapped_n)s writhes in the trap and cannot escape. You approach."
-    $ trap_caught_person.health -= 30 #Wounded
+    $ trap_caught_person.health = max(1, trap_caught_person.health - 30) #Wounded
 
     # Special trap interactions
     if trap_caught_person == Ikoma:
@@ -941,9 +941,10 @@ label trap_fight:
                 $ trap_caught_person.kill("murder",you)
                 $ renpy.hide(trap_caught_person.death_sprite)
                 "You easily kill %(trapped_n)s from afar."
+                call murder_follower_reaction
             else:
                 
-                $ trap_caught_person.health -= 20
+                $ trap_caught_person.health = max(1, trap_caught_person.health - 20)
                 $ battle_start(trap_caught_person,1,"You get close and get a good hit in before %(trapped_n)s starts to fight back.", "trap_murder", True)
         "Let %(trapped_n)s go":
             "Your conscience gets a hold of you and you can't go through with anything."
