@@ -3593,13 +3593,18 @@ label takeshi_boat_chat:
             "Yes":
                 python:
                     takeshi_boat_truth = True
-                    boat_in_shed = False
-                    if boat in all_items:
-                        for i in loc.items:
-                            if i[0] == boat:
-                                boat.destroy(1)
-                                boat_in_shed = True
-                                break
+                    boat_in_shed = True
+                    # If the boat is repaired, the player could've moved it
+                    if boat_repair >= 3:
+                        for location in locations:
+                            for i in location.items:
+                                if i[0] == boat:
+                                    if location == rm_shed:
+                                        boat.destroy(1)
+                                        boat_in_shed = True
+                                    else:
+                                        boat_in_shed = False
+                                    break
                     if not boat_in_shed:
                         takeshi_boat_truth = False
                         takeshi_boat_lied = True
