@@ -660,7 +660,9 @@ label bear_trap_info:
         $ trap_loc = None
     else:
         play sound "sfx/beep_double.ogg"
-        memo "This trap is set and waiting. Come back later when it has sprung."
+        memo "This trap caught nothing. You unset the trap."
+        $ trap_set = False
+        $ trap_loc = None
     return
     
 ###############
