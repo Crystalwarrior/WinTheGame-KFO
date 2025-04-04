@@ -469,7 +469,13 @@ init python:
         enemy_atk = enemy_wpn.wpn_rating
         enemy_def = enemy_wpn.defense
         enemy.make_foe(you)
-        
+
+        # Friend turned Foe
+        if enemy in party:
+            party_remove(enemy)
+        if enemy in followers:
+            follower_remove(enemy)
+
         if allies_will_help:
             # Your allies are not gonna be OK with being attacked, so they'll help
             for ally in party:
