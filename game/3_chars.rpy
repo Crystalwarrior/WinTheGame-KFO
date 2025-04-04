@@ -321,7 +321,7 @@ init -2 python:
                 else:
                     escape_plan = "outside"
             else:
-               self.loc = newloc
+                self.loc = newloc
             find_all_pop()
             
         def make_foe(self,foe):
@@ -363,6 +363,7 @@ init -2 python:
             death_list.append(self)
             death_list = list(set(death_list))
             find_all_pop()
+            renpy.block_rollback()
             
         def unkill(self,type,killer=None):
             global players_alive
@@ -384,6 +385,7 @@ init -2 python:
             if self in death_list:
                 death_list.remove(self)
             find_all_pop()
+            renpy.block_rollback()
 
         def death_sfx(self):
             renpy.sound.play("sfx/"+self.die_sound+".ogg", channel=1)

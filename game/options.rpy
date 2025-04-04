@@ -15,11 +15,6 @@ init -1 python hide:
 
     config.developer = True
 
-    ## Block rollback function unless you're a developer
-    config.rollback_enabled = config.developer
-
-    config.has_autosave = False
-
     ## These control the width and height of the screen.
 
     config.screen_width = 800
