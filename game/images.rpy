@@ -38,6 +38,7 @@ init:
     image splash_warning = "warning.png"
     image splash_logo = "hpbw.png"
     image splash_hand = "gui/hand.png"
+    image splash_kfo = "gui/splash_kfo.png"
     
     #Text  for credits
     image credit_text = renpy.ParameterizedText(ypos=0.85, xpos=0.05, xanchor=0.0, size=30, font="fonts/Commodore Angled v1.2.ttf")

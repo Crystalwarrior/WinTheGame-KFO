@@ -9,7 +9,6 @@ label splashscreen:
     $ renpy.sound.play("sfx/static_loop.ogg", channel=1,loop=True)
     scene static
     if not persistent.seen_splash:
-        $ persistent.seen_splash = True
         show splash_warning at mid with dissolve
         $ renpy.pause(5.0,hard=True)
         hide splash_warning with dissolve
@@ -25,6 +24,8 @@ label splashscreen:
         $ renpy.pause(3.0)
         play sound "sfx/beep_win.ogg"
         $ renpy.pause(0.65,hard=True)
+        show splash_kfo with dissolve
+        $ persistent.seen_splash = True
     else:
         $ renpy.sound.play("sfx/static.ogg", channel=1)
     $ renpy.sound.play("sfx/main_menu_type.ogg")
@@ -43,6 +44,7 @@ screen main_menu:
     add "gui/bullets.png" xpos 0 yalign 1.0
     
     add "gui/hand.png"
+    imagebutton idle im.MatrixColor("gui/splash_kfo.png",im.matrix.brightness(-0.1)) hover "gui/splash_kfo.png" action OpenURL("https://crystalwarrior.github.io/KFO-website/") xanchor 0.0 yanchor 0.0 xpos 0 ypos 0 focus_mask True
     # The main menu buttons.
     imagebutton idle "gui/newgame1.png" hover "gui/newgame2.png" action Start() xanchor 0.0 yanchor 0.0 xpos 70 ypos 357
     imagebutton idle "gui/loadgame1.png" hover "gui/loadgame2.png" action ShowMenu("load") xanchor 0.0 yanchor 0.0 xpos 70 ypos 422
@@ -55,7 +57,6 @@ screen main_menu:
 init -2 python:
     # Make all the main menu buttons be the same size.
     style.mm_button.size_group = "mm"
-
 
 
 #############################################################################
