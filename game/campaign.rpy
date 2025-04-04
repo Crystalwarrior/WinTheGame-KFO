@@ -3237,6 +3237,8 @@ label yuki_intro:
         yuki "Why? Are you thinking of taking advantage of that!?"
         y none "Jun isn't a bad guy. You don't have to be afraid of him."
         if Jun.wpn == ladle:
+            $ reference_item(Jun.wpn)
+            $ Jun.wpn.get_sfx()
             jun "Yeah, all I got is a spoon, so ..."
         show Yuki sad
         yuki "If you say so."
@@ -3306,70 +3308,19 @@ label yuki_intro:
                     $ mari_knows_yuki_lie = True
     jump grid_loc
 
- 
 ## BATHHOUSE, YUKI
 label bathhouse_nanako_yuki:
     # If you told Yuki about Nanako, you will find him there with her.
-    $ cutscene()
-    if not Nanako.alive and not Yuki.alive:
+    if not Nanako.alive and not Yuki.alive and Nanako.loc == loc and Yuki.loc == loc:
+        $ cutscene()
         "You find Yuki on the ground ... dead. Nanako is next to him."
         "You find some peace in the fact that they met before the end."
-    elif not Nanako.alive:
-        show Yuki scared
-        "You find Yuki hugging the limp body of Nanako."
-        y none "Yuki! ... What happened?"
-        yuki "She's gone ... Nana ..."
-        if (Mari in party or Mari.loc == loc):
-            mari "Oh, Yuki ... I'm so, so sorry ..."
-        yuki "At least ... she knew."
-        if (Jun in party or Jun.loc == loc):
-            jun "Knew what?"
-        yuki "I couldn't stop this. I only wanted to protect her."
-        yuki "I can't ... I can't live with myself."
-        y none "Yuki - no. Think about this for a second."
-        show Yuki
-        yuki "There's nothing to think about about."
-        if (Mari in party or Mari.loc == loc):
-            mari "Please don't!!"
-            $ reference_item(Yuki.wpn)
-            $ Yuki.wpn.get_sfx()
-            "Yuki smiled softly at Mari as he lifted his gun to his head."
-        else:
-            $ reference_item(Yuki.wpn)
-            $ Yuki.wpn.get_sfx()
-            "Yuki closed his eyes and lifted his gun to his head."
-        if (Jun in party or Jun.loc == loc):
-            jun "Whoa, whoa, whoa!"
-        y scared "Yuki! {u}Stop!{/u}"
-        $ Yuki.wpn.use_sfx()
-        $ show_blood()
-        hide Yuki with dissolve
-        $ Yuki.kill("suicide",drop_loot=True)
-        "You stand frozen for a while. You will see this whenever you close your eyes for a long, long time."
-        if (Mari in party or Mari.loc == loc):
-            "Mari wails and falls to the ground."
-            if (Jun in party or Jun.loc == loc):
-                "Jun attempts to console her."
-        "It takes you too much time to move on again."
-    elif not Yuki.alive:
-        show Nanako
-        "Nanako is sitting next to Yuki's corpse."
-        y scared "Nanako! What happened here!?"
-        if (Jun in party or Jun.loc == loc):
-            jun mad "Did you kill him!?"
-            nana "Kill him!? With what!?"
-            "Nanako shows that she has zero weapons."
-        nana "He ... He came to tell me he loved me. And then ..."
-        if Yuki.death_type == "murdered":
-            nana "He was murdered in cold blood by %(Yuki.murderer.name)s!"
-        "Nanako presses her face into Yuki's cold body and sobs."
-        if (Mari in party or Mari.loc == loc):
-            mari sad "We're so sorry ..."
-        y sad "We should bury him."
-        nana "No ... Let me have some more time with him, please."
-        y sad "If that's what you want ..."
-        "You leave Nanako in peace."
-    elif answered_yuki:
+    elif not Nanako.alive and Yuki.loc == loc:
+        jump yuki_nanako_dead
+    elif not Yuki.alive and Nanako.loc == loc:
+        jump nanako_yuki_dead
+    elif answered_yuki and Nanako.loc == loc and Yuki.loc == loc:
+        $ cutscene()
         show Yuki at mid_right
         show Nanako at mid_left
         with dissolve
@@ -3402,7 +3353,86 @@ label bathhouse_nanako_yuki:
         hide Nanako
         with dissolve
     return
-    
+
+label yuki_nanako_dead:
+    $ cutscene()
+    show Yuki scared
+    if Nanako.loc == loc:
+        "You find Yuki hugging the limp body of Nanako."
+    else:
+        "You find Yuki wailing on the ground."
+    y none "Yuki! ... What happened?"
+    yuki "She's gone ... Nana ..."
+    if (Mari in party or Mari.loc == loc):
+        mari "Oh, Yuki ... I'm so, so sorry ..."
+    yuki "At least ... she knew."
+    if (Jun in party or Jun.loc == loc):
+        jun "Knew what?"
+    yuki "I couldn't stop this. I only wanted to protect her."
+    yuki "I can't ... I can't live with myself."
+    y none "Yuki - no. Think about this for a second."
+    show Yuki
+    yuki "There's nothing to think about about."
+    if (Mari in party or Mari.loc == loc):
+        mari "Please don't!!"
+        $ reference_item(Yuki.wpn)
+        $ Yuki.wpn.get_sfx()
+        "Yuki smiled softly at Mari as he lifted his gun to his head."
+    else:
+        $ reference_item(Yuki.wpn)
+        $ Yuki.wpn.get_sfx()
+        "Yuki closed his eyes and lifted his gun to his head."
+    if (Jun in party or Jun.loc == loc):
+        jun "Whoa, whoa, whoa!"
+    y scared "Yuki! {u}Stop!{/u}"
+    $ Yuki.wpn.use_sfx()
+    $ show_blood()
+    hide Yuki with dissolve
+    $ Yuki.kill("suicide",drop_loot=True)
+    $ add_sanity(-30)
+    "You stand frozen for a while. You will see this whenever you close your eyes for a long, long time."
+    if (Mari in party or Mari.loc == loc):
+        $ Mari.sanity -= 15
+        "Mari wails and falls to the ground."
+        if (Jun in party or Jun.loc == loc):
+            "Jun attempts to console her."
+    if (Jun in party or Jun.loc == loc):
+        $ Jun.sanity -= 15
+    "It takes you too much time to move on again."
+    return
+
+label nanako_yuki_dead:
+    $ cutscene()
+    show Nanako
+    if Yuki.loc == loc:
+        "Nanako is sitting next to Yuki's corpse."
+        y scared "Nanako! What happened here!?"
+        if (Jun in party or Jun.loc == loc):
+            jun mad "Did you kill him!?"
+            nana "Kill him!? With what!?"
+            "Nanako shows that she has zero weapons."
+        nana "He ... He came to tell me he loved me. And then ..."
+        if Yuki.death_type == "murdered":
+            nana "He was murdered in cold blood by %(Yuki.murderer.name)s!"
+        "Nanako presses her face into Yuki's cold body and sobs."
+        if (Mari in party or Mari.loc == loc):
+            mari sad "We're so sorry ..."
+        y sad "We should bury him."
+        nana "No ... Let me have some more time with him, please."
+        y sad "If that's what you want ..."
+        "You leave Nanako in peace."
+    else:
+        "You find Nanako sobbing loudly."
+        y scared "Nanako? Are you okay?"
+        nana "Yuki ... He ... He's dead!"
+        "Nanako presses her face into the computer pad and sobs."
+        if (Jun in party or Jun.loc == loc):
+            jun lookaway "Shit..."
+        if (Mari in party or Mari.loc == loc):
+            mari sad "We're so sorry ..."
+        "You don't know what to say. You leave Nanako in peace."
+    return
+
 ## YUKI (if you lied)
 label yuki_waiting:
     # If you lied to Yuki, he is waiting (somewhere)

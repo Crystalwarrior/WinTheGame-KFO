@@ -82,16 +82,18 @@ init:
     $ event("bath_no_ai", "loc == rm_bathhouse and not Nanako.met and not bath_save_mari and not freeplay", event.only(), event.once(), priority=50)
     $ event("school_emi_intro", "loc == rm_corridor and Emi.alive and not freeplay", event.only(), event.once(), priority=50)
     $ event("ikoma_emi", "loc == Ikoma.loc and loc == Emi.loc and Ikoma.alive and Emi.alive and not freeplay", event.only(), event.once(), priority=50)
-    $ event("Kenji_talk", "loc == Kenji.loc and Kenji.alive and you in Kenji.enemies and not freeplay", event.only(), event.once(), priority=50)
+    $ event("Kenji_talk", "loc == Kenji.loc and Kenji.alive and you in Kenji.enemies and not freeplay", event.only(), priority=50)
     
     $ event("bathhouse_nanako_yuki", "Nanako.loc == loc and Yuki.loc == loc and not freeplay", event.only(), event.once(), priority=50)
+    $ event("yuki_nanako_dead", "Yuki.loc == loc and not Nanako.alive and not freeplay", event.only(), event.once(), priority=50)
+    $ event("nanako_yuki_dead", "Nanako.loc == loc and not Yuki.alive and not freeplay", event.only(), event.once(), priority=50)
     $ event("yuki_waiting", "loc == Yuki.loc and Yuki.alive and yuki_lied and not freeplay", event.only(), event.once(), priority=50)
     
     $ event("gps_hospital", "gps_story and loc == g3 and Takeshi.alive and not freeplay", event.only(), event.once(), priority=50)
     $ event("boat_missing", "loc == rm_shed and takeshi_boat_truth and seen_boat and not freeplay", event.only(), event.once(), priority=50)
     $ event("takkeifum_boat_death", "boat_missing and loc.zone.shore and not loc.forbidden and not freeplay", event.only(), event.once(), priority=50)
     $ event("takeshi_boat_lie", "loc == rm_shed and takeshi_boat_lied and seen_boat and not freeplay", event.only(), event.once(), priority=100)
-    $ event("ai_revenge_kill", "Ai.alive and dealt_ai == \"tied\"", event.once(), priority=100)
+    $ event("ai_revenge_kill", "loc.zone != a1 and Ai.alive and dealt_ai == \"tied\"", event.once(), priority=100)
     
     $ event("found_tetsuo_murdered", "Tetsuo.loc == loc and Tetsuo.alive and Tetsuo.met and not Tetsuo.hidden and not freeplay", event.once(), priority=50)
     # $ event("", "loc == ", event.only(), event.once(), priority=50)
@@ -993,6 +995,7 @@ label shed_first:
     if (Jun in party or Jun.loc == loc):
         jun surprised "Crap me a sandwich - that's really a goddamned boat!"
         jun happy "We can get off this island now!"
+    $ add_sanity(20)
     "You might actually be able to escape this wretched game. This is unbelievable."
     "You pull at the boat to move it and find that it has major holes in it. Three, to be exact."
     if (Mari in party or Mari.loc == loc) or (Jun in party or Jun.loc == loc):
