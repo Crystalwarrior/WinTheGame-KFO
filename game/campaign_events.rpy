@@ -85,8 +85,8 @@ init:
     $ event("Kenji_talk", "loc == Kenji.loc and Kenji.alive and you in Kenji.enemies and not freeplay", event.only(), priority=50)
     
     $ event("bathhouse_nanako_yuki", "Nanako.loc == loc and Yuki.loc == loc and not freeplay", event.only(), event.once(), priority=50)
-    $ event("yuki_nanako_dead", "Yuki.loc == loc and not Nanako.alive and not freeplay", event.only(), event.once(), priority=50)
-    $ event("nanako_yuki_dead", "Nanako.loc == loc and not Yuki.alive and not freeplay", event.only(), event.once(), priority=50)
+    $ event("yuki_nanako_dead", "Yuki.loc == loc and Yuki.alive and not Nanako.alive and not freeplay", event.only(), event.once(), priority=50)
+    $ event("nanako_yuki_dead", "Nanako.loc == loc and Nanako.alive and not Yuki.alive and not freeplay", event.only(), event.once(), priority=50)
     $ event("yuki_waiting", "loc == Yuki.loc and Yuki.alive and yuki_lied and not freeplay", event.only(), event.once(), priority=50)
     
     $ event("gps_hospital", "gps_story and loc == g3 and Takeshi.alive and not freeplay", event.only(), event.once(), priority=50)
