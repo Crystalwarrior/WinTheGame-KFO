@@ -396,6 +396,7 @@ label new_battle: #This is a giant loop
                 with dissolve
                 
                 $ show_buttons = True
+                $ battling = False
                 if battle_flee_you_jump is not None:
                     $ renpy.jump(battle_flee_you_jump)
                 else:
@@ -415,6 +416,7 @@ label new_battle: #This is a giant loop
     elif health <= 0 and not cannot_die:
         $ config.skipping = False
         $ health = 0
+        $ battling = False
         jump game_over
     else:
         jump new_battle
@@ -1120,6 +1122,7 @@ label battle_enemy_turn:
         hide screen new_battle
         with dissolve
         $ renpy.pause(0.5)
+        $ battling = False
         if battle_flee_enemy_jump is not None:
             $ renpy.jump(battle_flee_enemy_jump)
         else:
@@ -1132,6 +1135,7 @@ label battle_enemy_turn:
     elif health <= 0 and not cannot_die:
         $ config.skipping = False
         $ health = 0
+        $ battling = False
         jump game_over
     $ f_waiting = False
     $ f_attacking = False
@@ -1231,7 +1235,7 @@ label enemy_incapacitated:
                 hide screen new_battle
                 hide screen health_enemy2
                 with dissolve
-                
+                $ battling = False
                 $ show_buttons = True
                 $ loc = runaway()
                 $ move_to_grid(loc)
