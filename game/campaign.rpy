@@ -2533,7 +2533,7 @@ label bath_no_ai:
             show Lucy scared
             "Lucy gasped."
             if (Mari in party or Mari.loc == loc):
-                "Mari covers her mouth and stares at you and Jun."
+                "Mari covers her mouth and stares at you."
                 if (Jun in party or Jun.loc == loc):
                     "Jun looks away."
             lucy "I have to tell Nana! Oh my god, Nana!!"
