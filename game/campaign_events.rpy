@@ -954,7 +954,7 @@ label trap_fight:
             y none "Well, I -"
             $ renpy.hide(trap_caught_person.death_sprite)
             "%(trapped_n)s runs off, obviously still afraid of you."
-            $ Yuki.loc = runaway()
+            $ trap_caught_person.loc = runaway()
     $ trap_caught_person = None
     jump grid_loc
     
