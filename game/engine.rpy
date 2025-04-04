@@ -281,31 +281,38 @@ init python:
                             num = renpy.random.randint(0,100)
                             if num < room_chance and i.loc.room.keys is None or i.loc.room.keys is not None and i.item in i.loc.room.keys:
                                 i.loc = i.loc.room
+                                moved = True
 
-                        if not i.loc.type == "room" or i.loc.zone.forbidden:
-                            if i.loc.zone.forbidden:
-                                i.loc = i.loc.zone
-                            places_to_go = []
-                            if i.sanity <= 15 or i.health <= 15: #must pass sanity check to avoid kill zones
-                                #print "***INSANE, WILL MOVE TO FZs"
-                                places_to_go = i.loc.exits
+                        if i.loc.zone.forbidden:
+                            i.loc = i.loc.zone
+
+                        if not moved:
+                            if i.loc.type == "room":
+                                i.loc = i.loc.parent
                             else:
-                                #print "***SANE, AVOIDING FZs"
-                                for x in i.loc.exits: #check if there are forbidden zones around
-                                    if not x.forbidden: 
-                                        places_to_go.append(x)
-                        
-                            if len(places_to_go) > 0: #check if they're not trapped
-                                rand_exit = renpy.random.choice(places_to_go) #random exit
-                                i.loc = rand_exit
-                            else:
-                                stay_effects(i,True) #don't move, trapped
+                                places_to_go = []
+                                if i.sanity <= 15 or i.health <= 15: #must pass sanity check to avoid kill zones
+                                    #print "***INSANE, WILL MOVE TO FZs"
+                                    places_to_go = i.loc.exits
+                                else:
+                                    #print "***SANE, AVOIDING FZs"
+                                    for x in i.loc.exits: #check if there are forbidden zones around
+                                        if not x.forbidden: 
+                                            places_to_go.append(x)
+                            
+                                if len(places_to_go) > 0: #check if they're not trapped
+                                    rand_exit = renpy.random.choice(places_to_go) #random exit
+                                    i.loc = rand_exit
+                                else:
+                                    stay_effects(i,True) #don't move, trapped
                     else:
                         stay_effects(i,trapped) #don't move
 
                     # Their final loc is a forbidden zone. RIP in peace
                     if i.loc.zone.forbidden:
                         i.kill("rules")
+            else:
+                stay_effects(i,trapped) #don't move
 
     def stay_effects(i,trapped):
         if trapped:
