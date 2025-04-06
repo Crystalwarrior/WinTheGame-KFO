@@ -998,7 +998,19 @@ label trap_murder:
                 "The body is still warm and ... inviting."
                 "You shouldn't waste perfectly meat. Not when your survival is on the line."
                 $ meat.add()
+                $ add_sanity(-25)
                 "You carve what you can from the fresh kill and you are so numb that you feel no remorse. No guilt. This is perfectly natural."
+                python:
+                    murdered_i = None
+                    for i in classmates:
+                        if i.name == murdered:
+                            murdered_i = i
+
+                if murdered_i != None:
+                    # Change their type to "normal" for the purposes of your followers reacting negatively to FREAKIN CANNIBALISM
+                    if murdered_i.type == "hostile":
+                        $ murdered_i.type = "normal"
+                    $ just_murdered_someone = True
             "Leave body alone":
                 pass
     "You roll the corpse face-down so you don't have to look at it."
