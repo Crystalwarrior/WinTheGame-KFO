@@ -241,7 +241,7 @@ label letsgo:
     play sound "sfx/beep1.ogg"
     show cg stats
     "And now to view the game's ... {color=#00FF00}statistics{/color}. You swallow, thumbing through the list of your classmates."
-    $ Goro.kill("rules")
+    $ Goro.kill("fz")
     show cg stats 2
     "Your breath catches in your throat when you see a giant red \"{color=#FF0000}LOST{/color}\" painted across one of their faces ... Could they really be {color=#00FF00}dead{/color}? Already?"
     "This game was serious."
