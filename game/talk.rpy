@@ -878,8 +878,8 @@ label murder_follower_reaction:
         return
 
     # Check if mari/jun are here, and if they considered your attacker an enemy or not.
-    $ mari_here = Mari.alive and Mari in party and Mari.loc == loc and murdered_i not in Mari.enemies
-    $ jun_here = Jun.alive and Jun in party and Jun.loc == loc and murdered_i not in Jun.enemies
+    $ mari_here = Mari.alive and (Mari in party or Mari in followers) and Mari.loc == loc and murdered_i not in Mari.enemies
+    $ jun_here = Jun.alive and (Jun in party or Jun in followers) and Jun.loc == loc and murdered_i not in Jun.enemies
     # your party only has a negative reaction if they're not hostile, or they're not an enemy to them
     if murdered_i.type != "hostile" and (mari_here or jun_here):
         if wish_no_sin:
