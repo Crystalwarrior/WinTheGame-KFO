@@ -3042,6 +3042,7 @@ label school_maze_fail:
     jump school_emi_ambush
 
 label school_emi_ambush:
+    $ cutscene()
     $ Emi.wpn.get_sfx()
     $ reference_item(Emi.wpn)
     show Emi angry with dissolve
@@ -3139,7 +3140,7 @@ label school_emi_ambush:
                 y sad "Jun ... Don't you dare."
                 hide Jun with dissolve
                 "Jun's hand goes weak and falls from you. He slowly closes his eyes."
-                $ Jun.kill("murdered",killer=Emi,drop_loot=True)
+                $ Jun.kill("murder",killer=Emi,drop_loot=True)
                 y none "Jun!!"
                 if (Mari in party or Mari.loc == loc):
                     show Mari scared
