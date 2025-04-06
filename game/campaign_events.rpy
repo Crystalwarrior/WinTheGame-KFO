@@ -963,15 +963,18 @@ label trap_fight:
         $ renpy.say(trap_caught_person.call_name,"I'm hurt! Help me, please! Get it off me!")
     menu:
         "Kill %(trapped_n)s":
-            $ wpn.use_sfx()
+            $ wpn_ranged = wpn.wpn_range == "ranged" or wpn.wpn_range == "both"
+            if ammo_mode and wpn.use_count > 0:
+                $ wpn.use()
+            else:
+                $ wpn.use_sfx()
             $ show_blood()
-            if wpn.wpn_range == "ranged" or wpn.wpn_range == "both":
-                $ trap_caught_person.kill("murder",you)
+            if wpn_ranged:
+                $ trap_caught_person.kill("murder",you, drop_loot=True)
                 $ renpy.hide(trap_caught_person.death_sprite)
                 "You easily kill %(trapped_n)s from afar."
                 call murder_follower_reaction
             else:
-                
                 $ trap_caught_person.health = max(1, trap_caught_person.health - 20)
                 $ battle_start(trap_caught_person,1,"You get close and get a good hit in before %(trapped_n)s starts to fight back.", "trap_murder", True)
         "Let %(trapped_n)s go":
