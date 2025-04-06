@@ -3104,20 +3104,15 @@ label school_emi_ambush:
                 "Mari is trying to save Jun while sobbing to herself."
             show Jun sad with dissolve
             python:
-                found_medicine = None
-                if firstaid.is_in_inventory():
-                    found_medicine = firstaid
-                elif medkit.is_in_inventory():
-                    found_medicine = medkit
-                elif (Jun in party or Jun.loc == loc) and Jun.item != None and (Jun.item[0] == firstaid or Jun.item[0] == medkit):
-                    found_medicine = Jun.item[0]
-                elif (Mari in party or Mari.loc == loc) and Mari.item != None and (Mari.item[0] == firstaid or Mari.item[0] == medkit):
-                    found_medicine = Mari.item[0]
+                found_medicine = find_item_in_effective_inventory(firstaid)
+                if not found_medicine:
+                    found_medicine = find_item_in_effective_inventory(medkit)
             if found_medicine:
                 $ jun_survived_emi = True
+                $ medicine_name = found_medicine.fancy_name
                 $ found_medicine.destroy(1)
                 $ found_medicine.use_sfx()
-                "You used a %(found_medicine.fancy_name) to dress Jun's wound."
+                "You used a %(medicine_name) to dress Jun's wound."
             else:
                 #Jun dies
                 "Jun is losing blood fast ... You fall on your knees beside him."
@@ -4570,15 +4565,9 @@ label mansion_correct:
         scene black with dissolve
         "You whisper Mari's name and fade into darkness."
         python:
-            found_medicine = None
-            if firstaid.is_in_inventory():
-                found_medicine = firstaid
-            elif medkit.is_in_inventory():
-                found_medicine = medkit
-            elif (Jun in party or Jun.loc == loc) and Jun.item != None and (Jun.item[0] == firstaid or Jun.item[0] == medkit):
-                found_medicine = Jun.item[0]
-            elif (Mari in party or Mari.loc == loc) and Mari.item != None and (Mari.item[0] == firstaid or Mari.item[0] == medkit):
-                found_medicine = Mari.item[0]
+            found_medicine = find_item_in_effective_inventory(firstaid)
+            if not found_medicine:
+                found_medicine = find_item_in_effective_inventory(medkit)
         if (Jun in party or Jun.loc == loc) and found_medicine != None:
             mari sad " ... ... "
             jun scared "... !!"
