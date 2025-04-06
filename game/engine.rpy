@@ -226,8 +226,9 @@ init python:
         for i in classmates:
             trapped = False
             moved = False
-            
-            if i.loc == trap_loc and trap_set and i != you and i.alive and i not in party:
+
+            # your party and followers are aware of trap placement            
+            if i.loc == trap_loc and trap_set and i != you and i.alive and i not in party and i not in followers:
                 trapped = True
                 trap_caught_person = i
                 trap_set = False
