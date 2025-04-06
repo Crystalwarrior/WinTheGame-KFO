@@ -486,7 +486,7 @@ init python:
             guy2.sanity -= 10
             guy2.health -= 10
             #Trade weapons if the victim's is better
-            if guy1.wpn.wpn_rating > guy2.wpn.wpn_rating and guy1.wpn is not fist:
+            if guy1.wpn is not None and (guy2.wpn is None or guy1.wpn.wpn_rating > guy2.wpn.wpn_rating) and guy1.wpn is not fist:
                 guy2_oldwpn = guy2.wpn
                 guy2.wpn = guy1.wpn
                 if guy2.item is None: #Keep both weapons if slot available
