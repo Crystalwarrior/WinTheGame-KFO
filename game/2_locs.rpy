@@ -445,8 +445,7 @@ label grid_loc:
     if just_murdered_someone:
         $ cutscene()
         $ just_murdered_someone = False
-        if len(party) > 0:
-            call murder_follower_reaction
+        call murder_follower_reaction
         if strangers_here:
             "Those around you are horrified by what they've seen."
             python:
@@ -700,8 +699,7 @@ label room_loc:
     if just_murdered_someone:
         $ cutscene()
         $ just_murdered_someone = False
-        if len(party) > 0:
-            call murder_follower_reaction
+        call murder_follower_reaction
         if strangers_here:
             "Those around you are horrified by what they've seen."
             python:
