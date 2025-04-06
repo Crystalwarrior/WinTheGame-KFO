@@ -412,15 +412,45 @@ init -2 python:
             else:
                 renpy.notify("Consuming "+self.fancy_name+" ...")
                 #store_say(None,"{color=#00db00}Consuming "+self.fancy_name+" ...{/color}")
+
+            # IF ONLY THE ITEM JUST HAD A LOC ATTRIBUTE
             if num == "all":
                 for i in inventory:
                     if i[0] == self:
                         inventory.remove(i)
-                        break
+                        return
+                for char in classmates:
+                    if char.item != None and char.item[0] == self:
+                        char.item = None
+                        return
+                    if char.wpn != None and char.wpn == self:
+                        char.wpn = None
+                        return
+                for i in loc.items:
+                    if i[0] == self:
+                        loc.items.remove(i)
+                        return
             else:
                 for i in inventory:
                     if i[0] == self:
                         i[1] -= num
                         if i[1] <= 0:
                             inventory.remove(i)
-                        break
+                        return
+                for char in classmates:
+                    if char.item != None and char.item[0] == self:
+                        char.item[1] -= num
+                        if char.item[1] <= 0:
+                            char.item = None
+                        return
+                    # NPC weapons can't stack
+                    if char.wpn != None and char.wpn == self:
+                        char.wpn = None
+                        return
+                for i in loc.items:
+                    if i[0] == self:
+                        i[1] -= num
+                        if i[1] <= 0:
+                            loc.items.remove(i)
+                        return
+                
