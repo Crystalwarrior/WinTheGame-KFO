@@ -289,6 +289,7 @@ init:
     $ ammo_mode = True
     $ shoe_start = False
     $ rand_start = False
+    $ npc_batles = True
     $ locs_can_be = []
     $ story_freemove = False
         
@@ -358,9 +359,19 @@ screen game_settings:
             hbox xalign 0.0:
                 add "gui/bracket.png"
                 label "randomize start"
+            text "Your starting position will be randomized" xpos 20 size 13
             hbox xalign 0.5 spacing 15:
                 textbutton ("yes") action SetVariable("rand_start",True) style "digi_button" text_style "digi_button"
                 textbutton ("no") action SetVariable("rand_start",False) style "digi_button" text_style "digi_button"
+            null height 10
+        if not story_mode:
+            hbox xalign 0.0:
+                add "gui/bracket.png"
+                label "npc battles"
+            text "NPCs will engage in battles and swap weapons" xpos 20 size 13
+            hbox xalign 0.5 spacing 15:
+                textbutton ("yes") action SetVariable("npc_batles",True) style "digi_button" text_style "digi_button"
+                textbutton ("no") action SetVariable("npc_batles",False) style "digi_button" text_style "digi_button"
             null height 10
         if story_mode:
             hbox xalign 0.0:
@@ -419,6 +430,9 @@ label freeplay_intro:
                 i.type = "normal"
             if i.hidden:
                 i.hidden = False
+            # now they can engage in mortal combat with each other!
+            if npc_batles and i.invisible:
+                i.invisible = False
         #randomize starting locations for everybody
         if rand_start:
             for i in locations:
