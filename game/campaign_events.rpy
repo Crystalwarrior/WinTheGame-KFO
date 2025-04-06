@@ -532,6 +532,7 @@ label find_lucy:
     y none "It's all right. I won't hurt you."
     show Lucy
     lucy "Oh good!"
+    hide Lucy
     return
     
 init python:
