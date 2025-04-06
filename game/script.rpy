@@ -402,7 +402,7 @@ screen game_settings:
                     
 label freeplay_intro:
     ##### Config stuff
-    $ classmates.remove(Goro) #he's not a real character
+    $ Goro.kill("suicide") # kill him so he properly counts for the kill count
     $ fz_period = 12
     $ fz_start_day = 1
     $ fz_start_hour = 6 
