@@ -948,7 +948,10 @@ screen stats:
                                 $ their_killer = their_killer.name+" "+ their_killer.last_name
                                 # The game's characters never actually acknowledge who killed who.
                                 # So this information is purely meta
-                                $ murder_info = ">Killed by [[REDACTED]"#+their_killer
+                                if stats_unredacted:
+                                    $ murder_info = ">Killed by "+their_killer
+                                else:
+                                    $ murder_info = ">Killed by [[REDACTED]"#+their_killer
                             elif i.death_type == "suicide":
                                 $ murder_info = ">Suicide"
                             else:

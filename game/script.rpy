@@ -538,6 +538,7 @@ init -1:
     $ show_east = False
     $ show_west = False
     $ self_defense_argument = False
+    $ stats_unredacted = False
     
     #Check to see if player has ever won the game, for whatever bonus
     #Killed everyone, winner is u
@@ -605,6 +606,7 @@ label game_over:
     $ renpy.pause()
     stop music fadeout 3.0
     scene black with intro_dissolve
+    call final_stats
     $ renpy.full_restart()
     
 #DEATH BY FORBIDDEN ZONE
@@ -723,7 +725,19 @@ label won_game:
     $ won_the_game = True
     # This unused ending actually explains the "Deathmatch" unlock pretty well so it has been restored
     jump ending_alone
-    
+
+#FINAL GAME STATS
+label final_stats:
+    # Show final stats
+    $ config.skipping = False
+    $ stats_unredacted = True
+    show screen stats
+    $ renpy.pause()
+    $ stats_unredacted = False
+    hide screen stats
+    # quit showing stats
+    return
+
 #GAME CREDITS
 label credits:
     $ persistent.won_game = True
@@ -819,6 +833,7 @@ label credits:
     play sound "sfx/glass_shatter.ogg"
     $ renpy.pause(0.7, hard=True)
     scene black
+    call final_stats
     $ renpy.pause(2.0)
     if won_the_game or won_game_name or won_game_destroy: #Bonus items if you've actually "won the game"
         play sound "sfx/beep_win.ogg"
