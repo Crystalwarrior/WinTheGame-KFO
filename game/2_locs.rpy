@@ -378,17 +378,15 @@ label enter_room:
     $ movement_keys = False
     $ room_here.find()
     if room_here.keys != []:
-        python:    
-            have_key = False
-            for x in inventory:
-                if x[0] in room_here.keys:
-                    have_key = True
+        python:
+            for key in room_here.keys:
+                have_key = find_item_in_effective_inventory(key)
+                if have_key:
+                    break
             if have_key:
                 renpy.say(None,room_here.key_use_phrase)
                 if room_here != rm_cave: #everything but the cave stays unlocked
-                    for x in inventory:
-                        if x[0] in room_here.keys:
-                            x[0].destroy(1)
+                    have_key.destroy(1)
                     room_here.keys = []
                 move_to_room(room_here)
             else:

@@ -584,6 +584,31 @@ init python:
             renpy.hide_screen("health")
             renpy.hide_screen("beep_red_continuous")
             renpy.hide_screen("beep_yellow_continuous")
+    
+    # check if the player has an item in their effective inventory.
+    # This means the item is available in:
+    # * their inventory
+    # * their party members' inventories
+    # * their location
+    def find_item_in_effective_inventory(item_to_search, check_party=True, check_loc=True):
+        global inventory
+        for i in inventory:
+            if i[0].name == item_to_search.name:
+                return i[0]
+        # Check party members inventories too
+        if check_party:
+            for member in party:
+                if member.loc == loc:
+                    if member.item != None and member.item[0] == item_to_search:
+                        return member.item[0]
+                    if member.wpn != None and member.wpn == item_to_search:
+                        return member.Wpn
+        # Check the location inventory too
+        if check_loc:
+            for i in loc.items:
+                if i[0].name == item_to_search.name:
+                    return i[0]
+        return None
                     
 ## IKOMA
 label find_ikoma:
