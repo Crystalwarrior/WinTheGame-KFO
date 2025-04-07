@@ -968,48 +968,47 @@ label murder_follower_reaction:
         # Enemy status doesn't matter in this branch
         $ mari_here = Mari.alive and (Mari in party or Mari.loc == loc)
         $ jun_here = Jun.alive and (Jun in party or Jun.loc == loc)
-        if mari_here and jun_here:
-            show Mari scared at farleft
-            show Jun scared at farright
-            with dissolve
-            "Mari and Jun stare at %(murdered)s in horror."
-        elif mari_here:
-            show Mari scared with dissolve
-            "Mari stares at %(murdered)s in horror."
-        elif jun_here:
-            show Jun scared with dissolve
-            "Jun stares at %(murdered)s in horror."
-        # someone's going crazy
-        else:
-            "You stare at %(murdered)s in horror."
-        if jun_here:
-            jun sad "Screw this game, man."
-        if mari_here:
-            mari sad "Are we... bad people?"
-        y scared "I-It had to be done... %(murdered)s attacked me!"
-        if jun_here:
-            show Jun mad
-            jun "God-- I get it, okay?!"
-            jun "But fleeing was an option! I wish we just ran!"
-        if mari_here:
-            show Mari scared
-            mari scared "We should've ran..."
-        y scared "We'd just be hunted down! You saw how %(murdered)s was!"
-        if jun_here:
-            show Jun mad
-            jun "... Fucking psychos."
-        if mari_here:
-            show Mari scared
-            mari "I want to go home..."
-        if jun_here:
-            show Jun mad
-            jun "So much for \"not playing the game\"."
-        if not mari_here and not jun_here:
-            y scared "I'm not playing the game... I'm not playing the game..."
-        memo "In most battles, you can run to the edge of the screen to unlock the \"Flee\" option. However, some special combat encounters are unavoidable and are kill or be killed."
-        if not mari_here and not jun_here:
-            memo "By the way... Who are you talking to?"
-        $ self_defense_argument = True
+        if mari_here or jun_here:
+            if mari_here and jun_here:
+                show Mari scared at farleft
+                show Jun scared at farright
+                with dissolve
+                "Mari and Jun stare at %(murdered)s in horror."
+            elif mari_here:
+                show Mari scared with dissolve
+                "Mari stares at %(murdered)s in horror."
+            elif jun_here:
+                show Jun scared with dissolve
+                "Jun stares at %(murdered)s in horror."
+            # someone's going crazy
+            else:
+                "You stare at %(murdered)s in horror."
+            if jun_here:
+                jun sad "Screw this game, man."
+            if mari_here:
+                mari sad "Are we... bad people?"
+            y scared "I-It had to be done... %(murdered)s attacked me!"
+            if jun_here:
+                show Jun mad
+                jun "God-- I get it, okay?!"
+                jun "But fleeing was an option! I wish we just ran!"
+            if mari_here:
+                show Mari scared
+                mari scared "We should've ran..."
+            y scared "We'd just be hunted down! You saw how %(murdered)s was!"
+            if jun_here:
+                show Jun mad
+                jun "... Fucking psychos."
+            if mari_here:
+                show Mari scared
+                mari "I want to go home..."
+            if jun_here:
+                show Jun mad
+                jun "So much for \"not playing the game\"."
+            if not mari_here and not jun_here:
+                y scared "I'm not playing the game... I'm not playing the game..."
+            $ self_defense_argument = True
+            memo "In most battles, you can run to the edge of the screen to unlock the \"Flee\" option. However, some special combat encounters are unavoidable and are kill or be killed."
     $ murdered = None
     $ just_murdered_someone = False
     return
