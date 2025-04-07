@@ -23,8 +23,6 @@ init python:
         
     def add_sanity(num, silent=False):
         global sanity
-        if not silent:
-            renpy.sound.play("sfx/beep1.ogg",channel="system")
         if notify_y != .095:
             renpy.show_screen("beep_yellow")
         if num > 0:
@@ -33,7 +31,8 @@ init python:
         else:
             renpy.notify("Losing Sanity ...")
             #store_say(None,"{color=#FF0000}Losing Sanity ...{/color}")
-        renpy.sound.play("sfx/accent_weird.ogg",channel="system")
+        if not silent:
+            renpy.sound.play("sfx/accent_weird.ogg",channel="system")
         sanity += num
         if sanity > 100:
             sanity = 100
