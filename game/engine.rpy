@@ -942,6 +942,7 @@ screen stats:
                         $ full_gender = "Gender: {color=#fff}"+i.gender+"{/color}"
                         $ full_club = "Club: {color=#fff}%s{/color}"%i.club
                         $ full_desc = "{i}"+i.desc+"{/i}"
+                        $ murder_info = ""
                         if not i.alive:
                             if i.death_type == "murder":
                                 $ their_killer = i.murderer
@@ -956,11 +957,9 @@ screen stats:
                                 $ murder_info = ">Suicide"
                             else:
                                 $ murder_info = ">Forbidden Zone"
-                                
-                            if i.kills > 0:
-                                $ murder_info += " >Kills [[{color=#FFF}"+str(i.kills)+"{/color}]"
-                        elif i == you:
-                            $ murder_info = ">Kills [[{color=#FFF}"+str(i.kills)+"{/color}]"
+
+                        if i.kills > 0 and (stats_unredacted or i == you or not i.alive):
+                            $ murder_info += ">Kills [[{color=#FFF}"+str(i.kills)+"{/color}]"
                             
                                 
                         add portrait_name
@@ -983,7 +982,7 @@ screen stats:
                                         if i.item is not None:
                                             add (im.FactorScale("icons/"+i.item[0].name+".jpg", .5, .5)) xalign 1.0
                             text full_desc
-                            if not i.alive or i == you:
+                            if murder_info != "":
                                 null height 5
                                 text murder_info color "#FF0000" size 16
                         
