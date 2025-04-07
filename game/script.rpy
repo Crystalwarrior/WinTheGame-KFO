@@ -757,7 +757,7 @@ label credits:
     $ persistent.won_game = True
     $ cutscene(togglegui=True)
     stop sound fadeout 1.0
-    play music "music/Rhythm_Stalker.ogg"
+    play music "music/Rhythm_Stalker.ogg" noloop
     scene static with intro_dissolve
     show credits_montage
     $ renpy.pause(0.5)
