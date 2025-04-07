@@ -152,7 +152,8 @@ label kenji_attacks_you:
     if Kenji.wpn == throwingknives:
         "You immediately look at Kenji and see him holding other knives!"
     else:
-        "You immediately look at Kenji and see him holding a %(Kenji.wpn.fancy_name)!"
+        $ fancy_name = Kenji.wpn.fancy_name
+        "You immediately look at Kenji and see him holding a %(fancy_name)s!"
     y scared "Kenji!?"
     if (Mari in party or Mari.loc == loc):
         mari yell "No! How could you!?"
