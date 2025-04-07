@@ -265,68 +265,57 @@ label Hitomo_talk:
                 $ battle_start(Hitomo,0,"Might as well.", "murdered_hitomo", True, allies_will_help=True)
             "[[Done]":
                 pass
-    elif not freeplay:
-        if you_can_cross_bridge:
-            if saved_hitomo:
-                hit "Thank you for saving me ... I'm sorry I freaked."
-                y "It's okay."
-            else:
-                hit "Hi."
-            $ enemy = Hitomo
-            show screen health_enemy
-            menu:
-                "[[Attack]":
-                    $ battle_start(Hitomo,0,"Might as well.", "murdered_hitomo", True)
-                "[[Done]":
-                    $ talking = False
-                    hide screen health_enemy
-                    jump grid_loc
-        else:
-            show Hitomo
-            hit "Go away! I'm warning you!"
-            y none "You're not going to let us cross, are you?"
-            hit "No!!"
-            $ enemy = Hitomo
-            show screen health_enemy
-            menu:
-                "[[Attack]":
-                    $ battle_start(Hitomo,0,"She brought you to this.", "murdered_hitomo", True)
-                "Bribe her":
-                    if cigarettes.is_in_inventory() or radio.is_in_inventory() or walkietalkie.is_in_inventory():
-                        menu:
-                            "Give Cigarettes" if cigarettes.is_in_inventory():
-                                show Hitomo scared
-                                hit "Cigarettes!? I don't smoke! Eww!"
-                                "She doesn't take them."
-                            "Give Radio" if radio.is_in_inventory():
-                                hit "Is that ... a radio? Does it get music?"
-                                y none "It might."
-                                "She reaches for it, but you pull it back."
-                                y none "If I give this to you, you have to let us through."
-                                hit "Um ... all right ... Just ... don't tell Nana that I let you across. And don't kill her. Uh, please?"
-                                show Hitomo happy
-                                "You give Hitomo the radio and she lets you cross the bridge."
-                                $ radio.destroy("all")
-                                $ Hitomo.item = [radio,1]
-                                $ you_can_cross_bridge = True
-                            "Give Walkie Talkie" if walkietalkie.is_in_inventory():
-                                y none "I have a two way radio here. I think you need it more than me."
-                                show Hitomo happy
-                                hit "Whoa! You mean I could talk to Nana with this?"
-                                y none "Yes, but she has to have the other one."
-                                $ walkietalkie.destroy("all")
-                                $ Hitomo.item = [walkietalkie,1]
-                                y none "Here, I'll give you this one. I'll go give her the other one, okay?"
-                                hit "So cool ... thanks!"
-                                $ you_can_cross_bridge = True
-                            "[[Done]":
-                                pass
-                    else:
-                        "You probably don't have anything she wants."
-                    jump grid_loc
-                "[[Done]":
-                    jump grid_loc
+    elif not freeplay and Hitomo.loc == a2 and not you_can_cross_bridge:
+        show Hitomo
+        hit "Go away! I'm warning you!"
+        y none "You're not going to let us cross, are you?"
+        hit "No!!"
+        $ enemy = Hitomo
+        show screen health_enemy
+        menu:
+            "[[Attack]":
+                $ battle_start(Hitomo,0,"She brought you to this.", "murdered_hitomo", True)
+            "Bribe her":
+                if cigarettes.is_in_inventory() or radio.is_in_inventory() or walkietalkie.is_in_inventory():
+                    menu:
+                        "Give Cigarettes" if cigarettes.is_in_inventory():
+                            show Hitomo scared
+                            hit "Cigarettes!? I don't smoke! Eww!"
+                            "She doesn't take them."
+                        "Give Radio" if radio.is_in_inventory():
+                            hit "Is that ... a radio? Does it get music?"
+                            y none "It might."
+                            "She reaches for it, but you pull it back."
+                            y none "If I give this to you, you have to let us through."
+                            hit "Um ... all right ... Just ... don't tell Nana that I let you across. And don't kill her. Uh, please?"
+                            show Hitomo happy
+                            "You give Hitomo the radio and she lets you cross the bridge."
+                            $ radio.destroy("all")
+                            $ Hitomo.item = [radio,1]
+                            $ you_can_cross_bridge = True
+                        "Give Walkie Talkie" if walkietalkie.is_in_inventory():
+                            y none "I have a two way radio here. I think you need it more than me."
+                            show Hitomo happy
+                            hit "Whoa! You mean I could talk to Nana with this?"
+                            y none "Yes, but she has to have the other one."
+                            $ walkietalkie.destroy("all")
+                            $ Hitomo.item = [walkietalkie,1]
+                            y none "Here, I'll give you this one. I'll go give her the other one, okay?"
+                            hit "So cool ... thanks!"
+                            $ you_can_cross_bridge = True
+                        "[[Done]":
+                            pass
+                else:
+                    "You probably don't have anything she wants."
+                jump grid_loc
+            "[[Done]":
+                jump grid_loc
     else:
+        if saved_hitomo:
+            hit "Thank you for saving me ... I'm sorry I freaked."
+            y "It's okay."
+        else:
+            hit "Hi."
         $ enemy = Hitomo
         show screen health_enemy
         menu:
