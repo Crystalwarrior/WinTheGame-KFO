@@ -622,12 +622,29 @@ label mari_find:
     
 label mari_find_dead:
     $ cutscene()
-    $ Mari.kill("murder",Kenji)
+    play music "music/TheSigh.ogg" fadein 2.0 fadeout 2.0 noloop
     "You creak open the door. You immediately see something that makes your stomach flip."
+    $ Mari.kill("murder",Kenji)
+    $ add_sanity(-15, silent=True)
+    play sound "sfx/accent_stab.ogg"
     "A woman is lifeless on the ground, covered in blood."
     "Oh god. That's ... Mari! Someone killed Mari!"
     "You look away, clenching your jaw and eyes shut from the grizzly murder scene. Who could have done this to her?"
-    "You want to make whoever did this pay ..."
+    if finding_mari:
+        $ reference_item(walkietalkie)
+        "Wait a second. Her body is clutching a walkie talkie."
+        if walkietalkie.is_in_inventory():
+            play sound "sfx/walkietalkie.ogg"
+            "You press the talk button on the radio..."
+            y sad "Mari..."
+            play sound "sfx/walkietalkie.ogg"
+            "And, as you suspected, your voice comes through on the other end."
+        else:
+            "Kenji had a walkie talkie on him, too."
+        y angry "Kenji, you bastard..!"
+        "You grit your teeth. There's nothing more you can do."
+    else:
+        "You want to make whoever did this pay ..."
     $ saw_mari_dead = True
     jump room_loc
     
