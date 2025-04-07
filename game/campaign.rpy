@@ -4029,7 +4029,7 @@ label gps_hospital:
             "You unlock the door and run to safety. Fumie doesn't follow."
         else:
             $ battle_start(Kei,1,"The truth hurts you a bit, but you've always hated Kei a little bit, too.", "kei_defended", True, flee=False, allies_will_help=True)
-    else:
+    elif Fumie.alive:
         "Fumie crumples down on the ground in front of Takeshi, her eyes devoid of hope."
         show Fumie sad
         fum "What can we do now..? What else do we do!?"
@@ -4038,7 +4038,7 @@ label gps_hospital:
         if (Mari in party or Mari.loc == loc) and Mari.alive:
             mari scared "Fumie... But..."
         if (Jun in party or Jun.loc == loc) and Jun.alive:
-            Jun scared "Shinobu, are you sure we should leave her here like this?"
+            jun scared "Shinobu, are you sure we should leave her here like this?"
         y sad "Fumie?"
         fum "GO AWAY!!"
         $ reference_item(Fumie.wpn)
@@ -4047,9 +4047,12 @@ label gps_hospital:
         if (Mari in party or Mari.loc == loc) and Mari.alive:
             "Mari squeals and runs away."
         if (Jun in party or Jun.loc == loc) and Jun.alive:
-            Jun scared "Fuck fuckity fucky fuck!!"
+            jun scared "Fuck fuckity fucky fuck!!"
             "Jun runs, covering his head!"
         "You have no choice but to run away."
+    else:
+        "You can't believe it. This was your chance, mercilessly snuffed out in front of your eyes."
+        "Not being able to bear it, you proceed to leave. You won't forget this brutal sight for the rest of your life."
     $ loc = g3
     if Fumie.alive:
         $ Fumie.kill("suicide",drop_loot=True)
