@@ -82,6 +82,9 @@ label start:
     $ fancy_item_name ="blank"
     $ readback_buffer = []
 
+    # Who was the last source of damage to us
+    $ damage_source = None
+
     call events_init #Initialize events, REQUIRED!
 
     # The following code references from the items.rpy, locs.rpy, and chars.rpy. Instructions on how to make those are in each file.
@@ -294,6 +297,7 @@ init:
     $ story_freemove = False
         
 label real_start:
+    $ death_list = []
     $ show_gps = False
     $ cannot_die = False    
     $ show_buttons = False
@@ -602,6 +606,8 @@ init -1:
 #GAME OVER SCREEN (bad ending)
 label game_over:
     $ config.skipping = False
+    if damage_source != None and you.alive:
+        $ you.kill("murder", damage_source)
     hide screen health
     hide screen health_enemy
     hide screen health_enemy2
@@ -648,6 +654,11 @@ label forbidden_zone_fail:
         play sound "sfx/explosion.ogg" channel 1
         $ show_blood()
         $ renpy.pause(2.0)
+        # Kill the bozos located in the forbidden zone
+        python:
+            for i in classmates:
+                if i.alive and i.loc == loc:
+                    i.kill("fz")
         jump game_over
     else:
         "Oh no. You're in a forbidden zone."
@@ -685,6 +696,10 @@ label time_limit_fail:
     play sound "sfx/explosion.ogg" channel 1
     $ show_blood()
     $ renpy.pause(2.0)
+    python:
+        for i in classmates:
+            if i.alive:
+                i.kill("fz")
     jump game_over
     
     

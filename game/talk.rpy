@@ -813,7 +813,7 @@ label ikoma_scene:
             "You hear Ikoma laugh and spray bullets in your direction."
             if not wish_safety_you:
                 $ show_blood()
-                $ damage_you(-20)
+                $ damage_you(-20, Ikoma)
                 "You're hit! But you still manage to get away."
             $ loc = runaway()
             scene black with dissolve

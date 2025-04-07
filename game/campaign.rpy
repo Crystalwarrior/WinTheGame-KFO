@@ -454,7 +454,7 @@ label mari_find:
             show Mari angry
             $ Mari.wpn.use_sfx()
             $ show_blood()
-            $ damage_you(-20)
+            $ damage_you(-20, Mari)
             $ battle_start(Mari,0,"Mari suddenly shoots you.", "killed_mari", True,foe_advantage=True, allies_will_help=True)
         
         if not Kenji.alive:
@@ -1483,8 +1483,10 @@ label yoriko_arrow_attack:
     jump catch_yoriko
             
 init python:
-    def damage_you(num):
+    def damage_you(num, source=None):
         global armor
+        global damage_source
+        damage_source = source
         damage = num
         if armor != None:
             damage = damage * -1
@@ -2425,9 +2427,9 @@ label nana_bath_mari_betray:
             $ Lucy.wpn.use_sfx()
             $ show_blood()
             if wish_safety_you:
-                $ damage_you(-10)
+                $ damage_you(-10, Lucy)
             else:
-                $ damage_you(-20)
+                $ damage_you(-20, Lucy)
             "An arrow suddenly pierces you. Lucy looks surprised, as if it slipped her hand by mistake. But here it is. An arrow in you."
             nana "D-d-don't just stand there, finish him off!!"
             $ battle_start(Lucy,3,"Lucy struggles with another arrow. It's either kill or be killed now.","bath_kill_lucy", True, flee=False)
@@ -2952,7 +2954,7 @@ label school_maze_correct:
         show Emi angry with dissolve
         "You slide away from your desk and see her again. She shoots her gun at you, even though it only clicks."
         if not wish_safety_you:
-            $ damage_you(-10)
+            $ damage_you(-10, Emi)
             $ show_blood()
             show Emi scared
             "Just when you're about to reach her, she stabs you with the bayonet on the end."
@@ -3189,9 +3191,9 @@ label school_emi_ambush:
         $ Emi.wpn.use_sfx()
         $ show_blood()
         if wish_safety_you:
-            $ damage_you(-10)
+            $ damage_you(-10, Emi)
         else:
-            $ damage_you(-20)
+            $ damage_you(-20, Emi)
             
         
         $ battle_start(Emi,3,"Her bullet pierces you.", "emi_killed", True, allies_will_help=True)
@@ -4254,7 +4256,7 @@ label takeshi_boat_lie:
         $ Fumie.wpn.use_sfx()
         if not wish_safety_you:
             $ show_blood()
-            $ damage_you(-15)
+            $ damage_you(-15, Fumie)
             "You feel a gunshot rip through your shoulder. Fumie was serious."
         else:
             "Fumie shoots you, but misses. She is serious."
@@ -4365,6 +4367,11 @@ label boat_fail:
     play sound "sfx/explosion.ogg" channel 1
     $ show_blood()
     $ renpy.pause(2.0)
+    $ you.kill("fz")
+    if (Mari in party or Mari.loc == loc):
+        $ Mari.kill("fz")
+    if (Jun in party or Jun.loc == loc):
+        $ Jun.kill("fz")
     jump game_over
     
     
@@ -4415,13 +4422,20 @@ label boat_rowaway:
                     $ show_blood()
                     with hpunch
                     if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
+                        $ Mari.kill("fz")
+                        $ Jun.kill("fz")
                         "Their aim is perfect. The guns rip through you and your friends."
-                    elif (Mari in party or Mari.loc == loc) or (Jun in party or Jun.loc == loc):
-                        "Their aim is perfect. The guns rip through you and your friend."
+                    elif (Mari in party or Mari.loc == loc):
+                        $ Mari.kill("fz")
+                        "Their aim is perfect. The guns rip through you and Mari."
+                    elif (Jun in party or Jun.loc == loc):
+                        $ Jun.kill("fz")
+                        "Their aim is perfect. The guns rip through you and Jun."
                     else:
                         "Their aim is perfect. The guns rip through you."
                     "You fall backwards and stare up into the sky."
                     "You were so close."
+                    $ You.kill("fz")
                     jump game_over
                 "Row to the right side of the island [[E5]":
                     # you will beach onto the island and find a locked back gate. There is no way to climb over.
@@ -4461,6 +4475,11 @@ label boat_rowaway:
             play sound "sfx/explosion.ogg" channel 1
             $ show_blood()
             $ renpy.pause(2.0)
+            # yay everyone dies to FORBIDDEN ZONES!
+            python:
+                for i in classmates:
+                    if i.alive:
+                        i.kill("fz")
             jump game_over
             
 label mansion_correct:
@@ -4652,6 +4671,7 @@ label mansion_correct:
             y none "I... I have to win. I have to win the game."
         else:
             "Mari has won the game."
+            $ you.kill("murder", Mari)
             jump game_over
         
     if (Mari in party or Mari.loc == loc):
@@ -5008,6 +5028,7 @@ label ending_refused_name:
         play sound "sfx/explosion.ogg" channel 1
         $ show_blood()
         $ renpy.pause(2.0)
+        $ you.kill("fz")
         jump game_over
         
 label ending_fake_name:

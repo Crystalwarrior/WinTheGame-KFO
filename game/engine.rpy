@@ -959,6 +959,8 @@ screen stats:
                                 $ murder_info = ">Forbidden Zone"
 
                         if i.kills > 0 and (stats_unredacted or i == you or not i.alive):
+                            if murder_info != "":
+                                $ murder_info += "\n"
                             $ murder_info += ">Kills [[{color=#FFF}"+str(i.kills)+"{/color}]"
                             
                                 
@@ -1772,7 +1774,6 @@ init python:
 label deaths_door:
     python:
         config.skipping = False
-        config.allow_skipping = False
         has_healing_items = False
         for i in inventory:
             if i[0].healing > 0:
@@ -1780,6 +1781,7 @@ label deaths_door:
                 break
     # Death's Door mechanic only happens if you can always act
     if has_healing_items and persistent.always_act:
+        $ config.allow_skipping = False
         memo2 "{color=#FF0000}You're on death's door!{/color} This is your last opportunity to save yourself{w=1}{nw}"
         # Pause in text to give you indication this is timed
         if health <= 0:

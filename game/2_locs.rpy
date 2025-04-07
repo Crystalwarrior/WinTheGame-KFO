@@ -601,6 +601,8 @@ label grid_loc:
                 "Mari is right beside you."
             scene black with dissolve
             $ show_blood()
+            $ you.kill("suicide")
+            $ Mari.kill("suicide")
             jump game_over
                 
         "Enter %(room_name)s" if room_here is not None:

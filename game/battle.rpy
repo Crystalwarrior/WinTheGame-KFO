@@ -417,6 +417,7 @@ label new_battle: #This is a giant loop
         $ config.skipping = False
         $ health = 0
         $ battling = False
+        $ you.kill("murder", enemy)
         jump game_over
     else:
         jump new_battle
@@ -1085,6 +1086,7 @@ label battle_enemy_turn:
             $ renpy.transition(hpunch)
             $ num_damage = damage * -1
             $ add_health(num_damage)
+            $ damage_source = enemy
             memo2 "%(e_name)s inflicts {color=#FF0000}%(damage)d{/color} points of damage on you."
             # Give the player an opportunity to heal
             if health <= 0 and persistent.always_act:

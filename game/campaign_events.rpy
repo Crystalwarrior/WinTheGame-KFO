@@ -96,6 +96,7 @@ init:
     $ event("ai_revenge_kill", "loc.zone != a1 and Ai.alive and dealt_ai == \"tied\"", event.once(), priority=100)
     
     $ event("found_tetsuo_murdered", "Tetsuo.loc == loc and Tetsuo.alive and Tetsuo.met and not Tetsuo.hidden and not freeplay", event.once(), priority=50)
+    $ event("kei_takeshi_things", "Kei.loc == loc and Kei.alive and Kei.met and not Takeshi.alive and (sword.is_in_inventory() or laptop.is_in_inventory()) and not freeplay", event.once(), priority=100)
     # $ event("", "loc == ", event.only(), event.once(), priority=50)
     
 
@@ -140,7 +141,7 @@ label kenji_attacks_you:
     if loc == d1:
         "The trees thin and you can see the ocean as you press east. It is a very steep fall off of the cliff to the ragged rocks below."
     $ Kenji.wpn.use_sfx()
-    $ damage_you(-20)
+    $ damage_you(-20, Kenji)
     $ show_blood()
     stop music
     play music "music/AngryOpheliasSong.ogg" fadein 3.0
@@ -775,13 +776,13 @@ label yoriko_arrows:
     $ cutscene()
     $ Yoriko.wpn.use_sfx()
     play music "music/AngryOpheliasSong.ogg"
-    $renpy.scene()
-    $renpy.show(loc_bg)
+    $ renpy.scene()
+    $ renpy.show(loc_bg)
     $ renpy.transition(dissolve)
     $ num = renpy.random.randint(0,100)
     if num < 60 and not wish_safety_you:
         $ show_blood()
-        $ damage_you(-20)
+        $ damage_you(-20, Yoriko)
         "An arrow grazes you! The arrow attacker is back!"
     else:
         "An arrow nearly hits you! The arrow attacker is back!"
@@ -805,7 +806,7 @@ label catch_yoriko:
             $ num = renpy.random.randint(0,100)
             if num < 60 and not wish_safety_you:
                 $ show_blood()
-                $ damage_you(-20)
+                $ damage_you(-20, Yoriko)
                 "An arrow launches from nowhere once again. This time it grazes you!"
             else:
                 "You manage to gain distance without being hit!"
@@ -818,7 +819,7 @@ label catch_yoriko:
                     $ num = renpy.random.randint(0,100)
                     if num < 60 and not wish_safety_you:
                         $ show_blood()
-                        $ damage_you(-20)
+                        $ damage_you(-20, Yoriko)
                         "But another arrow shoots out and wounds you."
                     else:
                         "They miss you! You gain considerable ground."
@@ -831,9 +832,9 @@ label catch_yoriko:
                             play sound "sfx/bow_shot.ogg"
                             $ show_blood()
                             if wish_safety_you:
-                                $ damage_you(-10)
+                                $ damage_you(-10, Yoriko)
                             else:
-                                $ damage_you(-20)
+                                $ damage_you(-20, Yoriko)
                             "Another arrow hits you straight in the chest. You stumble back, but the adrenaline helps you recover."
                             show Yoriko scared with dissolve
                             "Behind a tree, you find a girl trying to load another bolt into her crossbow. She gasps seeing you."
