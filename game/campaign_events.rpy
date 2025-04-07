@@ -71,7 +71,7 @@ init:
     
     #Campaign events
     $ event("kenji_attacks_you", "Kenji in party and not freeplay", event.once(), priority=100)
-    $ event("shrine_find", "loc == f1 and finding_mari and not freeplay", event.only(), event.once(), priority=100)
+    $ event("shrine_find", "loc == f1 and finding_mari and not mari_will_die and not freeplay", event.only(), event.once(), priority=100)
     $ event("mari_find", "loc == rm_shrine and not Mari.met and not mari_will_die and not freeplay", event.only(), event.once(), priority=100)
     $ event("mari_find_dead", "loc == rm_shrine and mari_will_die and not freeplay", event.once(), priority=50)
     $ event("meet_jun", "Jun.loc == Asai.loc and not Jun.met and not Asai.met and loc == Asai.loc and not freeplay", event.once(), priority=25)
@@ -201,10 +201,21 @@ label kenji_attacked_you:
         play sound "sfx/static_loop.ogg" channel 1 fadein 1.0 loop
         "You stand in silence for a long time, but the walkie talkie crackles and you are reminded of Mari."
         "Is what Kenji said true? Did he really talk to her? Was she really to the east?"
-        call mari_radio
-        y none "I'm coming for you! Stay where you are!"
-        stop sound channel 1
-        "Kenji said she was to the east ... If you don't reach her, someone else might. Someone playing the game."
+        if not mari_will_die:
+            call mari_radio
+            y none "I'm coming for you! Stay where you are!"
+            stop sound channel 1
+            "Kenji said she was to the east from the shack ... If you don't reach her, someone else might. Someone playing the game."
+        else:
+            play sound "sfx/walkietalkie.ogg"
+            "You press the talk button on the radio."
+            y sad "Hello? Um ... anyone there?"
+            "There's a long silence."
+            play sound "sfx/walkietalkie.ogg"
+            y sad "Anyone..?"
+            "No response."
+            "Kenji said Mari was to the east from the shack ... You want to find her."
+            $ finding_mari = True
     jump grid_loc
     
 label mari_radio:
