@@ -360,8 +360,8 @@ init -2 python:
             #self.loc = None
             if self in party:
                 party_remove(self)
-            death_list.append(self)
-            death_list = list(set(death_list))
+            if self not in death_list:
+                death_list.append(self)
             find_all_pop()
             renpy.block_rollback()
             
