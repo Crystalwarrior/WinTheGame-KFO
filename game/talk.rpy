@@ -328,10 +328,15 @@ label Hitomo_talk:
     
 label murdered_hitomo:
     $ murdered = "Hitomo"
+    if Yuki.loc == loc and Yuki.alive:
+        show Yuki scared
+        yuki "You've made a huge mistake coming here!"
+        $ battle_start(Yuki,3,"He raises his weapon. His teeth are chattering.", "murdered_yuki", True)
     if Nanako.loc == loc and Nanako.alive:
         show Nanako scared
-        nana "Oh my god! He's a psycho! I knew it! You're fucking psycho!"
+        nana "Oh my god! He's a psycho! I knew it! You're a fucking psycho!"
         $ Nanako.move("rand")
+        hide Nanako with dissolve
         "Nanako flees. She doesn't appear to have a weapon."
     if Lucy.loc == loc and Lucy.alive:
         show Lucy scared
@@ -348,7 +353,6 @@ label Nanako_talk:
         if you in Nanako.enemies:
             show Nanako angry
             "Nanako spits at your feet."
-            $ battle_start(Nanako,0,"You don't care.", "murdered_nanako", True, allies_will_help=True)
         elif you in Nanako.friends:
             show Nanako sad
             nana "I don't want you around here. I want to be alone."
@@ -365,6 +369,11 @@ label Nanako_talk:
     show screen health_enemy
     menu:
         "[[Attack]":
+            # Yuki will protect Nanako
+            if Yuki.loc == loc and Yuki.alive:
+                show Yuki scared with quickdissolve
+                yuki "I-- I won't let you!!"
+                $ battle_start(Yuki,3,"Before you can react, he attacks!", "murdered_yuki", True, foe_advantage=True, can_flee=False)
             $ battle_start(Nanako,3,"Nanako glares at you and stands her ground, even though her death is inevitable.", "murdered_nanako", True)
         "[[Done]":
             $ talking = False
@@ -373,6 +382,10 @@ label Nanako_talk:
             
 label murdered_nanako:
     "Her precious vest couldn't save her."
+    if Yuki.loc == loc and Yuki.alive:
+        show Yuki scared
+        yuki "No... No!!"
+        $ battle_start(Yuki,3,"Before you can react, he attacks!", "murdered_yuki", True, foe_advantage=True, can_flee=False)
     if Lucy.loc == loc and Lucy.alive:
         show Lucy scared
         lucy "How could you!?"
@@ -411,10 +424,15 @@ label Lucy_talk:
             
 label murdered_lucy:
     $ murdered = "Lucy"
+    if Yuki.loc == loc and Yuki.alive:
+        show Yuki scared
+        yuki "You've made a huge mistake coming here!"
+        $ battle_start(Yuki,3,"He raises his weapon. His teeth are chattering.", "murdered_yuki", True)
     if Nanako.loc == loc and Nanako.alive:
         show Nanako scared
-        nana "Oh my god! He's a psycho! I knew it! You're fucking psycho!"
+        nana "Oh my god! He's a psycho! I knew it! You're a fucking psycho!"
         $ Nanako.move("rand")
+        hide Nanako with dissolve
         "Nanako flees. She doesn't appear to have a weapon."
     if Hitomo.loc == loc and Hitomo.alive:
         show Hitomo scared
@@ -696,6 +714,18 @@ label Yuki_talk:
             
 label murdered_yuki:
     $ murdered = "Yuki"
+    if Nanako.loc == loc and Nanako.alive:
+        show Nanako scared
+        nana "No! You psycho, no!! NO!!!"
+        $ battle_start(Nanako,1,"Against her better judgement, she lunges at you without a weapon!", "murdered_nanako", True)
+    if Lucy.loc == loc and Lucy.alive:
+        show Lucy scared
+        lucy "How could you!?"
+        $ battle_start(Lucy,3,"She raises her bow for revenge.", "murdered_lucy", True)
+    if Hitomo.loc == loc and Hitomo.alive:
+        show Hitomo scared
+        hit "N-n-n-nanako!? Sh-sh-sh-shinobu!?"
+        $ battle_start(Hitomo,0,"She doesn't know why you attacked, but she doesn't hesitate to defend herself.", "murdered_hitomo", True)
     call murder_follower_reaction
     jump grid_loc
     
