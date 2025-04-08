@@ -352,7 +352,7 @@ label Kenji_questions:
             ken "... Are you going to kill me?"
             menu:
                 "Yes [[Attack]":
-                    play music "music/ALongDay.ogg" fadein 4.0
+                    play music "music/ALongDay_loop.ogg" fadein 4.0
                     y angry "I have to ... None of us have any choice."
                     if Kenji.wpn == throwingknives:
                         play sound "sfx/knife_pull.ogg"
@@ -2231,7 +2231,7 @@ label bathhouse_ai:
                 
 label ai_kill_bath:
     play sound "sfx/swim.ogg" fadein 4.0
-    play music "music/ALongDay.ogg" fadein 6.0
+    play music "music/ALongDay_loop.ogg" fadein 6.0
     "Ai falls backwards into the bath."
     $ Ai.unkill("murder",you)
     
@@ -3940,7 +3940,8 @@ label gps_hospital:
     if len(party) > 0 or (Fumie.alive or Kei.alive):
         y scared "Stay away from him!"
     else:
-        kei "Shin!?"
+        if Kei.alive:
+            kei "Shin!?"
         y scared "Stay away from me!"
     play sound "sfx/beep_alarm.ogg"
     memo "... 2 ..."
@@ -4268,10 +4269,10 @@ label takeshi_boat_kill:
     if Kei.alive:
         kei "You stuck up prick!"
         kei "I've been wanting to do this for a long time."
-        $ battle_start(Kei,0,"Kei walks slowly towards you, pounding his fist in his other hand.", "takeshi_boat_kill2", True, flee=False, allies_will_help=True)
+        $ battle_start(Kei,0,"Kei walks slowly towards you, pounding his fist in his other hand.", "takeshi_boat_kill2", False, flee=False, allies_will_help=True)
     elif Fumie.alive:
         fum "No!! Takeshi! He was all I had left!"
-        $ battle_start(Fumie,0,"You can't avoid this fight.", "takeshi_boat_kill3", True, flee=False, allies_will_help=True)
+        $ battle_start(Fumie,0,"You can't avoid this fight.", "takeshi_boat_kill3", False, flee=False, allies_will_help=True)
     else:
         "You take comfort in knowing that it's over. No else knows about the boat now."
         $ loc = rm_shed
@@ -4280,7 +4281,7 @@ label takeshi_boat_kill:
 label takeshi_boat_kill2:
     if Fumie.alive:
         fum "Kei!! No!!"
-        $ battle_start(Fumie,3,"Fumie turns into your would-be murderer.", "takeshi_boat_kill3", True, flee=False, allies_will_help=True)
+        $ battle_start(Fumie,3,"Fumie turns into your would-be murderer.", "takeshi_boat_kill3", False, flee=False, allies_will_help=True)
     else:
         "You take comfort in knowing that it's over. No else knows about the boat now."
         $ loc = rm_shed
