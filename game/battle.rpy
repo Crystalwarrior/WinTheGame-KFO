@@ -25,6 +25,7 @@ init:
     $ throwing = False
     $ just_murdered_someone = False
     $ battling = False
+    $ play_battle_music = False
     $ battle_wpn_broken = False
 
 label new_battle_intro:
@@ -450,6 +451,7 @@ init python:
         global ever_battled
         global battling
         global trap_caught_person
+        global play_battle_music
         battling = True
         can_flee = flee
         f_advantage = foe_advantage
@@ -458,6 +460,7 @@ init python:
         battle_flee_you_jump = flee_you_jump
         battle_flee_enemy_jump = flee_enemy_jump
         enemy = foe
+        play_battle_music = play_music
 
         # Battling the trapped person will release them
         if trap_caught_person == enemy:
@@ -507,13 +510,13 @@ init python:
         if enemy.item != None:
             if enemy.item[0].defense > their_def:
                 their_def = enemy.item[0].defense
-        if play_music:
+        if play_battle_music:
             renpy.music.stop(fadeout=2.0)
         if not freeplay:
             renpy.show(enemy.death_sprite)
         renpy.say(None,battle_message)
         renpy.hide_screen("health_enemy")
-        if play_music:
+        if play_battle_music:
             tracks = [
                 "music/ResonantBlip.ogg",
                 "music/ResonantBlipBSide.ogg",
@@ -556,6 +559,7 @@ init python:
         global just_murdered_someone
         global murdered
         global battling
+        global play_battle_music
         battling = False
         murdered = enemy.name
         if enemy.type != "hostile" and not f_advantage:
@@ -565,7 +569,8 @@ init python:
         config.skipping = False
         enemy.death_sfx()
         renpy.show(enemy.death_sprite)
-        renpy.music.stop(fadeout=3.0)
+        if play_battle_music:
+            renpy.music.stop(fadeout=3.0)
         renpy.hide_screen("health_enemy2")
         renpy.hide_screen("new_battle")
         renpy.transition(dissolve)
