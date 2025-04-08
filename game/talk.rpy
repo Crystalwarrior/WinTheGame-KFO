@@ -896,6 +896,10 @@ label murder_follower_reaction:
                 jun "Whatever, man. You've shown what you're capable of, and I'd rather be on your side."
             "It's a blessing they decided not to question you."
             "Don't push your luck."
+            if mari_here:
+                hide Mari
+            if jun_here:
+                hide Jun
             $ wish_no_sin = False
             $ murdered = None
             $ just_murdered_someone = False
@@ -991,9 +995,11 @@ label murder_follower_reaction:
             if mari_here:
                 show Mari scared
                 mari "I want to go home..."
+                hide Mari
             if jun_here:
                 show Jun mad
                 jun "So much for \"not playing the game\"."
+                hide Jun
             if not mari_here and not jun_here:
                 y scared "I'm not playing the game... I'm not playing the game..."
             $ self_defense_argument = True
