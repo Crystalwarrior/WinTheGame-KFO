@@ -68,16 +68,16 @@ label game_init_chars:
         
         ###########Friendships (they will not kill their friends while sane or unprovoked, if they're not hostile)
         Jun.friends = [Asai, Kei]
-        Tetsuo.friends = classmates #friends with everyone
+        Tetsuo.friends += classmates #friends with everyone
         Kei.friends = [you, Takeshi, Kenji, Asai, Yuki, Mari, Emi, Yoriko, Fumie, Lucy, Ai, Hitomo, Nanako]
         Takeshi.friends = [you, Kei, Kenji, Asai, Yuki, Mari, Emi, Yoriko, Fumie, Lucy, Ai, Hitomo, Nanako]
         Ikoma.friends = [] #Friends with no one
-        Yuki.friends = classmates
+        Yuki.friends += classmates
         Goro.friends = [Emi, Yoriko, Ai, Nanako, Lucy, Fumie, Mari, Hitomo]
         Asai.friends = [Takeshi,Yuki,Jun,Kenji,Fumie,Nanako,Hitomo]
         Kenji.friends = [Takeshi, Kei, Nanako, Fumie]
-        Mari.friends = classmates
-        Fumie.friends = classmates
+        Mari.friends += classmates
+        Fumie.friends += classmates
         Emi.friends = [Yoriko, Goro, Ikoma, Yuki]
         Yoriko.friends = [Emi, Goro, Ikoma, Yuki]
         Lucy.friends = [Nanako, Hitomo, Ai, Fumie, Mari]
@@ -86,7 +86,7 @@ label game_init_chars:
         Nanako.friends = [Lucy, Hitomo, Ai, Fumie, Mari, Kei, Takeshi, Yuki, Tetsuo]
         
         ###########Enemies (will absolutely attack on sight)
-        Ikoma.enemies = classmates #will try to kill everyone
+        Ikoma.enemies += classmates #will try to kill everyone
         Emi.enemies = [Nanako,Lucy,Ai,Hitomo]
         Yoriko.enemies = [Ai, Asai,Takeshi]
         Nanako.enemies = [Goro,Jun]
