@@ -3801,6 +3801,8 @@ label takeshi_gps_give:
         tak "If you want."
         "Takeshi is too engrossed in the device to care about you anymore."
         $ gps_story = True
+        # Don't make him move out of the hospital
+        $ Takeshi.type = "fixed"
         $ Takeshi.move(rm_hospital)
         jump grid_loc
     else:
@@ -4208,14 +4210,10 @@ label takeshi_boat_lie:
     y none "Me!?"
     if (Jun in party or Jun.loc == loc):
         jun angry "We're going to come back for you, so don't get all emotional."
-    if len(party) > 0:
+    elif len(party) > 0:
         y sad "We were going to come back for you!"
     else:
         y sad "I was going to come back for you!"
-        if len(party) > 0:
-            y sad "We were going to come back for you!"
-        else:
-            y sad "I was going to come back for you!"
         
     if Takeshi.alive:
         tak "That sounds real trustworthy."
