@@ -92,7 +92,7 @@ init:
     $ event("gps_hospital", "gps_story and loc == g3 and Takeshi.alive and not freeplay", event.only(), event.once(), priority=50)
     $ event("boat_missing", "loc == rm_shed and takeshi_boat_truth and seen_boat and not freeplay", event.only(), event.once(), priority=50)
     $ event("takkeifum_boat_death", "boat_missing and loc.zone.shore and not loc.forbidden and not freeplay", event.only(), event.once(), priority=50)
-    $ event("takeshi_boat_lie", "loc == rm_shed and takeshi_boat_lied and seen_boat and not freeplay", event.only(), event.once(), priority=100)
+    $ event("takeshi_boat_lie", "loc == rm_shed and takeshi_boat_lied and seen_boat and (Takeshi.alive or Fumie.alive or Kei.alive) and not freeplay", event.only(), event.once(), priority=100)
     $ event("ai_revenge_kill", "loc.zone != a1 and Ai.alive and dealt_ai == \"tied\"", event.once(), priority=100)
     
     $ event("found_tetsuo_murdered", "Tetsuo.loc == loc and Tetsuo.alive and Tetsuo.met and not Tetsuo.hidden and not freeplay", event.once(), priority=50)
