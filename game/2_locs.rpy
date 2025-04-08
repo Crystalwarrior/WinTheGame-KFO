@@ -262,9 +262,7 @@ init python:
             add_time(1) #Advance time 1 hour for traveling to a new grid location
 
         loc = newloc
-        for x in classmates:
-            if x == you:
-                x.loc = newloc #moves your avatar
+        you.loc = newloc #moves your avatar
         for i in party:
             i.loc = newloc #Sets your party member's loc
         if not newloc.found:
@@ -286,9 +284,7 @@ init python:
         renpy.transition(dissolve)
         renpy.pause(0.5)
         loc = newloc
-        for x in classmates:
-            if x == you:
-                x.loc = newloc
+        you.loc = newloc
         for i in party:
             i.loc = newloc
         if not newloc.found:
