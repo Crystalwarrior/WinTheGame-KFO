@@ -562,7 +562,7 @@ init python:
         global play_battle_music
         battling = False
         murdered = enemy.name
-        if enemy.type != "hostile" and not f_advantage:
+        if enemy.type != "hostile":
             just_murdered_someone = True
         can_flee = True
         f_advantage = False
