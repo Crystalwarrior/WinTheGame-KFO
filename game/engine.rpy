@@ -1488,7 +1488,7 @@ screen follower_wpn_replace:
         $ promptshow = "Select which weapon you want to give {color=#FFF}%s{/color}."%char_name
         #$ prompt_sub = "She currently has a {color=#FFF}%s{/color} equipped."%wpn_name
         text promptshow xpos 0.5 xanchor 0.5 size 22 layout "subtitle"
-        text "You cannot trade equipped weapons." xpos 0.5 xanchor 0.5 size 15
+        # text "You cannot trade equipped weapons." xpos 0.5 xanchor 0.5 size 15
         null height 3
         hbox:
             xpos .5 ypos .5
