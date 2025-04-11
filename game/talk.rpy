@@ -1010,7 +1010,7 @@ label murder_follower_reaction:
                 jun sad "Screw this game, man."
             if mari_here:
                 mari sad "Are we... bad people?"
-            y scared "I-It had to be done... %(murdered)s attacked me!"
+            y scared "It had to be done... %(murdered)s attacked me!"
             if jun_here:
                 show Jun mad
                 jun "God-- I get it, okay?!"
@@ -1033,7 +1033,7 @@ label murder_follower_reaction:
             if not mari_here and not jun_here:
                 y scared "I'm not playing the game... I'm not playing the game..."
             $ self_defense_argument = True
-            memo "In most battles, you can run to the edge of the screen to unlock the \"Flee\" option. However, some special combat encounters are unavoidable and are kill or be killed."
+            memo "Your followers will react to battle outcomes, and you may not always argue your way out of it. They will only fight on your side if they feel you're justified."
     $ murdered = None
     $ just_murdered_someone = False
     return
