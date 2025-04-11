@@ -8,12 +8,18 @@
 ## appropriate.
 
 init -1 python hide:
+    import os.path
 
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
+    ## If file named "devmode" is in the base directory of the game,
+    ## devmode will be enabled.
 
-    config.developer = True
+    config.developer = os.path.exists(config.basedir + "/devmode")
+
+    ## Rollback is only enabled for developer mode
+    config.rollback_enabled = config.developer
 
     ## These control the width and height of the screen.
 
