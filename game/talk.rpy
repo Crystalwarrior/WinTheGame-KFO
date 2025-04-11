@@ -43,6 +43,7 @@ label Mari_talk:
                     $ old_wpn = Mari.wpn
                     if old_wpn is not None:
                         $ old_wpn_name = old_wpn.fancy_name
+                    $ new_wpn_was_equipped = wpn == new_wpn[0]
                     $ new_wpn_name = new_wpn[0].fancy_name
                     $ Mari.wpn = new_wpn[0]
                     $ new_wpn[0].destroy(1)
@@ -50,7 +51,11 @@ label Mari_talk:
                         $ old_wpn.add()
 
                     if old_wpn is not None:
-                        "She gives you her {color=#FFF}%(old_wpn_name)s{/color} for the {color=#FFF}%(new_wpn_name)s{/color}."
+                        $ more_text = ""
+                        if new_wpn_was_equipped and old_wpn.is_in_inventory():
+                            $ old_wpn.equip()
+                            $ more_text = "\nYou equip it."
+                        "She gives you her {color=#FFF}%(old_wpn_name)s{/color} for the {color=#FFF}%(new_wpn_name)s{/color}.%(more_text)s"
                     else:
                         "You give her the {color=#FFF}%(new_wpn_name)s{/color}."
                         
@@ -190,6 +195,7 @@ label Jun_talk:
                 $ old_wpn = Jun.wpn
                 if old_wpn is not None:
                     $ old_wpn_name = old_wpn.fancy_name
+                $ new_wpn_was_equipped = wpn == new_wpn[0]
                 $ new_wpn_name = new_wpn[0].fancy_name
                 $ Jun.wpn = new_wpn[0]
                 $ new_wpn[0].destroy(1)
@@ -197,7 +203,11 @@ label Jun_talk:
                     $ old_wpn.add()
 
                 if old_wpn is not None:
-                    "He gives you his {color=#FFF}%(old_wpn_name)s{/color} for the {color=#FFF}%(new_wpn_name)s{/color}."
+                    $ more_text = ""
+                    if new_wpn_was_equipped and old_wpn.is_in_inventory():
+                        $ old_wpn.equip()
+                        $ more_text = "\nYou equip it."
+                    "He gives you his {color=#FFF}%(old_wpn_name)s{/color} for the {color=#FFF}%(new_wpn_name)s{/color}.%(more_text)s"
                 else:
                     "You give him the {color=#FFF}%(new_wpn_name)s{/color}."
                 if new_wpn[0] == ladle or new_wpn[0] == potlid or new_wpn[0] == shoe or new_wpn[0] == stick:
