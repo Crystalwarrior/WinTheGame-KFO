@@ -1045,6 +1045,9 @@ screen items:
                 # If we're battling and it's not our turn to select an option
                 if battling and not battle_selection:
                     $ allowed_to_act = False
+                # If we're not battling and we're not in the item interaction game state
+                if not battling and not show_drop_stuff:
+                    $ allowed_to_act = False
             
             frame:
                 xpadding 10
