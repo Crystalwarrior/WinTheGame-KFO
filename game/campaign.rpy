@@ -5323,15 +5323,11 @@ label leave_fz:
         y none "We have to get out of here, right now!"
     python:
         if loc.type == "room":
-            loc = loc.parent
+            loc = loc.zone
             renpy.scene()
             renpy.show(loc.bg)
     "You only have twenty minutes to get out of the zone. You don't waste any time and start running as fast as you can."
-    $ loc = runaway()
-    scene black with dissolve
-    $ renpy.scene()
-    $ renpy.show(loc.bg)
-    $ renpy.transition(dissolve)
+    $ move_to_grid(runaway(), pass_time=False, jump="")
     $ saying = "You manage to cross the boundary line into "+loc.letter.upper()+str(loc.number)+" just before it was too late."
     $ renpy.say(None,saying)
     if (Mari in party or Mari.loc == loc):
