@@ -855,10 +855,8 @@ label ikoma_scene:
                 $ show_blood()
                 $ damage_you(-20, Ikoma)
                 "You're hit! But you still manage to get away."
-            $ loc = runaway()
-            scene black with dissolve
-            $ move_to_grid(loc)
-            jump grid_loc
+            # move_to_grid calls a jump
+            $ move_to_grid(runaway())
             
 label killed_ikoma:
     "The monster has finally been slain."
