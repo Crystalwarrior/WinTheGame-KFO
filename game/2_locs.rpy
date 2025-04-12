@@ -626,7 +626,7 @@ label grid_loc:
             play sound "sfx/hammer.ogg"
             "You take your axe and harvest the best-looking wood in the area."
             $ add_time(3)
-            $ wood.add()
+            $ wood.add(from_floor=False)
         "Wait in Camouflage" if armor == camo:
             $ movement_keys = False
             "You blend into the surroundings."
