@@ -318,11 +318,15 @@ init -2 python:
                         #store_say(None,"{color=#00db00}Adding "+self.fancy_name+" ...{/color}")
                         if not silent:
                             renpy.sound.play("sfx/beep_good.ogg", channel="system")
+                            renpy.show_screen("item_new")
                         # Take item out of location inventory
-                        for i in loc.items:
-                            if i[0] == self:
-                                loc.items.remove(i)
-                            renpy.show_screen("item_new")     
+                        if from_floor:
+                            for i in loc.items:
+                                if i[0] == self:
+                                    i[1] -= amt
+                                    if i[1] <= 0:
+                                        loc.items.remove(i)
+                                    return
                     if discarded != "cancel":
                         discarded.drop("all")
                 elif not pickup:
