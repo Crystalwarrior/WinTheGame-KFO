@@ -270,11 +270,16 @@ label Hitomo_talk:
     if you in Hitomo.enemies:
         show Hitomo scared
         hit "Ahh!!"
+        $ enemy = Hitomo
+        show screen health_enemy
         menu:
             "[[Attack]":
                 $ battle_start(Hitomo,0,"Might as well.", "murdered_hitomo", True, allies_will_help=True)
             "[[Done]":
-                pass
+                $ Hitomo.move(runaway())
+                hide Hitomo with dissolve
+                "Hitomo makes a break for it!"
+                jump grid_loc
     elif not freeplay and Hitomo.loc == a2 and not you_can_cross_bridge:
         show Hitomo
         hit "Go away! I'm warning you!"
