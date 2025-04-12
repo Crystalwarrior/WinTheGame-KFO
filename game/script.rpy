@@ -661,13 +661,14 @@ label forbidden_zone_fail:
                     i.kill("fz")
         jump game_over
     else:
+        $ add_sanity(-10)
         "Oh no. You're in a forbidden zone."
         if (Mari in party or Mari.loc == loc):
             mari "Shinobu! Run!!"
         if (Jun in party or Jun.loc == loc):
             jun "Let's get out of here, right now!!"
         "You make a break for it and leave!"
-        $ loc = runaway()
+        $ move_to_grid(runaway(), pass_time=False, jump="")
         jump grid_loc
     
 #DEATH BY TIME LIMIT
