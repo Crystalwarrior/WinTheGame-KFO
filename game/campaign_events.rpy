@@ -578,8 +578,8 @@ init python:
         #global on_cutscene
         show_drop_stuff = False
         #on_cutscene = True
-        if togglegui:
-            gui_is_off = True
+        gui_is_off = togglegui
+        if gui_is_off:
             config.skipping = False
             renpy.hide_screen("health")
             renpy.hide_screen("beep_red_continuous")
