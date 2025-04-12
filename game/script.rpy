@@ -657,7 +657,7 @@ label forbidden_zone_fail:
         # Kill the bozos located in the forbidden zone
         python:
             for i in classmates:
-                if i.alive and i.loc == loc:
+                if i.alive and i.loc.forbidden:
                     i.kill("fz")
         jump game_over
     else:
