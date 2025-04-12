@@ -232,7 +232,7 @@ label game_init_locs:
 ######################################
 
 init python:
-    def move_to_grid(newloc): #move you to a grid loc
+    def move_to_grid(newloc, pass_time = True, jump="grid_loc"): #move you to a grid loc
         global loc
         global this_is_a_new_loc
         global party
@@ -254,12 +254,13 @@ init python:
         renpy.show("black")
         renpy.transition(dissolve)
         renpy.pause(0.5)
-        if boat.is_in_inventory() and not (Mari in party or Mari.loc == loc) and not (Jun in party or Jun.loc == loc):
-            add_time(3) #Super extra time for moving the boat alone because friendship rules
-        elif boat.is_in_inventory():
-            add_time(2) #Extra time for moving the boat because it's heavy and stuff
-        else:
-            add_time(1) #Advance time 1 hour for traveling to a new grid location
+        if pass_time:
+            if boat.is_in_inventory() and not (Mari in party or Mari.loc == loc) and not (Jun in party or Jun.loc == loc):
+                add_time(3) #Super extra time for moving the boat alone because friendship rules
+            elif boat.is_in_inventory():
+                add_time(2) #Extra time for moving the boat because it's heavy and stuff
+            else:
+                add_time(1) #Advance time 1 hour for traveling to a new grid location
 
         loc = newloc
         you.loc = newloc #moves your avatar
@@ -273,7 +274,8 @@ init python:
             music_steps = 0
             ambient_music()
 
-        renpy.jump("grid_loc")
+        if jump != "":
+            renpy.jump(jump)
         
     def move_to_room(newloc): #move you to a room
         global loc
@@ -305,6 +307,7 @@ label move_north:
     
 label move_north2:
     $ movement_keys = False
+    $ cutscene()
     if sanity >= 40:
         "That way leads to a {color=#FF0000}forbidden zone{/color} and would mean certain death."
     else:
@@ -315,6 +318,7 @@ label move_north2:
             "No, don't go":
                 pass
     $ movement_keys = True
+    $ uncutscene()
     return
     
 label move_south:
@@ -323,6 +327,7 @@ label move_south:
     
 label move_south2:
     $ movement_keys = False
+    $ cutscene()
     if sanity >= 40:
         "That way leads to a {color=#FF0000}forbidden zone{/color} and would mean certain death."
     else:
@@ -332,6 +337,8 @@ label move_south2:
                 $ move_to_grid(south_loc)
             "No, don't go":
                 pass    
+    $ movement_keys = True
+    $ uncutscene()
     return
     
 label move_east:
@@ -340,6 +347,7 @@ label move_east:
     
 label move_east2:
     $ movement_keys = False
+    $ cutscene()
     if sanity >= 40:
         "That way leads to a {color=#FF0000}forbidden zone{/color} and would mean certain death."
     else:
@@ -350,6 +358,7 @@ label move_east2:
             "No, don't go":
                 pass    
     $ movement_keys = True
+    $ uncutscene()
     return
     
 label move_west:
@@ -358,6 +367,7 @@ label move_west:
     
 label move_west2:
     $ movement_keys = False
+    $ cutscene()
     if sanity >= 40:
         "That way leads to a {color=#FF0000}forbidden zone{/color} and would mean certain death."
     else:
@@ -368,6 +378,7 @@ label move_west2:
             "No, don't go":
                 pass    
     $ movement_keys = True
+    $ uncutscene()
     return
     
 label enter_room:
