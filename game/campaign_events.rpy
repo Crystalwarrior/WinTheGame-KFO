@@ -66,7 +66,7 @@ label weapon_desc:
 init:
     #Framework events (editable in script.rpy)
     $ event("time_limit_fail", "day > time_limit", event.only(), event.once(), priority=1) #death by time limit
-    $ event("forbidden_zone_fail", "loc.forbidden", event.only(), event.once(), priority=1) #death by forbidden zone
+    $ event("forbidden_zone_fail", "loc.forbidden", event.only(), priority=1) #death by forbidden zone
     $ event("won_game", "players_alive == 1", event.only(), event.once(), priority=1) #you win the game
     
     #Campaign events
@@ -217,6 +217,7 @@ label kenji_attacked_you:
             "No response."
             "Kenji said Mari was to the east from the shack ... You want to find her."
             $ finding_mari = True
+    $ just_murdered_someone = False
     jump grid_loc
     
 label mari_radio:
