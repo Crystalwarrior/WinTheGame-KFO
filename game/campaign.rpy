@@ -2442,9 +2442,8 @@ label bath_kill_lucy:
     play sound "sfx/door_slide2.ogg"
     hide Nanako with dissolve
     "She slides open the door and slams it shut. You chase after her."
-    
+    scene lockers_ladies with fade
     if Mari.loc == loc:
-        scene lockers_ladies with fade
         $ loc = rm_lockers
         show Nanako scared at mid_right
         show Mari scared at mid_left
@@ -2477,10 +2476,11 @@ label bath_kill_lucy:
                 $ Lucy.make_foe(you)
                 $ mari_bath_left = True
     else:
+        $ loc = rm_lockers
         jump bath_kill_mari
 
 label bath_kill_mari:
-    if Mari.loc == loc:
+    if Mari.loc == loc and not Mari.alive:
         "Blood pours from Mari too easily ... You can't bear to look. You feel shame like none other before."
         show Nanako scared at center with move
     else:
@@ -2520,7 +2520,8 @@ label bath_no_ai:
     $ Nanako.move(rm_lockers)
     #You arrive at the Bathouse.
     "You walk into a rustic bathhouse that likely served the entire island at one point."
-    if Hitomo.alive:
+    # She's alive, and you didn't spook her away to cross the bridge
+    if Hitomo.alive and you not in Hitomo.enemies:
         #- If you are with Hitomo, she will lead you to Nanako and Lucy (and Mari).
         hit "This way, follow me."
         scene lockers_ladies with fade
@@ -2574,6 +2575,9 @@ label bath_no_ai:
         "You laugh to yourself, wondering if your classmates would still respect gender boundaries, even at the end of times."
         $ Lucy.wpn.use_sfx()
         "You don't get to enjoy the thought for long. An arrow whizzes past your head."
+        if (Jun in party or Jun.loc == loc):
+            jun scared "Holy crap!"
+            "Jun runs behind cover."
         show Lucy scared with dissolve
         lucy "You're not supposed to be here!"
         $ reference_item(Lucy.wpn)
@@ -2616,7 +2620,7 @@ label bath_no_ai:
                 $ battle_start(Lucy,0,"You're pretty sure you can take her.", "no_hitomo_lucy_dead2", True, flee=False)
             "Surrender":
                 #-- If you talk to her, Mari/Nanako will walk in and see what's happening. 
-                if (Mari in party or Mari.loc == loc):
+                if (Mari in party or Mari.loc == loc) and Mari in followers:
                     #If mari is there, Mari will talk her down from shooting.
                     mari "Lucy! We're friends!"
                     lucy "Mari? What are you doing with ... him?"
@@ -2625,6 +2629,14 @@ label bath_no_ai:
                     if not Hitomo.met:
                         y none "Hitomo?"
                         mari "No one stopped us ..."
+                        show Lucy scared
+                        "Lucy gasped."
+                    # You made her run away from the bridge
+                    elif Hitomo.alive:
+                        y none "Well, she wasn't on the bridge."
+                        # She's either lying to cover for you, or she genuinely doesn't know.
+                        # Otherwise she wouldn't be here!
+                        mari "I don't know where she went ..."
                         show Lucy scared
                         "Lucy gasped."
                     else:
@@ -2642,6 +2654,8 @@ label bath_no_ai:
                         y none "Who?"
                         lucy "Hitomo ... You didn't meet her?"
                         y none "Nope."
+                    elif Hitomo.alive:
+                        y none "Well, she wasn't on the bridge."
                     else:
                         y sad "She was ... she was ..."
                         lucy "Oh no, oh no ..."
@@ -2653,27 +2667,60 @@ label bath_no_ai:
                 show Lucy scared at left with move
                 show Nanako scared at right with dissolve
                 "Nanako rushes in through the shower doors. She gasps."
-                if not (Mari in party or Mari.loc == loc):
+                if not (Mari in party or Mari.loc == loc) or you in Mari.enemies:
                     nana "Shoot him, hurry!"
                     lucy "But - Hitomo! He says that she wasn't out there!"
                     show Nanako angry
                     nana "Because he killed her!"
                     if you in Mari.enemies:
-                        nana "Mari told me! He's evil!"
+                        nana "Mari told me all about him! He's evil!"
                     else:
                         y angry "Why are you just assuming that?"
                     show Lucy sad
                     lucy "How could you!? She's the most sweetest girl ever!"
-                    $ Lucy.wpn.get_sfx()
-                    $ battle_start(Lucy,0,"Lucy loads her bow while choking on tears.", "no_hitomo_lucy_dead", True, flee=False)
+                    if Hitomo.alive:
+                        y angry "Check your computer pads!! She's not {color=#F00}LOST{/color}, that means she's still alive!!"
+                        $ Lucy.wpn.get_sfx()
+                        "Lucy loads her bow, then stops."
+                        nana "Why did you stop?!"
+                        lucy "W-Well, if she's alive... then..."
+                        nana "This guy chased her off!"
+                        y scared "No! I didn't!"
+                        nana "I'm not buying it!"
+                        nana "You get one chance. Get the hell out or we're throwing you out!"
+                        menu:
+                            "Leave":
+                                y angry "Fine! I'm leaving. Don't hurt me."
+                                nana "Good!"
+                                $ move_to_grid(a1, pass_time=False)
+                            "Stay":
+                                y angry "No."
+                                if (Jun in party or Jun.loc == loc):
+                                    jun scared "Dude!! Come on!"
+                                $ Lucy.wpn.use_sfx()
+                                $ show_blood()
+                                if wish_safety_you:
+                                    $ damage_you(-10, Lucy)
+                                else:
+                                    $ damage_you(-20, Lucy)
+                                "An arrow suddenly pierces you."
+                                $ battle_start(Lucy,3,"Lucy struggles with another arrow.","bath_kill_lucy", True, flee=True)
+                    else:
+                        $ Lucy.wpn.get_sfx()
+                        $ battle_start(Lucy,0,"Lucy loads her bow while choking on tears. Your way out is blocked by Nanako.", "no_hitomo_lucy_dead", True, flee=False, allies_will_help=True)
                 else:
                     nana "What did you say?!"
                     lucy "Hitomo wasn't out there!"
                     mari "Do you think ...?"
                     show Nanako angry
-                    nana "Yes. Someone got her. Those bastards."
-                    show Lucy sad
-                    "Lucy silently sobs to herself."
+                    if Hitomo.alive:
+                        nana "No, she's alive. Maybe she had to run away from someone. Those bastards."
+                        show Lucy sad
+                        "Lucy's face is painted with anxiety."
+                    else:
+                        nana "Yes. Someone got her. Those bastards."
+                        show Lucy sad
+                        "Lucy silently sobs to herself."
                     scene black with dissolve
                     call meeting_nanako_lucy
     jump grid_loc
@@ -2694,6 +2741,7 @@ label no_hitomo_lucy_dead:
     jump room_loc
     
 label no_hitomo_lucy_dead2:
+    call murder_follower_reaction
     "Nanako bursts through the shower doors just as Lucy falls to the ground."
     jump no_hitomo_lucy_dead
 
