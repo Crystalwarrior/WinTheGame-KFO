@@ -289,7 +289,7 @@ init -2 python:
                 armor = None
             
                 
-        def add(self,amt=1,silent=False,pickup=False):
+        def add(self,amt=1,silent=False,pickup=False,from_floor=True):
             global item_name
             global item_quantity
             global fancy_item_name
@@ -344,12 +344,13 @@ init -2 python:
                 if not silent:
                     renpy.sound.play("sfx/beep_good.ogg", channel="system")
                     renpy.show_screen("item_new")
-                
-                for i in loc.items:
-                    if i[0] == self:
-                        # Take item out of location inventory
-                        loc.items.remove(i)
-                        break
+                if from_floor:
+                    for i in loc.items:
+                        if i[0] == self:
+                            i[1] -= amt
+                            if i[1] <= 0:
+                                loc.items.remove(i)
+                            return
                 
             
         def drop(self, num=1,char="you"):

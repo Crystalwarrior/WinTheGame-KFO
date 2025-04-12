@@ -48,7 +48,7 @@ label Mari_talk:
                     $ Mari.wpn = new_wpn[0]
                     $ new_wpn[0].destroy(1)
                     if old_wpn is not None:
-                        $ old_wpn.add()
+                        $ old_wpn.add(from_floor=False)
 
                     if old_wpn is not None:
                         $ more_text = ""
@@ -108,7 +108,7 @@ label follower_item_trade:
             if old_item is not None:
                 $ old_item_name = old_item[0].fancy_name
                 "You take the {color=#FFF}%(old_item_name)s{/color}."
-                $ old_item[0].add(amt=old_item[1])
+                $ old_item[0].add(amt=old_item[1],from_floor=False)
                 $ wpn_replace_char.item = None
             else:
                 y none "Forget it."
@@ -126,10 +126,10 @@ label follower_item_trade:
                     $ armor = None
             $ new_item_name = new_item[0].fancy_name
             $ wpn_replace_char.item = new_item
-            $ new_item[0].destroy("all")
+            $ inventory.remove(new_item)
             if old_item is not None:
-                $ old_item[0].add(amt=old_item[1])
-                "You trade {color=#FFF}%(old_item_name)s{/color} for the {color=#FFF}%(new_item_name)s{/color}."
+                $ old_item[0].add(amt=old_item[1],from_floor=False)
+                "You trade {color=#FFF}%(new_item_name)s{/color} for the {color=#FFF}%(old_item_name)s{/color}."
             else:
                 "You give the {color=#FFF}%(new_item_name)s{/color}."
     else:
@@ -200,7 +200,7 @@ label Jun_talk:
                 $ Jun.wpn = new_wpn[0]
                 $ new_wpn[0].destroy(1)
                 if old_wpn is not None:
-                    $ old_wpn.add()
+                    $ old_wpn.add(from_floor=False)
 
                 if old_wpn is not None:
                     $ more_text = ""
