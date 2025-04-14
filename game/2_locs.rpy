@@ -72,7 +72,7 @@ label game_init_locs:
         b4 = location("b",4,194,400, "school","grassland",landmark="school",landmark_x=197,landmark_y=415,item_list=[])
         rm_corridor = room("School",b4, "corridor",item_list=[], visibility = 7) #room
         rm_classroom = room("Classroom",rm_corridor, "classroom",item_list=[[helmet,1]], visibility = 6) #room
-        rm_teacher = room("Teachers' Room",rm_classroom, "teachers_room", item_list=[[cigarettes,1]], visibility = 4, can_sleep=True, dump_loc=rm_corridor) #room
+        rm_teacher = room("Teachers' Room",rm_classroom, "teachers_room", item_list=[[cigarettes,1]], visibility = 4, can_sleep=True) #room
         
         c1 = location("c",1,295,96, "cabin","forest",landmark="shack",landmark_x=310,landmark_y=115,item_list=[])
         rm_shack = room("Shack",c1, "shack",item_list=[], visibility = 6, can_sleep=True) #room
