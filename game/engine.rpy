@@ -1918,17 +1918,26 @@ init python:
                         renpy.say(None,interrupter.name+" doesn't realize you're here.")
                     camo_menu = [
                         ("[[Attack]","attack"),
-                        ("Ignore","ignore"),
+                        ("Flee","flee"),
+                        ("Talk","talk"),
                         ]
+                    win_label = "murdered_"+interrupter.name.lower()
+                    renpy.show_screen("health_enemy")
                     result = renpy.display_menu(camo_menu )
                     if result == "attack":
                         wpn.use_sfx()
                         if armor == camo:
                             interrupter.health -= 20
-                            battle_start(interrupter,1,"You successfully sneak attack!", "grid_loc", True)
+                            battle_start(interrupter,1,"You successfully sneak attack!", win_label, True)
                         else:
                             interrupter.health -= 10
-                            battle_start(interrupter,1,"You leap from the shadows!", "grid_loc", True)
+                            battle_start(interrupter,1,"You leap from the shadows!", win_label, True)
+                    elif result == "flee":
+                        renpy.music.stop(fadeout=3.0)
+                        renpy.sound.play("sfx/beep_good.ogg")
+                        renpy.say(None, "You successfully escape!")
+                        renpy.hide_screen("health_enemy")
+                        move_to_grid(runaway())
                     else:
                         if interrupter.met:
                             renpy.jump(interrupter.name+"_talk")
