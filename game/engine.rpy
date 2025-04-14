@@ -1049,7 +1049,7 @@ screen items:
                     $ allowed_to_act = False
                 # If we're not battling and we're not in the item interaction game state
                 # (we're also not in the "open the bag" sequence)
-                if not battling and not show_drop_stuff and not on_cutscene:
+                if not battling and not show_drop_stuff and not tut_show_pickup:
                     $ allowed_to_act = False
             
             frame:
