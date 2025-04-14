@@ -779,6 +779,10 @@ label Asai_talk:
         "[[Done]":
             $ talking = False
             hide screen health_enemy
+            if you in Asai.enemies:
+                $ Asai.move(runaway())
+                hide Asai with dissolve
+                "He runs away."
             jump grid_loc
             
 label murdered_asai:
