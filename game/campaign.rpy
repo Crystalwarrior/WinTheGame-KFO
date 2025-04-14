@@ -1471,12 +1471,12 @@ label yoriko_arrow_attack:
     play sound "sfx/bow_shot.ogg"
     play music "music/AngryOpheliasSong.ogg"
     $ who_has_arrows = True
-    "Another arrow shoots out from the trees towards you. You jump out of the way."
+    "Another arrow shoots out towards you. You jump out of the way."
     if (Mari in party or Mari.loc == loc) and (Jun in party or Jun.loc == loc):
         "Jun grabs Mari and pulls her out of the open. He yells at you."
         jun mad "Run for it, jackass!"
     elif (Mari in party or Mari.loc == loc):
-        "Mari darts for the trees, screaming."
+        "Mari darts away, screaming."
     elif (Jun in party or Jun.loc == loc):
         jun scared "Shit, shit, shit!"
     "Someone's trying to kill you!"
