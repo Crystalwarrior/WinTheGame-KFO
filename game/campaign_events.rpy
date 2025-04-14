@@ -663,7 +663,7 @@ label ikoma_emi:
     $ Ikoma.type = "hostile"
     $ Emi.met = True
     $ cutscene()
-    show Ikoma at left
+    show Ikoma clean at left
     show Emi at right
     with dissolve
     "Ikoma and Emi are here together."
@@ -675,6 +675,7 @@ label ikoma_emi:
         "Emi looks at you with confusion."
     else:
         "Ikoma was always obnoxious, but he was also horribly bullied ... You remember how you turned your head away every time and now you are swamped with shame."
+    play music "music/AngryOpheliasSong.ogg"
     $ reference_item(Ikoma.wpn)
     $ Ikoma.wpn.get_sfx()
     show Emi scared
@@ -689,11 +690,12 @@ label ikoma_emi:
     iko "I'm going to go home."
     show Emi scared
     emi "But ..."
-    show Ikoma
+    show Ikoma clean
     iko "I wanted to be nice and save you for last, but oh well."
     $ Ikoma.wpn.use_sfx()
     $ Emi.kill("murder",killer=Ikoma)
     $ show_blood()
+    show Ikoma
     hide Emi with dissolve
     "Ikoma shoots Emi point blank."
     
