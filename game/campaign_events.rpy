@@ -815,6 +815,9 @@ label catch_yoriko:
                 "Run Away":
                     jump abandon_arrow_chase
                 "Keep Going":
+                    # far less room to maneuver if this isn't an open area
+                    if loc.type == "room":
+                        jump yoriko_chase_complete
                     "You need to find and stop this person! You dash forwards and catch the sight of a girl's skirt."
                     play sound "sfx/bow_shot.ogg"
                     $ num = renpy.random.randint(0,100)
@@ -830,23 +833,7 @@ label catch_yoriko:
                         "Keep Going":
                             "Now you're just mad!!"
                             "You shout incoherently and charge ahead, full speed!"
-                            play sound "sfx/bow_shot.ogg"
-                            $ show_blood()
-                            if wish_safety_you:
-                                $ damage_you(-10, Yoriko)
-                            else:
-                                $ damage_you(-20, Yoriko)
-                            "Another arrow hits you straight in the chest. You stumble back, but the adrenaline helps you recover."
-                            show Yoriko scared with dissolve
-                            "Behind a tree, you find a girl trying to load another bolt into her crossbow. She gasps seeing you."
-                            "You yank the bolt from your chest and growl at her."
-                            y angry "Yoriko, you bitch!"
-                            show Yoriko angry
-                            yor "Bite me!"
-                            $ Yoriko.type = "hostile"
-                            $ reference_item(Yoriko.wpn)
-                            $ who_has_arrows = False
-                            $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False, allies_will_help=True)
+                            jump yoriko_chase_complete
         "Shoot Back":
             if not wpn.type == "gun" and not wpn.wpn_range == "ranged":
                 memo "You need to equip a ranged weapon!"
@@ -857,9 +844,9 @@ label catch_yoriko:
             else:
                 $ wpn.use_sfx()
             if wpn.type == "gun":
-                "You take out your gun and spray bullets into the trees where the arrows came from."
+                "You take out your gun and spray bullets where the arrows came from."
             else:
-                "You use your weapon to shoot into the trees where the arrows came from."
+                "You use your weapon to shoot where the arrows came from."
             if Yoriko.health <= 0:
                 $ Yoriko.death_sfx()
                 $ renpy.music.stop(fadeout=2.0)
@@ -881,7 +868,26 @@ label catch_yoriko:
                 $ Yoriko.loc = runaway()
                 jump grid_loc
     jump abandon_arrow_chase
-        
+
+label yoriko_chase_complete:
+    play sound "sfx/bow_shot.ogg"
+    $ show_blood()
+    if wish_safety_you:
+        $ damage_you(-10, Yoriko)
+    else:
+        $ damage_you(-20, Yoriko)
+    "An arrow hits you straight in the chest. You stumble back, but the adrenaline helps you recover."
+    show Yoriko scared with dissolve
+    "Behind cover, you find a girl trying to load another bolt into her crossbow. She gasps seeing you."
+    "You yank the bolt from your chest and growl at her."
+    y angry "Yoriko, you bitch!"
+    show Yoriko angry
+    yor "Bite me!"
+    $ Yoriko.type = "hostile"
+    $ reference_item(Yoriko.wpn)
+    $ who_has_arrows = False
+    $ battle_start(Yoriko,2,"She picks up her freshly loaded crossbow.", "you_caught_yoriko", False, allies_will_help=True)
+
 ########################
 ## LOC INTRODUCTIONS ##
 ########################
