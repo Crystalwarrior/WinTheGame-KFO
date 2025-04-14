@@ -1821,6 +1821,7 @@ init python:
     def sleep(num):
         global health
         global sanity
+        cutscene()
         for i in range(0,num):
             add_time(1)
             # Your sanity heals quicker with more party members
@@ -1889,6 +1890,8 @@ init python:
         
     #WAIT
     def wait(num):
+        global loc
+        cutscene()
         for i in range(0,num):
             add_time(1)
             add_sanity(-5)
