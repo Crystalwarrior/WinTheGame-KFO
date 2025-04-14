@@ -834,6 +834,8 @@ screen map:
         if i.type == "grid" and i.found and i.landmark is not None:
             $ show_landmark = "map/"+i.landmark+".png" 
             add show_landmark xpos i.place_x ypos i.place_y
+        if i.type == "room" and i.found and len(i.keys) > 0 and i != rm_cave:
+            add "map/minimap_lock.png" xpos top_cor_x ypos top_cor_y
         if not i.found and i.type == "grid" and i.number != 5:
             add "map/fog.png" xpos i.x ypos i.y
         if i.type == "grid" and i.forbidden:
