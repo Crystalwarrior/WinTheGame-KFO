@@ -326,7 +326,7 @@ init -2 python:
                                     i[1] -= amt
                                     if i[1] <= 0:
                                         loc.items.remove(i)
-                                    return
+                                    break
                     if discarded != "cancel":
                         discarded.drop("all")
                 elif not pickup:
@@ -354,7 +354,7 @@ init -2 python:
                             i[1] -= amt
                             if i[1] <= 0:
                                 loc.items.remove(i)
-                            return
+                            break
                 
             
         def drop(self, num=1,char="you"):
