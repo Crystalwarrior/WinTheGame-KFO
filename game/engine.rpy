@@ -278,9 +278,9 @@ init python:
                     if move_chance == 1:
                         #print "***MOVING ..."
                         if i.loc.room is not None and not i.loc.zone.forbidden and i.sanity >= 15 and i.health >= 15: # Chance to move to a loc's room
-                            room_chance = i.loc.room.visibility * 10
+                            room_chance = i.loc.room.visibility * 5
                             num = renpy.random.randint(0,100)
-                            if num < room_chance and i.loc.room.keys is None or i.loc.room.keys is not None and i.item in i.loc.room.keys:
+                            if num < room_chance and len(i.loc.room.keys) <= 0 or i.item in i.loc.room.keys:
                                 i.loc = i.loc.room
                                 moved = True
 
