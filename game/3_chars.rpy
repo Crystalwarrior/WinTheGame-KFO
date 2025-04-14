@@ -88,7 +88,8 @@ label game_init_chars:
         ###########Enemies (will absolutely attack on sight)
         Ikoma.enemies += classmates #will try to kill everyone
         Emi.enemies = [Nanako,Lucy,Ai,Hitomo]
-        Yoriko.enemies = [Ai, Asai,Takeshi]
+        Yoriko.enemies = [Ai, Asai,Takeshi, you]
+        Ai.enemies = [you]
         Nanako.enemies = [Goro,Jun]
         
         ############################
