@@ -155,7 +155,7 @@ init:
     $ yor = Character('Yoriko', kind=narrator, window_left_padding = 150,image="Yoriko")
     $ tet= Character('Tetsuo', kind=narrator, window_left_padding = 150,image="Tetsuo")
     $ lucy= Character('Lucy', kind=narrator, window_left_padding = 150,image="Lucy")
-    $ child= Character('Child', kind=narrator,image="blank_side")
+    $ child= Character('Child', kind=narrator, window_left_padding = 150,image="blank_side")
     
     image side Shinobu = im.FactorScale("char/side/side_shin.jpg", .9, .9)
     image side Shinobu none  = im.FactorScale("char/side/side_shin.jpg", .9, .9)   

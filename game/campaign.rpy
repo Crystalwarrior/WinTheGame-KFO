@@ -4482,7 +4482,7 @@ label boat_rowaway:
                         "Their aim is perfect. The guns rip through you."
                     "You fall backwards and stare up into the sky."
                     "You were so close."
-                    $ You.kill("fz")
+                    $ you.kill("fz")
                     jump game_over
                 "Row to the right side of the island [[E5]":
                     # you will beach onto the island and find a locked back gate. There is no way to climb over.
@@ -5194,6 +5194,11 @@ label ending_correct_name:
     "Your consciousness disappears."
     stop music fadeout 4.0
     scene black with slowdissolve
+    # Kill everyone besides Shinobu
+    python:
+        for i in classmates:
+            if i.alive and i != you:
+                i.kill("fz")
     $ renpy.pause(2.0)
     scene fancy room with slowdissolve
     "Your body is stiff as if you haven't moved in a long time."
